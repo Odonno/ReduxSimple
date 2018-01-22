@@ -1,5 +1,7 @@
 # Redux Simple
 
+[![NuGet](https://img.shields.io/nuget/v/ReduxSimple.svg)](https://www.nuget.org/packages/ReduxSimple/)
+
 > Simple Stupid Redux Store using Reactive Extensions
 
 Redux Simple is a .NET library based on [Redux](https://redux.js.org/) principle. Redux Simple is written with Rx.NET and built with the minimum of code you need to scale your whatever .NET application you want to design.
