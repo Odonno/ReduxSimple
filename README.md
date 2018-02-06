@@ -138,3 +138,61 @@ Store.ObserveState()
         // TODO : Handle event when the current page is now "Page1"
     });
 ```
+
+### Asynchronous Actions
+
+When you work with asynchronous tasks (side effects), you can follow the following rule:
+
+* Create 3 actions - a normal/start action, a `fulfilled` action and a `failed` action
+* Reduce/Handle response on `fulfilled` action
+* Reduce/Handle error on `failed` action
+
+Here is a concrete example.
+
+#### List of actions
+
+```csharp
+public class GetTodosAction { }
+public class GetTodosFulfilledAction
+{
+    public ImmutableArray<Todo> Todos { get; set; }
+}
+public class GetTodosFailedAction
+{
+    public int StatusCode { get; set; }
+    public string Reason { get; set; }
+}
+```
+
+```csharp
+Store.Dispatch(new GetTodosAction());
+```
+
+#### Reduce functions
+
+```csharp
+private static AppState Reduce(AppState state, GetTodosAction action)
+{
+    return new AppState
+    {
+        Loading = true,
+        Todos = state.Todos
+    };
+}
+private static AppState Reduce(AppState state, GetTodosFulfilledAction action)
+{
+    return new AppState
+    {
+        Loading = false,
+        Todos = action.Todos.ToImmutableArray()
+    };
+}
+private static AppState Reduce(AppState state, GetTodosFailedAction action)
+{
+    return new AppState
+    {
+        Loading = false,
+        Todos = ImmutableArray<Todo>.Empty
+    };
+}
+```
