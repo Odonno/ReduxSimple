@@ -33,6 +33,10 @@ namespace ReduxSimple
         {
             return _stateSubject.AsObservable().DistinctUntilChanged();
         }
+        public IObservable<TPartial> ObserveState<TPartial>(Func<TState, TPartial> selector)
+        {
+            return _stateSubject.Select(selector).DistinctUntilChanged();
+        }
 
         public IObservable<object> ObserveAction()
         {
