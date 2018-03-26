@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,20 +11,42 @@ namespace ReduxSimple
     public abstract class ReduxStoreWithHistory<TState> : ReduxStore<TState>
         where TState : class, new()
     {
-        private readonly Stack<TState> _previousStates = new Stack<TState>();
-        private readonly Stack<TState> _nextStates = new Stack<TState>();
+        private class ReduxStoreMemento
+        {
+            public TState State { get; }
 
-        public bool CanUndo => _previousStates.Count != 0;
+            public object Action { get; }
 
-        public bool CanRedo => _nextStates.Count != 0;
+            public ReduxStoreMemento(TState state, object action)
+            {
+                State = state;
+                Action = action;
+            }
+        }
+
+        private readonly Subject<object> _undoneActionSubject = new Subject<object>();
+        private readonly Stack<ReduxStoreMemento> _pastMementos = new Stack<ReduxStoreMemento>();
+        private readonly Stack<object> _futureActions = new Stack<object>();
+        
+        public bool CanUndo => _pastMementos.Count != 0;
+
+        public bool CanRedo => _futureActions.Count != 0;
 
         protected ReduxStoreWithHistory(TState initialState = null) : base(initialState)
         { }
 
         public override void Dispatch(object action)
         {
-            _nextStates.Clear();
-            _previousStates.Push(State);
+            Dispatch(action, true);
+        }
+        private void Dispatch(object action, bool clearFuture)
+        {
+            if (clearFuture)
+            {
+                _futureActions.Clear();
+            }
+
+            _pastMementos.Push(new ReduxStoreMemento(State, action));
 
             base.Dispatch(action);
         }
@@ -34,9 +58,9 @@ namespace ReduxSimple
                 return false;
             }
 
-            _nextStates.Push(State);
-
-            GoToState(_previousStates.Pop());
+            var memento = _pastMementos.Pop();
+            GoToState(memento.State);
+            _undoneActionSubject.OnNext(memento.Action);
 
             return true;
         }
@@ -48,11 +72,18 @@ namespace ReduxSimple
                 return false;
             }
 
-            _previousStates.Push(State);
-
-            GoToState(_nextStates.Pop());
+            Dispatch(_futureActions.Pop(), false);
 
             return true;
+        }
+
+        public IObservable<object> ObserveUndoneAction()
+        {
+            return _undoneActionSubject.AsObservable();
+        }
+        public IObservable<T> ObserveUndoneAction<T>() where T : class
+        {
+            return _undoneActionSubject.OfType<T>().AsObservable();
         }
     }
 }
