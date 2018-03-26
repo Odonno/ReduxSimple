@@ -16,12 +16,10 @@ namespace ReduxSimple
             State = initialState ?? new TState();
         }
 
-        public void Dispatch(object action)
+        public virtual void Dispatch(object action)
         {
-            State = Reduce(State, action);
-
+            UpdateState(Reduce(State, action));
             _actionSubject.OnNext(action);
-            _stateSubject.OnNext(State);
         }
 
         public virtual TState Reduce(TState state, object action)
@@ -45,6 +43,12 @@ namespace ReduxSimple
         public IObservable<T> ObserveAction<T>() where T : class
         {
             return _actionSubject.OfType<T>().AsObservable();
+        }
+
+        protected void UpdateState(TState state)
+        {
+            State = state;
+            _stateSubject.OnNext(State);
         }
     }
 }
