@@ -196,3 +196,10 @@ private static AppState Reduce(AppState state, GetTodosFailedAction action)
     };
 }
 ```
+
+## Contributors
+
+#### [mhusainisurge](https://github.com/mhusainisurge)
+
+* Observe partial state [#7](https://github.com/Odonno/ReduxSimple/pull/7)
+* `ReduxStoreWithHistory` [#9](https://github.com/Odonno/ReduxSimple/pull/9)
