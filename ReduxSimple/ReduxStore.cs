@@ -18,8 +18,7 @@ namespace ReduxSimple
 
         public virtual void Dispatch(object action)
         {
-            GoToState(Reduce(State, action));
-            
+            UpdateState(Reduce(State, action));
             _actionSubject.OnNext(action);
         }
 
@@ -46,7 +45,7 @@ namespace ReduxSimple
             return _actionSubject.OfType<T>().AsObservable();
         }
 
-        protected void GoToState(TState state)
+        protected void UpdateState(TState state)
         {
             State = state;
             _stateSubject.OnNext(State);

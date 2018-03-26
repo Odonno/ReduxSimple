@@ -14,7 +14,6 @@ namespace ReduxSimple
         private class ReduxStoreMemento
         {
             public TState State { get; }
-
             public object Action { get; }
 
             public ReduxStoreMemento(TState state, object action)
@@ -29,7 +28,6 @@ namespace ReduxSimple
         private readonly Stack<object> _futureActions = new Stack<object>();
         
         public bool CanUndo => _pastMementos.Count != 0;
-
         public bool CanRedo => _futureActions.Count != 0;
 
         protected ReduxStoreWithHistory(TState initialState = null) : base(initialState)
@@ -59,7 +57,7 @@ namespace ReduxSimple
             }
 
             var memento = _pastMementos.Pop();
-            GoToState(memento.State);
+            UpdateState(memento.State);
             _undoneActionSubject.OnNext(memento.Action);
 
             return true;
