@@ -9,6 +9,7 @@ namespace ReduxSimple
         private readonly TState _initialState;
         private readonly Subject<TState> _stateSubject = new Subject<TState>();
         private readonly Subject<object> _actionSubject = new Subject<object>();
+        private readonly Subject<TState> _resetSubject = new Subject<TState>();
 
         public TState State { get; private set; }
 
@@ -49,6 +50,12 @@ namespace ReduxSimple
         public virtual void Reset()
         {
             UpdateState(_initialState);
+            _resetSubject.OnNext(State);
+        }
+
+        public IObservable<TState> ObserveReset()
+        {
+            return _resetSubject.AsObservable();
         }
 
         protected void UpdateState(TState state)
