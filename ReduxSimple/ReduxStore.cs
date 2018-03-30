@@ -45,7 +45,7 @@ namespace ReduxSimple
         /// <param name="state">The state to reduce.</param>
         /// <param name="action">The action to use for reducing the specified state.</param>
         /// <returns>The state that results from applying <paramref name="action"/> on <paramref name="state"/>.</returns>
-        public virtual TState Reduce(TState state, object action)
+        protected virtual TState Reduce(TState state, object action)
         {
             return state;
         }
