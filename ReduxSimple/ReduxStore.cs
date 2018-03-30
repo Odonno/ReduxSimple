@@ -93,12 +93,19 @@ namespace ReduxSimple
             return _actionSubject.OfType<T>().AsObservable();
         }
 
+        /// <summary>
+        /// Resets the store to its initial state.
+        /// </summary>
         public virtual void Reset()
         {
             UpdateState(_initialState);
             _resetSubject.OnNext(State);
         }
 
+        /// <summary>
+        /// Observes the reset operation being performed on the store.
+        /// </summary>
+        /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever the store is reset to its initial state.</returns>
         public IObservable<TState> ObserveReset()
         {
             return _resetSubject.AsObservable();

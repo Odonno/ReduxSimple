@@ -121,6 +121,9 @@ namespace ReduxSimple
             return _undoneActionSubject.OfType<T>().AsObservable();
         }
 
+        /// <summary>
+        /// Resets the store to its initial state.
+        /// </summary>
         public override void Reset()
         {
             _pastMementos.Clear();
