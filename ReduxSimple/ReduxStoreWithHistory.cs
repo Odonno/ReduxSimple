@@ -42,7 +42,7 @@ namespace ReduxSimple
         /// <summary>
         /// Initializes a new instance of the <see cref="ReduxStoreWithHistory{TState}"/> class.
         /// </summary>
-        /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is contructed using <c>new TState()</c>.</param>
+        /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
         protected ReduxStoreWithHistory(TState initialState = null) : base(initialState)
         { }
 
@@ -86,7 +86,7 @@ namespace ReduxSimple
         }
 
         /// <summary>
-        /// Redoes an operation, if any, that was previous undone.
+        /// Redoes an operation, if any, that was previously undone.
         /// </summary>
         /// <returns><c>true</c> if an action was redone; <c>false</c> otherwise.</returns>
         public bool Redo()

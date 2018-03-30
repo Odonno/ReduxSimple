@@ -21,7 +21,7 @@ namespace ReduxSimple
         /// <summary>
         /// Initializes a new instance of the <see cref="ReduxStore{TState}"/> class.
         /// </summary>
-        /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is contructed using <c>new TState()</c>.</param>
+        /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
         protected ReduxStore(TState initialState = null)
         {
             State = initialState ?? new TState();
@@ -39,11 +39,11 @@ namespace ReduxSimple
         }
 
         /// <summary>
-        /// Reduces the specified state using the spcified action and returns the new state. Does not mutate the current state of the store.
+        /// Reduces the specified state using the specified action and returns the new state. Does not mutate the current state of the store.
         /// Implementations should override this method to provide functionality specific to their use case.
         /// </summary>
         /// <param name="state">The state to reduce.</param>
-        /// <param name="action">The action to use for reducing the spcified state.</param>
+        /// <param name="action">The action to use for reducing the specified state.</param>
         /// <returns>The state that results from applying <paramref name="action"/> on <paramref name="state"/>.</returns>
         public virtual TState Reduce(TState state, object action)
         {
