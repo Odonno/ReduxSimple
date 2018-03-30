@@ -6,14 +6,16 @@ namespace ReduxSimple
 {
     public abstract class ReduxStore<TState> where TState : class, new()
     {
+        private readonly TState _initialState;
         private readonly Subject<TState> _stateSubject = new Subject<TState>();
         private readonly Subject<object> _actionSubject = new Subject<object>();
+        private readonly Subject<TState> _resetSubject = new Subject<TState>();
 
         public TState State { get; private set; }
 
         protected ReduxStore(TState initialState = null)
         {
-            State = initialState ?? new TState();
+            State = _initialState = initialState ?? new TState();
         }
 
         public virtual void Dispatch(object action)
@@ -43,6 +45,17 @@ namespace ReduxSimple
         public IObservable<T> ObserveAction<T>() where T : class
         {
             return _actionSubject.OfType<T>().AsObservable();
+        }
+
+        public virtual void Reset()
+        {
+            UpdateState(_initialState);
+            _resetSubject.OnNext(State);
+        }
+
+        public IObservable<TState> ObserveReset()
+        {
+            return _resetSubject.AsObservable();
         }
 
         protected void UpdateState(TState state)
