@@ -83,5 +83,12 @@ namespace ReduxSimple
         {
             return _undoneActionSubject.OfType<T>().AsObservable();
         }
+
+        public override void Reset()
+        {
+            _pastMementos.Clear();
+            _futureActions.Clear();
+            base.Reset();
+        }
     }
 }
