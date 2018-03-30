@@ -10,8 +10,10 @@ namespace ReduxSimple
     /// <typeparam name="TState">The type of the state.</typeparam>
     public abstract class ReduxStore<TState> where TState : class, new()
     {
+        private readonly TState _initialState;
         private readonly Subject<TState> _stateSubject = new Subject<TState>();
         private readonly Subject<object> _actionSubject = new Subject<object>();
+        private readonly Subject<TState> _resetSubject = new Subject<TState>();
 
         /// <summary>
         /// Gets the current state of the store.
@@ -24,7 +26,7 @@ namespace ReduxSimple
         /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
         protected ReduxStore(TState initialState = null)
         {
-            State = initialState ?? new TState();
+            State = _initialState = initialState ?? new TState();
         }
 
         /// <summary>
@@ -89,6 +91,17 @@ namespace ReduxSimple
         public IObservable<T> ObserveAction<T>() where T : class
         {
             return _actionSubject.OfType<T>().AsObservable();
+        }
+
+        public virtual void Reset()
+        {
+            UpdateState(_initialState);
+            _resetSubject.OnNext(State);
+        }
+
+        public IObservable<TState> ObserveReset()
+        {
+            return _resetSubject.AsObservable();
         }
 
         /// <summary>
