@@ -197,6 +197,88 @@ private static AppState Reduce(AppState state, GetTodosFailedAction action)
 }
 ```
 
+### Time travel / History
+
+The simpliest version of a Redux Store is by using the `ReduxStore` class. 
+You can however use the `ReduxStoreWithHistory` class to implement a Store with time travel feature : handling `Undo` and `Redo` actions.
+
+#### Go back in time...
+
+When you there are stored actions (ie. actions of the past), you can go back in time.
+
+```csharp
+if (Store.CanUndo)
+{
+    Store.Undo();
+}
+```
+
+It will then fires an `UndoneAction` event you can subscribe to.
+
+```csharp
+Store.ObserveState()
+    .Subscribe(_ =>
+    {
+        // TODO : Handle event when the State changed 
+        // You can observe the previous state generated or...
+    });
+
+Store.ObserveUndoneAction()
+    .Subscribe(_ =>
+    {
+        // TODO : Handle event when an Undo event is triggered 
+        // ...or you can observe actions undone
+    });
+```
+
+#### ...And then rewrite history
+
+Once you got back in time, you have two choices:
+
+1. Start a new timeline
+2. Stay on the same timeline of events
+
+##### Start a new timeline
+
+Once you dispatched a new action, the new `State` is updated and the previous timeline is erased from history: all previous actions are gone.
+
+```csharp
+// Dispatch the next actions
+Store.Dispatch(new NavigateAction { PageName = "Page1" });
+Store.Dispatch(new NavigateAction { PageName = "Page2" });
+
+if (Store.CanUndo)
+{
+    // Go back in time (Page 2 -> Page 1)
+    Store.Undo();
+}
+
+// Dispatch a new action (Page 1 -> Page 3)
+Store.Dispatch(new NavigateAction { PageName = "Page3" });
+```
+
+##### Stay on the same timeline of events
+
+You can stay o nthe same timeline by dispatching the same set of actions you did previously.
+
+```csharp
+// Dispatch the next actions
+Store.Dispatch(new NavigateAction { PageName = "Page1" });
+Store.Dispatch(new NavigateAction { PageName = "Page2" });
+
+if (Store.CanUndo)
+{
+    // Go back in time (Page 2 -> Page 1)
+    Store.Undo();
+}
+
+if (Store.CanRedo)
+{
+    // Go forward (Page 1 -> Page 2)
+    Store.Redo();
+}
+```
+
 ### Reset
 
 You can also reset the entire `Store` (reset current state and list of actions) by using the following method.
