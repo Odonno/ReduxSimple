@@ -139,6 +139,28 @@ Store.ObserveState()
     });
 ```
 
+Based on what you need, you can observe the entire state or just a part of it.
+
+```csharp
+Store.ObserveState()
+    .Subscribe(state =>
+    {
+        // Listening to the full state (when any property changes)
+    });
+
+Store.ObserveState(state => state.CurrentPage)
+    .Subscribe(currentPage =>
+    {
+        // Listening to the "CurrentPage" property of the state (when only this property changes)
+    });
+
+Store.ObserveState(state => new { state.CurrentPage, state.Errors })
+    .Subscribe(x =>
+    {
+        // Listening to few properties of the state (when any of these properties changes)
+    });
+```
+
 ### Asynchronous Actions
 
 When you work with asynchronous tasks (side effects), you can follow the following rule:
