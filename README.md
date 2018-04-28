@@ -203,3 +203,5 @@ private static AppState Reduce(AppState state, GetTodosFailedAction action)
 
 * Observe partial state [#7](https://github.com/Odonno/ReduxSimple/pull/7)
 * `ReduxStoreWithHistory` [#9](https://github.com/Odonno/ReduxSimple/pull/9)
+* `Reset()` method on `ReduxStore` [#14](https://github.com/Odonno/ReduxSimple/pull/14)
+* XML documentation of C# classes and attributes [#16](https://github.com/Odonno/ReduxSimple/pull/16)
