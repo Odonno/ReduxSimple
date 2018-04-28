@@ -139,6 +139,28 @@ Store.ObserveState()
     });
 ```
 
+Based on what you need, you can observe the entire state or just a part of it.
+
+```csharp
+Store.ObserveState()
+    .Subscribe(state =>
+    {
+        // Listening to the full state (when any property changes)
+    });
+
+Store.ObserveState(state => state.CurrentPage)
+    .Subscribe(currentPage =>
+    {
+        // Listening to the "CurrentPage" property of the state (when only this property changes)
+    });
+
+Store.ObserveState(state => new { state.CurrentPage, state.Errors })
+    .Subscribe(x =>
+    {
+        // Listening to few properties of the state (when any of these properties changes)
+    });
+```
+
 ### Asynchronous Actions
 
 When you work with asynchronous tasks (side effects), you can follow the following rule:
@@ -197,9 +219,112 @@ private static AppState Reduce(AppState state, GetTodosFailedAction action)
 }
 ```
 
+### Time travel / History
+
+The simpliest version of a Redux Store is by using the `ReduxStore` class. 
+You can however use the `ReduxStoreWithHistory` class to implement a Store with time travel feature : handling `Undo` and `Redo` actions.
+
+#### Go back in time...
+
+When you there are stored actions (ie. actions of the past), you can go back in time.
+
+```csharp
+if (Store.CanUndo)
+{
+    Store.Undo();
+}
+```
+
+It will then fires an `UndoneAction` event you can subscribe to.
+
+```csharp
+Store.ObserveState()
+    .Subscribe(_ =>
+    {
+        // TODO : Handle event when the State changed 
+        // You can observe the previous state generated or...
+    });
+
+Store.ObserveUndoneAction()
+    .Subscribe(_ =>
+    {
+        // TODO : Handle event when an Undo event is triggered 
+        // ...or you can observe actions undone
+    });
+```
+
+#### ...And then rewrite history
+
+Once you got back in time, you have two choices:
+
+1. Start a new timeline
+2. Stay on the same timeline of events
+
+##### Start a new timeline
+
+Once you dispatched a new action, the new `State` is updated and the previous timeline is erased from history: all previous actions are gone.
+
+```csharp
+// Dispatch the next actions
+Store.Dispatch(new NavigateAction { PageName = "Page1" });
+Store.Dispatch(new NavigateAction { PageName = "Page2" });
+
+if (Store.CanUndo)
+{
+    // Go back in time (Page 2 -> Page 1)
+    Store.Undo();
+}
+
+// Dispatch a new action (Page 1 -> Page 3)
+Store.Dispatch(new NavigateAction { PageName = "Page3" });
+```
+
+##### Stay on the same timeline of events
+
+You can stay o nthe same timeline by dispatching the same set of actions you did previously.
+
+```csharp
+// Dispatch the next actions
+Store.Dispatch(new NavigateAction { PageName = "Page1" });
+Store.Dispatch(new NavigateAction { PageName = "Page2" });
+
+if (Store.CanUndo)
+{
+    // Go back in time (Page 2 -> Page 1)
+    Store.Undo();
+}
+
+if (Store.CanRedo)
+{
+    // Go forward (Page 1 -> Page 2)
+    Store.Redo();
+}
+```
+
+### Reset
+
+You can also reset the entire `Store` (reset current state and list of actions) by using the following method.
+
+```csharp
+Store.Reset();
+```
+
+You can then handle the reset event on your application.
+
+```csharp
+Store.ObserveReset()
+    .Subscribe(_ =>
+    {
+        // TODO : Handle event when the Store is reset 
+        // (example: flush navigation history and restart from login page)
+    });
+```
+
 ## Contributors
 
 #### [mhusainisurge](https://github.com/mhusainisurge)
 
 * Observe partial state [#7](https://github.com/Odonno/ReduxSimple/pull/7)
 * `ReduxStoreWithHistory` [#9](https://github.com/Odonno/ReduxSimple/pull/9)
+* `Reset()` method on `ReduxStore` [#14](https://github.com/Odonno/ReduxSimple/pull/14)
+* XML documentation of C# classes and attributes [#16](https://github.com/Odonno/ReduxSimple/pull/16)
