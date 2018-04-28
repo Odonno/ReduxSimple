@@ -197,6 +197,25 @@ private static AppState Reduce(AppState state, GetTodosFailedAction action)
 }
 ```
 
+### Reset
+
+You can also reset the entire `Store` (reset current state and list of actions) by using the following method.
+
+```csharp
+Store.Reset();
+```
+
+You can then handle the reset event on your application.
+
+```csharp
+Store.ObserveReset()
+    .Subscribe(_ =>
+    {
+        // TODO : Handle event when the Store is reset 
+        // (example: flush navigation history and restart from login page)
+    });
+```
+
 ## Contributors
 
 #### [mhusainisurge](https://github.com/mhusainisurge)
