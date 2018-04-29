@@ -79,6 +79,7 @@ namespace ReduxSimple
             }
 
             var memento = _pastMementos.Pop();
+            _futureActions.Push(memento.Action);
             UpdateState(memento.State);
             _undoneActionSubject.OnNext(memento.Action);
 

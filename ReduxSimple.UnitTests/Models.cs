@@ -63,4 +63,39 @@ namespace ReduxSimple.UnitTests
     {
         public string NewUser { get; set; }
     }
+
+    public class HistoryStoreWithEmptyState : ReduxStore<EmptyState>
+    {
+    }
+
+    public class TodoListStoreWithHistory : ReduxStoreWithHistory<TodoListState>
+    {
+        public TodoListStoreWithHistory(TodoListState initialState = null) : base(initialState)
+        {
+        }
+
+        protected override TodoListState Reduce(TodoListState state, object action)
+        {
+            if (action is AddTodoItemAction addTodoItemAction)
+            {
+                var newState = new TodoListState
+                {
+                    TodoList = state.TodoList.Add(addTodoItemAction.TodoItem),
+                    CurrentUser = state.CurrentUser
+                };
+                return newState;
+            }
+            if (action is SwitchUserAction switchUserAction)
+            {
+                var newState = new TodoListState
+                {
+                    TodoList = state.TodoList,
+                    CurrentUser = switchUserAction.NewUser
+                };
+                return newState;
+            }
+
+            return base.Reduce(state, action);
+        }
+    }
 }
