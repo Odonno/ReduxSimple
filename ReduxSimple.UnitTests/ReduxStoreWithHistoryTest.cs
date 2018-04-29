@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Immutable;
 using Xunit;
+using static ReduxSimple.UnitTests.Functions;
 
 namespace ReduxSimple.UnitTests
 {
@@ -22,10 +22,7 @@ namespace ReduxSimple.UnitTests
         public void CanCreateAStoreWithDefaultState()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>()
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
@@ -38,21 +35,11 @@ namespace ReduxSimple.UnitTests
         public void CanDispatchAction()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>()
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
+            DispatchAddTodoItemAction(store, 1, "Create unit tests");
 
             // Assert
             Assert.Single(store.State.TodoList);
@@ -62,26 +49,12 @@ namespace ReduxSimple.UnitTests
         public void CanDispatchDifferentActions()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>(),
-                CurrentUser = "David"
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
-            store.Dispatch(new SwitchUserAction
-            {
-                NewUser = "Emily"
-            });
+            DispatchAddTodoItemAction(store, 1, "Create unit tests");
+            DispatchSwitchUserAction(store, "Emily");
 
             // Assert
             Assert.Single(store.State.TodoList);
@@ -92,11 +65,7 @@ namespace ReduxSimple.UnitTests
         public void CanUndoAndObserveUndoneActions()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>(),
-                CurrentUser = "David"
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
@@ -110,34 +79,7 @@ namespace ReduxSimple.UnitTests
                     lastAction = action;
                 });
 
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
-            store.Dispatch(new SwitchUserAction
-            {
-                NewUser = "Emily"
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 2,
-                    Title = "Create Models"
-                }
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 3,
-                    Title = "Refactor tests"
-                }
-            });
+            DispatchAllActions(store);
 
             Assert.True(store.CanUndo);
 
@@ -158,11 +100,7 @@ namespace ReduxSimple.UnitTests
         public void CanUndoAndObserveUndoneActionsOfASingleType()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>(),
-                CurrentUser = "David"
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
@@ -176,34 +114,7 @@ namespace ReduxSimple.UnitTests
                     lastAction = action;
                 });
 
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
-            store.Dispatch(new SwitchUserAction
-            {
-                NewUser = "Emily"
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 2,
-                    Title = "Create Models"
-                }
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 3,
-                    Title = "Refactor tests"
-                }
-            });
+            DispatchAllActions(store);
 
             Assert.True(store.CanUndo);
 
@@ -228,42 +139,11 @@ namespace ReduxSimple.UnitTests
         public void CanRedo()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>(),
-                CurrentUser = "David"
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
-            store.Dispatch(new SwitchUserAction
-            {
-                NewUser = "Emily"
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 2,
-                    Title = "Create Models"
-                }
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 3,
-                    Title = "Refactor tests"
-                }
-            });
+            DispatchAllActions(store);
 
             Assert.True(store.CanUndo);
 
@@ -294,42 +174,11 @@ namespace ReduxSimple.UnitTests
         public void CannotUndo()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>(),
-                CurrentUser = "David"
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
-            store.Dispatch(new SwitchUserAction
-            {
-                NewUser = "Emily"
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 2,
-                    Title = "Create Models"
-                }
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 3,
-                    Title = "Refactor tests"
-                }
-            });
+            DispatchAllActions(store);
 
             Assert.True(store.CanUndo);
 
@@ -355,42 +204,11 @@ namespace ReduxSimple.UnitTests
         public void CannotRedo()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>(),
-                CurrentUser = "David"
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
-            store.Dispatch(new SwitchUserAction
-            {
-                NewUser = "Emily"
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 2,
-                    Title = "Create Models"
-                }
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 3,
-                    Title = "Refactor tests"
-                }
-            });
+            DispatchAllActions(store);
 
             // Assert
             Assert.False(store.CanRedo);
@@ -400,11 +218,7 @@ namespace ReduxSimple.UnitTests
         public void CanResetStoreWithUndoneActions()
         {
             // Arrange
-            var initialState = new TodoListState
-            {
-                TodoList = ImmutableList.Create<TodoItem>(),
-                CurrentUser = "David"
-            };
+            var initialState = CreateInitialTodoListState();
             var store = new TodoListStoreWithHistory(initialState);
 
             // Act
@@ -418,34 +232,7 @@ namespace ReduxSimple.UnitTests
                     lastState = state;
                 });
 
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 1,
-                    Title = "Create unit tests"
-                }
-            });
-            store.Dispatch(new SwitchUserAction
-            {
-                NewUser = "Emily"
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 2,
-                    Title = "Create Models"
-                }
-            });
-            store.Dispatch(new AddTodoItemAction
-            {
-                TodoItem = new TodoItem
-                {
-                    Id = 3,
-                    Title = "Refactor tests"
-                }
-            });
+            DispatchAllActions(store);
 
             Assert.True(store.CanUndo);
 

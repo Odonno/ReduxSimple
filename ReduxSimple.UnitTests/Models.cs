@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using static ReduxSimple.UnitTests.Functions;
 
 namespace ReduxSimple.UnitTests
 {
@@ -31,26 +32,7 @@ namespace ReduxSimple.UnitTests
 
         protected override TodoListState Reduce(TodoListState state, object action)
         {
-            if (action is AddTodoItemAction addTodoItemAction)
-            {
-                var newState = new TodoListState
-                {
-                    TodoList = state.TodoList.Add(addTodoItemAction.TodoItem),
-                    CurrentUser = state.CurrentUser
-                };
-                return newState;
-            }
-            if (action is SwitchUserAction switchUserAction)
-            {
-                var newState = new TodoListState
-                {
-                    TodoList = state.TodoList,
-                    CurrentUser = switchUserAction.NewUser
-                };
-                return newState;
-            }
-
-            return base.Reduce(state, action);
+            return ReduceTodoListState(state, action) ?? base.Reduce(state, action);
         }
     }
 
@@ -76,26 +58,7 @@ namespace ReduxSimple.UnitTests
 
         protected override TodoListState Reduce(TodoListState state, object action)
         {
-            if (action is AddTodoItemAction addTodoItemAction)
-            {
-                var newState = new TodoListState
-                {
-                    TodoList = state.TodoList.Add(addTodoItemAction.TodoItem),
-                    CurrentUser = state.CurrentUser
-                };
-                return newState;
-            }
-            if (action is SwitchUserAction switchUserAction)
-            {
-                var newState = new TodoListState
-                {
-                    TodoList = state.TodoList,
-                    CurrentUser = switchUserAction.NewUser
-                };
-                return newState;
-            }
-
-            return base.Reduce(state, action);
+            return ReduceTodoListState(state, action) ?? base.Reduce(state, action);
         }
     }
 }
