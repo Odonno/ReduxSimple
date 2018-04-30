@@ -1,5 +1,6 @@
 # Redux Simple
 
+[![CodeFactor](https://www.codefactor.io/repository/github/odonno/reduxsimple/badge)](https://www.codefactor.io/repository/github/odonno/reduxsimple)
 [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.svg)](https://www.nuget.org/packages/ReduxSimple/)
 
 > Simple Stupid Redux Store using Reactive Extensions
