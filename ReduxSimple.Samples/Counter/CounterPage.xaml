@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="ReduxSimple.Samples.Counter.CounterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock x:Name="CounterValueTextBlock" 
+                       FontSize="42"
+                       TextAlignment="Center" />
+
+            <StackPanel Orientation="Horizontal"
+                    Margin="0 10 0 0">
+                <Button x:Name="IncrementButton"
+                        Margin="0 0 5 0"
+                        FontSize="18">
+                    Increment
+                </Button>
+
+                <Button x:Name="DecrementButton"
+                        Margin="5 0 0 0"
+                        FontSize="18">
+                    Decrement
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
