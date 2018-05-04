@@ -90,6 +90,31 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
+        public void CanObserveEntireStateWithUnchangedValue()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(initialState);
+
+            // Act
+            int observeCount = 0;
+
+            store.ObserveState()
+                .Subscribe(state =>
+                {
+                    observeCount++;
+                });
+
+            DispatchAddTodoItemAction(store, 1, "Create unit tests");
+            DispatchAddTodoItemAction(store, 2, "Create Models");
+            DispatchSwitchUserAction(store, "Emily");
+            DispatchSwitchUserAction(store, "Emily");
+
+            // Assert
+            Assert.Equal(3, observeCount);
+        }
+
+        [Fact]
         public void CanObserveOnePropertyOfState()
         {
             // Arrange
@@ -115,6 +140,29 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
+        public void CanObserveOnePropertyOfStateWithUnchangedValue()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(initialState);
+
+            // Act
+            int observeCount = 0;
+
+            store.ObserveState(state => state.CurrentUser)
+                .Subscribe(_ =>
+                {
+                    observeCount++;
+                });
+
+            DispatchSwitchUserAction(store, "Emily");
+            DispatchSwitchUserAction(store, "Emily");
+
+            // Assert
+            Assert.Equal(1, observeCount);
+        }
+
+        [Fact]
         public void CanObservePartialStateWithTwoProperties()
         {
             // Arrange
@@ -137,6 +185,35 @@ namespace ReduxSimple.UnitTests
             // Assert
             Assert.Equal(4, observeCount);
             Assert.Equal(3, lastPartialState.TodoList.Count);
+            Assert.Equal("Emily", lastPartialState.CurrentUser);
+        }
+
+        [Fact]
+        public void CanObservePartialStateWithTwoPropertiesWithUnchangedValue()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(initialState);
+
+            // Act
+            int observeCount = 0;
+            dynamic lastPartialState = null;
+
+            store.ObserveState(state => new { state.TodoList, state.CurrentUser })
+                .Subscribe(partialState =>
+                {
+                    observeCount++;
+                    lastPartialState = partialState;
+                });
+
+            DispatchAddTodoItemAction(store, 1, "Create unit tests");
+            DispatchSwitchUserAction(store, "Emily");
+            DispatchAddTodoItemAction(store, 2, "Create Models");
+            DispatchSwitchUserAction(store, "Emily");
+
+            // Assert
+            Assert.Equal(3, observeCount);
+            Assert.Equal(2, lastPartialState.TodoList.Count);
             Assert.Equal("Emily", lastPartialState.CurrentUser);
         }
 
