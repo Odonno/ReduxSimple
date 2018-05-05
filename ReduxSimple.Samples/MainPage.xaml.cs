@@ -1,5 +1,6 @@
 ﻿using ReduxSimple.Samples.Counter;
 using ReduxSimple.Samples.TicTacToe;
+using ReduxSimple.Samples.TodoList;
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
@@ -35,6 +36,15 @@ namespace ReduxSimple.Samples
                 .Subscribe(_ =>
                 {
                     Frame.Navigate(typeof(TicTacToePage));
+                });
+
+            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                h => GoToTodoListButton.Click += h,
+                h => GoToTodoListButton.Click -= h
+            )
+                .Subscribe(_ =>
+                {
+                    Frame.Navigate(typeof(TodoListPage));
                 });
         }
     }

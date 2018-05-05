@@ -10,6 +10,7 @@
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="GoToCounterButton">Counter</Button>
             <Button x:Name="GoToTicTacToeButton">Tic tac Toe</Button>
+            <Button x:Name="GoToTodoListButton">Todo List</Button>
         </StackPanel>
     </Grid>
 </Page>

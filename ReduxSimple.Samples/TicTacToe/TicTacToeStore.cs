@@ -63,7 +63,7 @@ namespace ReduxSimple.Samples.TicTacToe
 
         private static ImmutableArray<Cell> PlayerTakeCell(ImmutableArray<Cell> cells, PlayAction playAction)
         {
-            var cellToUpdate = cells.First(c => c.Row == playAction.Row && c.Column == playAction.Column);
+            var cellToUpdate = cells.Single(c => c.Row == playAction.Row && c.Column == playAction.Column);
             return cells.Replace(cellToUpdate, new Cell { Row = playAction.Row, Column = playAction.Column, Mine = true });
         }
 

@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="ReduxSimple.Samples.TodoList.TodoListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:ReduxSimple.Samples.TodoList"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Width="500">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="FilterAllButton" Grid.Column="0" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">All</Button>
+                <Button x:Name="FilterTodoButton" Grid.Column="1"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Todo</Button>
+                <Button x:Name="FilterCompletedButton" Grid.Column="2"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Completed</Button>
+            </Grid>
+
+            <ListView x:Name="TodoItemsListView" Margin="0 10 0 0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:TodoItemComponent TodoItem="{Binding}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            
+            <Button x:Name="AddNewItemButton" Grid.Column="2"
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Add new item</Button>
+        </StackPanel>
+    </Grid>
+</Page>
