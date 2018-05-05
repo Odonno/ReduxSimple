@@ -1,6 +1,6 @@
 ﻿using ReduxSimple.Samples.Counter;
+using ReduxSimple.Samples.TicTacToe;
 using System;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,6 +26,15 @@ namespace ReduxSimple.Samples
                 .Subscribe(_ =>
                 {
                     Frame.Navigate(typeof(CounterPage));
+                });
+
+            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                h => GoToTicTacToeButton.Click += h,
+                h => GoToTicTacToeButton.Click -= h
+            )
+                .Subscribe(_ =>
+                {
+                    Frame.Navigate(typeof(TicTacToePage));
                 });
         }
     }

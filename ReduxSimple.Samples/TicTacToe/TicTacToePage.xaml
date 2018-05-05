@@ -1,0 +1,112 @@
+﻿<Page
+    x:Class="ReduxSimple.Samples.TicTacToe.TicTacToePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid x:Name="CellsRootGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="100" />
+                    <RowDefinition MinHeight="100" />
+                    <RowDefinition MinHeight="100" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="100" />
+                    <ColumnDefinition MinWidth="100" />
+                    <ColumnDefinition MinWidth="100" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0" Grid.Column="0" 
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="0 0 0 5">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="1"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="5 0 5 5">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="2"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="0 0 0 5">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="0"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="0 0 0 5">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="1"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="5 0 5 5">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="2"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="0 0 0 5">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="0"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="0 0 0 0">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="1"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="5 0 5 0">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="2"
+                      Padding="5"
+                      Background="Transparent"
+                      BorderBrush="Gray" BorderThickness="0 0 0 0">
+                    <TextBlock Text="" FontSize="66"
+                               VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+            </Grid>
+            
+            <TextBlock x:Name="YourTurnTextBlock" Margin="0 10 0 0" TextAlignment="Center">
+                Your turn!
+            </TextBlock>
+
+            <Button x:Name="StartNewGameButton"
+                    HorizontalAlignment="Center"
+                    Margin="0 10 0 10">
+                Start a new game
+            </Button>
+
+            <TextBlock x:Name="EndGameTextBlock" TextAlignment="Center">
+                You won!
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

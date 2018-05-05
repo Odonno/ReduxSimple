@@ -1,10 +1,6 @@
 ﻿namespace ReduxSimple.Samples.Counter
 {
-    public class IncrementAction
-    {
-    }
+    public class IncrementAction { }
 
-    public class DecrementAction
-    {
-    }
+    public class DecrementAction { }
 }

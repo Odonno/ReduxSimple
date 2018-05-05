@@ -105,6 +105,13 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TicTacToe\Actions.cs" />
+    <Compile Include="TicTacToe\TicTacToePage.xaml.cs">
+      <DependentUpon>TicTacToePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TicTacToe\TicTacToeState.cs" />
+    <Compile Include="TicTacToe\TicTacToeStore.cs" />
+    <Compile Include="UIElementExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -135,10 +142,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TicTacToe\TicTacToePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="SuccincT">
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="System.Reactive">
       <Version>3.1.1</Version>
