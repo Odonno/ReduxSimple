@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ReduxSimple.Samples.Extensions;
+using System;
 using System.Reactive.Linq;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace ReduxSimple.Samples.Counter
@@ -21,23 +21,11 @@ namespace ReduxSimple.Samples.Counter
                 });
 
             // Observe UI events
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => IncrementButton.Click += h,
-                h => IncrementButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    _store.Dispatch(new IncrementAction());
-                });
+            IncrementButton.ObserveOnClick()
+                .Subscribe(_ => _store.Dispatch(new IncrementAction()));
 
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => DecrementButton.Click += h,
-                h => DecrementButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    _store.Dispatch(new DecrementAction());
-                });
+            DecrementButton.ObserveOnClick()
+                .Subscribe(_ => _store.Dispatch(new DecrementAction()));
 
             // Initialize UI
             CounterValueTextBlock.Text = _store.State.Count.ToString();

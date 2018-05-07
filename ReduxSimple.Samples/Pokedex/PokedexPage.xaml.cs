@@ -134,10 +134,7 @@ namespace ReduxSimple.Samples.Pokedex
                 });
 
             // Observe UI events
-            Observable.FromEventPattern<TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs>, AutoSuggestBoxTextChangedEventArgs>(
-                h => AutoSuggestBox.TextChanged += h,
-                h => AutoSuggestBox.TextChanged -= h
-            )
+            AutoSuggestBox.ObserveOnTextChanged()
                .ObserveOn(Scheduler.Default)
                .Subscribe(e =>
                {
@@ -147,10 +144,7 @@ namespace ReduxSimple.Samples.Pokedex
                    });
                });
 
-            Observable.FromEventPattern<TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs>, AutoSuggestBoxSuggestionChosenEventArgs>(
-                h => AutoSuggestBox.SuggestionChosen += h,
-                h => AutoSuggestBox.SuggestionChosen -= h
-            )
+            AutoSuggestBox.ObserveOnSuggestionChosen()
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(e =>
                 {

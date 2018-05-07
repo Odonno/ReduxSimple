@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReduxSimple.Samples.Extensions;
+using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,32 +32,14 @@ namespace ReduxSimple.Samples.TodoList
             InitializeComponent();
 
             // Observe UI events
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => CompleteButton.Click += h,
-                h => CompleteButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    Store.Dispatch(new CompleteTodoItemAction { Id = TodoItem.Id });
-                });
+            CompleteButton.ObserveOnClick()
+                .Subscribe(_ => Store.Dispatch(new CompleteTodoItemAction { Id = TodoItem.Id }));
 
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => RemoveButton.Click += h,
-                h => RemoveButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    Store.Dispatch(new RemoveTodoItemAction { Id = TodoItem.Id });
-                });
+            RemoveButton.ObserveOnClick()
+                .Subscribe(_ => Store.Dispatch(new RemoveTodoItemAction { Id = TodoItem.Id }));
 
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => TextBox.LostFocus += h,
-                h => TextBox.LostFocus -= h
-            )
-                .Subscribe(e =>
-                {
-                    Store.Dispatch(new UpdateTodoItemAction { Id = TodoItem.Id, Content = TextBox.Text });
-                });
+            TextBox.ObserveOnLostFocus()
+                .Subscribe(e => Store.Dispatch(new UpdateTodoItemAction { Id = TodoItem.Id, Content = TextBox.Text }));
         }
 
         private void InitializeUI()

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
+using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace ReduxSimple.Samples.TodoList
@@ -43,39 +43,15 @@ namespace ReduxSimple.Samples.TodoList
                 });
 
             // Observe UI events
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => FilterAllButton.Click += h,
-                h => FilterAllButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    Store.Dispatch(new SetFilterAction { Filter = TodoFilter.All });
-                });
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => FilterTodoButton.Click += h,
-                h => FilterTodoButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Todo });
-                });
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => FilterCompletedButton.Click += h,
-                h => FilterCompletedButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Completed });
-                });
+            FilterAllButton.ObserveOnClick()
+                .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.All }));
+            FilterTodoButton.ObserveOnClick()
+                .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Todo }));
+            FilterCompletedButton.ObserveOnClick()
+                .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Completed }));
 
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-               h => AddNewItemButton.Click += h,
-               h => AddNewItemButton.Click -= h
-            )
-               .Subscribe(e =>
-               {
-                   Store.Dispatch(new CreateTodoItemAction());
-               });
+            AddNewItemButton.ObserveOnClick()
+               .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
 
             // Initialize UI
             TodoItemsListView.ItemsSource = advancedCollectionView;

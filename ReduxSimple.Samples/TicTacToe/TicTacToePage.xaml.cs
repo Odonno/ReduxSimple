@@ -2,9 +2,7 @@
 using System;
 using System.Linq;
 using System.Reactive.Linq;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
@@ -54,10 +52,7 @@ namespace ReduxSimple.Samples.TicTacToe
             // Observe UI events
             foreach (var cellGrid in cellsGrids)
             {
-                Observable.FromEventPattern<TappedEventHandler, TappedRoutedEventArgs>(
-                    h => cellGrid.Tapped += h,
-                    h => cellGrid.Tapped -= h
-                )
+                cellGrid.ObserveOnTapped()
                     .Select(e =>
                     {
                         var grid = e.Sender as Grid;
@@ -74,14 +69,8 @@ namespace ReduxSimple.Samples.TicTacToe
                     });
             }
 
-            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                h => StartNewGameButton.Click += h,
-                h => StartNewGameButton.Click -= h
-            )
-                .Subscribe(e =>
-                {
-                    _store.Dispatch(new StartNewGameAction());
-                });
+            StartNewGameButton.ObserveOnClick()
+                 .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
 
             // Initialize UI
             YourTurnTextBlock.HideIf(_store.State.GameEnded);
