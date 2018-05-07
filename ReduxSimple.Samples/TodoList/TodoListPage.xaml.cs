@@ -71,7 +71,7 @@ namespace ReduxSimple.Samples.TodoList
             Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
                h => AddNewItemButton.Click += h,
                h => AddNewItemButton.Click -= h
-           )
+            )
                .Subscribe(e =>
                {
                    Store.Dispatch(new CreateTodoItemAction());

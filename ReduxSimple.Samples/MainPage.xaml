@@ -11,6 +11,7 @@
             <Button x:Name="GoToCounterButton">Counter</Button>
             <Button x:Name="GoToTicTacToeButton">Tic tac Toe</Button>
             <Button x:Name="GoToTodoListButton">Todo List</Button>
+            <Button x:Name="GoToPokedexButton">Pokedex</Button>
         </StackPanel>
     </Grid>
 </Page>

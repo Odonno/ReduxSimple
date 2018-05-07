@@ -7,13 +7,13 @@ namespace ReduxSimple.Samples.TicTacToe
     {
         public int Row { get; set; }
         public int Column { get; set; }
-        public Option<bool> Mine { get; set; }
+        public Option<bool> Mine { get; set; } = Option<bool>.None();
     }
 
     public class TicTacToeState
     {
-        public ImmutableArray<Cell> Cells { get; set; }
+        public ImmutableArray<Cell> Cells { get; set; } = ImmutableArray<Cell>.Empty;
         public bool GameEnded { get; set; }
-        public Option<string> Winner { get; set; }
+        public Option<string> Winner { get; set; } = Option<string>.None();
     }
 }

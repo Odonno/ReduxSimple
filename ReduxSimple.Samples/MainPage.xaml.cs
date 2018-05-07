@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Samples.Counter;
+using ReduxSimple.Samples.Pokedex;
 using ReduxSimple.Samples.TicTacToe;
 using ReduxSimple.Samples.TodoList;
 using System;
@@ -45,6 +46,15 @@ namespace ReduxSimple.Samples
                 .Subscribe(_ =>
                 {
                     Frame.Navigate(typeof(TodoListPage));
+                });
+
+            Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                h => GoToPokedexButton.Click += h,
+                h => GoToPokedexButton.Click -= h
+            )
+                .Subscribe(_ =>
+                {
+                    Frame.Navigate(typeof(PokedexPage));
                 });
         }
     }

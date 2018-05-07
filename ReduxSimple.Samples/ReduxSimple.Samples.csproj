@@ -101,10 +101,21 @@
     </Compile>
     <Compile Include="Counter\CounterState.cs" />
     <Compile Include="Counter\CounterStore.cs" />
+    <Compile Include="IObservableExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pokedex\Actions.cs" />
+    <Compile Include="Pokedex\CacheService.cs" />
+    <Compile Include="Pokedex\Data.cs" />
+    <Compile Include="Pokedex\PokedexApiClient.cs" />
+    <Compile Include="Pokedex\PokedexPage.xaml.cs">
+      <DependentUpon>PokedexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pokedex\PokedexState.cs" />
+    <Compile Include="Pokedex\PokedexStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="TicTacToe\Actions.cs" />
     <Compile Include="TicTacToe\TicTacToePage.xaml.cs">
       <DependentUpon>TicTacToePage.xaml</DependentUpon>
@@ -150,6 +161,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pokedex\PokedexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TicTacToe\TicTacToePage.xaml">
       <SubType>Designer</SubType>
