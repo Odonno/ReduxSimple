@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReduxSimple.Samples.Extensions;
+using System;
 using System.Linq;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;

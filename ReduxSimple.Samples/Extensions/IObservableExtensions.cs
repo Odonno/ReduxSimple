@@ -2,7 +2,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
-namespace ReduxSimple.Samples
+namespace ReduxSimple.Samples.Extensions
 {
     public static class IObservableExtensions
     {

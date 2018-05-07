@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 
-namespace ReduxSimple.Samples
+namespace ReduxSimple.Samples.Extensions
 {
     public static class UIElementExtensions
     {
