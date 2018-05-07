@@ -3,10 +3,12 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Windows.Foundation;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace ReduxSimple.Samples.Extensions
 {
@@ -71,6 +73,22 @@ namespace ReduxSimple.Samples.Extensions
             return Observable.FromEventPattern<TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs>, AutoSuggestBoxSuggestionChosenEventArgs>(
                 h => autoSuggestBox.SuggestionChosen += h,
                 h => autoSuggestBox.SuggestionChosen -= h
+            );
+        }
+
+        public static IObservable<EventPattern<NavigationEventArgs>> ObserveOnNavigated(this Frame frame)
+        {
+            return Observable.FromEventPattern<NavigatedEventHandler, NavigationEventArgs>(
+                h => frame.Navigated += h,
+                h => frame.Navigated -= h
+            );
+        }
+
+        public static IObservable<EventPattern<BackRequestedEventArgs>> ObserveOnBackRequested(this SystemNavigationManager systemNavigationManager)
+        {
+            return Observable.FromEventPattern<EventHandler<BackRequestedEventArgs>, BackRequestedEventArgs>(
+                h => systemNavigationManager.BackRequested += h,
+                h => systemNavigationManager.BackRequested -= h
             );
         }
     }
