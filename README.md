@@ -1,3 +1,5 @@
+![./images/logo.png](./images/logo.png)
+
 # Redux Simple
 
 [![CodeFactor](https://www.codefactor.io/repository/github/odonno/reduxsimple/badge)](https://www.codefactor.io/repository/github/odonno/reduxsimple)
