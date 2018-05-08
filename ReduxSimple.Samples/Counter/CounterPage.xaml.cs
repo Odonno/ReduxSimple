@@ -1,4 +1,5 @@
-﻿using ReduxSimple.Samples.Extensions;
+﻿using ReduxSimple.Samples.Components;
+using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml.Controls;
@@ -12,6 +13,9 @@ namespace ReduxSimple.Samples.Counter
         public CounterPage()
         {
             InitializeComponent();
+
+            // Reset Store (due to HistoryComponent lifecycle)
+            _store.Reset();
 
             // Observe changes on state
             _store.ObserveState()

@@ -14,6 +14,9 @@ namespace ReduxSimple.Samples.TicTacToe
         {
             InitializeComponent();
 
+            // Reset Store (due to HistoryComponent lifecycle)
+            _store.Reset();
+
             // Get UI Elements
             var cellsGrids = CellsRootGrid.Children;
 

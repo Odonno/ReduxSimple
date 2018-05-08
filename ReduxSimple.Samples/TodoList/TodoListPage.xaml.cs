@@ -14,6 +14,9 @@ namespace ReduxSimple.Samples.TodoList
         {
             InitializeComponent();
 
+            // Reset Store (due to HistoryComponent lifecycle)
+            Store.Reset();
+
             // Create backend properties
             var advancedCollectionView = new AdvancedCollectionView();
             advancedCollectionView.SortDescriptions.Add(new SortDescription("Id", SortDirection.Ascending));

@@ -5,7 +5,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
@@ -21,6 +20,9 @@ namespace ReduxSimple.Samples.Pokedex
         public PokedexPage()
         {
             InitializeComponent();
+
+            // Reset Store (due to HistoryComponent lifecycle)
+            Store.Reset();
 
             // Observe changes on state
 
