@@ -152,12 +152,9 @@ namespace ReduxSimple.Samples.Components
                 .Subscribe(_ => store.Redo());
             ResetButton.ObserveOnClick()
                 .Subscribe(_ => store.Reset());
-            
+
             PlayPauseButton.ObserveOnClick()
-                .Subscribe(_ =>
-                {
-                    _internalStore.Dispatch(new TogglePlayPauseAction());
-                });
+                .Subscribe(_ => _internalStore.Dispatch(new TogglePlayPauseAction()));
 
             Slider.ObserveOnValueChanged()
                 .Subscribe(e =>
@@ -233,6 +230,18 @@ namespace ReduxSimple.Samples.Components
                     }
                 });
 
+            _internalStore.ObserveAction<ResetAction>()
+                .Subscribe(_ =>
+                {
+                    if (!_internalStore.State.PlaySessionActive)
+                    {
+                        UndoButton.IsEnabled = store.CanUndo;
+                        RedoButton.IsEnabled = store.CanRedo;
+                        ResetButton.IsEnabled = store.CanUndo || store.CanRedo;
+                        PlayPauseButton.IsEnabled = store.CanRedo;
+                    }
+                });
+
             // Observe changes on listened state
             store.ObserveAction()
                 .ObserveOnDispatcher()
@@ -247,17 +256,11 @@ namespace ReduxSimple.Samples.Components
 
             store.ObserveUndoneAction()
                 .ObserveOnDispatcher()
-                .Subscribe(_ =>
-                {
-                    _internalStore.Dispatch(new GoBackAction());
-                });
+                .Subscribe(_ => _internalStore.Dispatch(new GoBackAction()));
 
             store.ObserveReset()
                 .ObserveOnDispatcher()
-                .Subscribe(_ =>
-                {
-                    _internalStore.Dispatch(new ResetAction());
-                });
+                .Subscribe(_ => _internalStore.Dispatch(new ResetAction()));
 
             Observable.Interval(TimeSpan.FromSeconds(1))
                 .ObserveOnDispatcher()
