@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:components="using:ReduxSimple.Samples.Components"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock x:Name="CounterValueTextBlock" 
                        FontSize="42"
@@ -15,17 +17,30 @@
             <StackPanel Orientation="Horizontal"
                     Margin="0 10 0 0">
                 <Button x:Name="IncrementButton"
-                        Margin="0 0 5 0"
-                        FontSize="18">
-                    Increment
+                        Margin="0 0 15 0"
+                        Padding="0 -8 0 0"
+                        Width="50" Height="50"
+                        FontSize="38">
+                    +
                 </Button>
 
                 <Button x:Name="DecrementButton"
-                        Margin="5 0 0 0"
-                        FontSize="18">
-                    Decrement
+                        Margin="15 0 0 0"
+                        Padding="0 -8 0 0"
+                        Width="50" Height="50"
+                        FontSize="38">
+                    -
                 </Button>
             </StackPanel>
         </StackPanel>
+
+        <controls:DropShadowPanel BlurRadius="15"
+                                  ShadowOpacity="0.6"
+                                  Color="Black"
+                                  Margin="20 40"
+                                  VerticalAlignment="Bottom"
+                                  HorizontalAlignment="Center">
+            <components:HistoryComponent x:Name="HistoryComponent" />
+        </controls:DropShadowPanel>
     </Grid>
 </Page>

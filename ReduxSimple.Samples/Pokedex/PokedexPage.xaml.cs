@@ -165,6 +165,9 @@ namespace ReduxSimple.Samples.Pokedex
             PokemonNameTextBlock.Text = Store.State.Pokemon.HasValue ? Store.State.Pokemon.Value.Name : string.Empty;
             PokemonImage.Source = Store.State.Pokemon.HasValue ? new BitmapImage(new Uri(Store.State.Pokemon.Value.Image)) : null;
 
+            // Initialize Components
+            HistoryComponent.Store = Store;
+
             // Start logic
             if (!Store.State.Loading && Store.State.Pokedex.Count <= 0)
             {

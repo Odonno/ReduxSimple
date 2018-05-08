@@ -5,9 +5,11 @@
     xmlns:local="using:ReduxSimple.Samples.Pokedex"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:components="using:ReduxSimple.Samples.Components"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
         <StackPanel>
             <AutoSuggestBox x:Name="AutoSuggestBox">
                 <AutoSuggestBox.ItemTemplate>
@@ -28,5 +30,14 @@
 
             <Image x:Name="PokemonImage" />
         </StackPanel>
+
+        <controls:DropShadowPanel BlurRadius="15"
+                                  ShadowOpacity="0.6"
+                                  Color="Black"
+                                  Margin="20 40"
+                                  VerticalAlignment="Bottom"
+                                  HorizontalAlignment="Center">
+            <components:HistoryComponent x:Name="HistoryComponent" />
+        </controls:DropShadowPanel>
     </Grid>
 </Page>

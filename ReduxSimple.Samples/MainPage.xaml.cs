@@ -5,7 +5,9 @@ using ReduxSimple.Samples.TicTacToe;
 using ReduxSimple.Samples.TodoList;
 using System;
 using System.Reactive.Linq;
+using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
@@ -38,6 +40,11 @@ namespace ReduxSimple.Samples
             // Subscribe only once the MainPage is shown at the start of the app
             if (e.NavigationMode == NavigationMode.New)
             {
+                // Set TitleBar properties
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
                 // Go back when back button clicked
                 SystemNavigationManager.GetForCurrentView().ObserveOnBackRequested()
                     .Subscribe(_ =>

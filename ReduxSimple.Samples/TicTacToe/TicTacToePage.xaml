@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:components="using:ReduxSimple.Samples.Components"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Grid x:Name="CellsRootGrid">
                 <Grid.RowDefinitions>
@@ -108,5 +110,14 @@
                 You won!
             </TextBlock>
         </StackPanel>
+
+        <controls:DropShadowPanel BlurRadius="15"
+                                  ShadowOpacity="0.6"
+                                  Color="Black"
+                                  Margin="20 40"
+                                  VerticalAlignment="Bottom"
+                                  HorizontalAlignment="Center">
+            <components:HistoryComponent x:Name="HistoryComponent" />
+        </controls:DropShadowPanel>
     </Grid>
 </Page>

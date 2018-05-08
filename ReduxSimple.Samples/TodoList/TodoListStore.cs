@@ -2,7 +2,7 @@
 
 namespace ReduxSimple.Samples.TodoList
 {
-    public class TodoListStore : ReduxStore<TodoListState>
+    public class TodoListStore : ReduxStoreWithHistory<TodoListState>
     {
         protected override TodoListState Reduce(TodoListState state, object action)
         {

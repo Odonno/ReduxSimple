@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ReduxSimple.Samples.Pokedex
 {
-    public class PokedexStore : ReduxStore<PokedexState>
+    public class PokedexStore : ReduxStoreWithHistory<PokedexState>
     {
         protected override PokedexState Reduce(PokedexState state, object action)
         {

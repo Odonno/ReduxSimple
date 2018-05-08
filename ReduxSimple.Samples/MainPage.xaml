@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="GoToCounterButton">Counter</Button>
             <Button x:Name="GoToTicTacToeButton">Tic tac Toe</Button>

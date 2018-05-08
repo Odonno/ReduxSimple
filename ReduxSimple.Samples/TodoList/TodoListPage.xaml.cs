@@ -55,6 +55,9 @@ namespace ReduxSimple.Samples.TodoList
 
             // Initialize UI
             TodoItemsListView.ItemsSource = advancedCollectionView;
+
+            // Initialize Components
+            HistoryComponent.Store = Store;
         }
     }
 }

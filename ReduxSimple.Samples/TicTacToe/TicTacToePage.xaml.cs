@@ -95,6 +95,9 @@ namespace ReduxSimple.Samples.TicTacToe
                 else
                     textBlock.Text = string.Empty;
             }
+
+            // Initialize Components
+            HistoryComponent.Store = _store;
         }
     }
 }

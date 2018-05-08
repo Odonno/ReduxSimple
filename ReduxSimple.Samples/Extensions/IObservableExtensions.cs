@@ -91,5 +91,13 @@ namespace ReduxSimple.Samples.Extensions
                 h => systemNavigationManager.BackRequested -= h
             );
         }
+
+        public static IObservable<EventPattern<RangeBaseValueChangedEventArgs>> ObserveOnValueChanged(this RangeBase range)
+        {
+            return Observable.FromEventPattern<RangeBaseValueChangedEventHandler, RangeBaseValueChangedEventArgs>(
+                h => range.ValueChanged += h,
+                h => range.ValueChanged -= h
+            );
+        }
     }
 }

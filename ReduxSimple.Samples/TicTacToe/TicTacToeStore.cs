@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
-    public class TicTacToeStore : ReduxStore<TicTacToeState>
+    public class TicTacToeStore : ReduxStoreWithHistory<TicTacToeState>
     {
         private static TicTacToeState DefaultState =>
             new TicTacToeState

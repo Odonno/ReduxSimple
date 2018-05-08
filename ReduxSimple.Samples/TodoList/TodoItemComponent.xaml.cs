@@ -16,14 +16,13 @@ namespace ReduxSimple.Samples.TodoList
         }
 
         public static readonly DependencyProperty TodoItemProperty =
-            DependencyProperty.Register("TodoItem", typeof(TodoItem), typeof(TodoItemComponent), new PropertyMetadata(null, TodoItemChanged));
+            DependencyProperty.Register(nameof(TodoItem), typeof(TodoItem), typeof(TodoItemComponent), new PropertyMetadata(null, TodoItemChanged));
 
         private static void TodoItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is TodoItemComponent component)
             {
-                var todoItem = e.NewValue as TodoItem;
-                component.InitializeUI();
+                component.Initialize();
             }
         }
 
@@ -42,7 +41,7 @@ namespace ReduxSimple.Samples.TodoList
                 .Subscribe(e => Store.Dispatch(new UpdateTodoItemAction { Id = TodoItem.Id, Content = TextBox.Text }));
         }
 
-        private void InitializeUI()
+        private void Initialize()
         {
             if (TodoItem != null)
             {
