@@ -40,24 +40,24 @@ namespace ReduxSimple.Samples
             // Subscribe only once the MainPage is shown at the start of the app
             if (e.NavigationMode == NavigationMode.New)
             {
-                // Set TitleBar properties
+                // Extend view into title bar
+                SetExtendViewIntoTitleBar(this, true);
+
+                // Set TitleBar properties (colors)
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonBackgroundColor = Colors.Transparent;
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
                 // Go back when back button clicked
                 SystemNavigationManager.GetForCurrentView().ObserveOnBackRequested()
-                    .Subscribe(_ =>
-                    {
-                        if (Frame.CanGoBack)
-                            Frame.GoBack();
-                    });
+                    .Where(_ => Frame.CanGoBack)
+                    .Subscribe(_ => Frame.GoBack());
 
                 // Show back button when required
                 Frame.ObserveOnNavigated()
                     .Subscribe(_ =>
                     {
-                        SetBackButtonVisibility(this, 
+                        SetBackButtonVisibility(this,
                             Frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed);
                     });
             }
