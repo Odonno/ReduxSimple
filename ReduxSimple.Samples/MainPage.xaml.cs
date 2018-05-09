@@ -31,6 +31,16 @@ namespace ReduxSimple.Samples
 
             GoToPokedexButton.ObserveOnClick()
                 .Subscribe(_ => Frame.Navigate(typeof(PokedexPage)));
+
+            // Extend view into title bar
+            SetExtendViewIntoTitleBar(this, true);
+
+            // Set TitleBar properties (colors)
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(255, 72, 42, 203);
+            titleBar.ButtonPressedBackgroundColor = Color.FromArgb(200, 72, 42, 203);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -40,14 +50,6 @@ namespace ReduxSimple.Samples
             // Subscribe only once the MainPage is shown at the start of the app
             if (e.NavigationMode == NavigationMode.New)
             {
-                // Extend view into title bar
-                SetExtendViewIntoTitleBar(this, true);
-
-                // Set TitleBar properties (colors)
-                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-                titleBar.ButtonBackgroundColor = Colors.Transparent;
-                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
                 // Go back when back button clicked
                 SystemNavigationManager.GetForCurrentView().ObserveOnBackRequested()
                     .Where(_ => Frame.CanGoBack)
