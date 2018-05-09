@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
@@ -56,14 +57,16 @@
 
                             <StackPanel Grid.Row="0" Margin="0 20 0 0">
                                 <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
-                                           HorizontalAlignment="Center">
+                                           HorizontalAlignment="Center"
+                                           animations:Connected.Key="CounterPageTitle">
                                     Counter
                                 </TextBlock>
 
                                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Margin="0 10 0 0"
                                            FontSize="10"
-                                           TextAlignment="Center">
+                                           TextAlignment="Center"
+                                           animations:Connected.Key="CounterPageSubtitle">
                                     A really simple example with two simple actions: increment and decrement.
                                 </TextBlock>
                             </StackPanel>
@@ -89,14 +92,16 @@
 
                             <StackPanel Grid.Row="0" Margin="0 20 0 0">
                                 <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
-                                           HorizontalAlignment="Center">
+                                           HorizontalAlignment="Center"
+                                           animations:Connected.Key="TicTacToePageTitle">
                                     Tic Tac Toe
                                 </TextBlock>
 
                                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Margin="0 10 0 0"
                                            FontSize="10"
-                                           TextAlignment="Center">
+                                           TextAlignment="Center"
+                                           animations:Connected.Key="TicTacToePageSubtitle">
                                     A simple game to experience event-driven application and game logic encapsulated in a Redux Store.
                                 </TextBlock>
                             </StackPanel>
@@ -118,14 +123,16 @@
 
                             <StackPanel Grid.Row="0" Margin="0 20 0 0">
                                 <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
-                                           HorizontalAlignment="Center">
+                                           HorizontalAlignment="Center"
+                                           animations:Connected.Key="TodoListPageTitle">
                                     Todo List
                                 </TextBlock>
 
                                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Margin="0 10 0 0"
                                            FontSize="10"
-                                           TextAlignment="Center">
+                                           TextAlignment="Center"
+                                           animations:Connected.Key="TodoListPageSubtitle">
                                     A more concrete example with input text and child components.
                                 </TextBlock>
                             </StackPanel>
@@ -147,14 +154,16 @@
 
                             <StackPanel Grid.Row="0" Margin="0 20 0 0">
                                 <TextBlock Style="{ThemeResource TitleTextBlockStyle}"
-                                           HorizontalAlignment="Center">
+                                           HorizontalAlignment="Center"
+                                           animations:Connected.Key="PokedexPageTitle">
                                     Pokedex
                                 </TextBlock>
 
                                 <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Margin="0 10 0 0"
                                            FontSize="10"
-                                           TextAlignment="Center">
+                                           TextAlignment="Center"
+                                           animations:Connected.Key="PokedexPageSubtitle">
                                     A more concrete example using real live data fetched from web API and displayed using a reactive search component.
                                 </TextBlock>
                             </StackPanel>

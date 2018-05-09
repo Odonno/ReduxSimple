@@ -7,29 +7,53 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:components="using:ReduxSimple.Samples.Components"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-        <StackPanel>
-            <AutoSuggestBox x:Name="AutoSuggestBox">
-                <AutoSuggestBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontWeight="Bold">
-                                <Run Text="#" /><Run Text="{Binding Id}" />
-                            </TextBlock>
-                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0" />
-                        </StackPanel>
-                    </DataTemplate>
-                </AutoSuggestBox.ItemTemplate>
-            </AutoSuggestBox>
+        <Grid Margin="0 0 0 90">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-            <TextBlock x:Name="PokemonIdTextBlock" />
-            
-            <TextBlock x:Name="PokemonNameTextBlock" />
+            <StackPanel Grid.Row="0" 
+                        Padding="50 10 40 20"
+                        Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
+                <TextBlock Style="{ThemeResource HeaderTextBlockStyle}"
+                           animations:Connected.Key="PokedexPageTitle">
+                    Pokedex
+                </TextBlock>
 
-            <Image x:Name="PokemonImage" />
-        </StackPanel>
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}"
+                           animations:Connected.Key="PokedexPageSubtitle"
+                           Margin="0 5 0 0"
+                           FontSize="14">
+                    A more concrete example using real live data fetched from web API and displayed using a reactive search component.
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <AutoSuggestBox x:Name="AutoSuggestBox">
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold">
+                                    <Run Text="#" /><Run Text="{Binding Id}" />
+                                </TextBlock>
+                                <TextBlock Text="{Binding Name}" Margin="10 0 0 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+                </AutoSuggestBox>
+
+                <TextBlock x:Name="PokemonIdTextBlock" />
+
+                <TextBlock x:Name="PokemonNameTextBlock" />
+
+                <Image x:Name="PokemonImage" />
+            </StackPanel>
+        </Grid>
 
         <controls:DropShadowPanel BlurRadius="15"
                                   ShadowOpacity="0.6"
