@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
 
@@ -142,6 +143,12 @@
                                     A more concrete example with input text and child components.
                                 </TextBlock>
                             </StackPanel>
+
+                            <TextBlock Grid.Row="1" FontSize="80"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center">
+                                &#xE762;
+                            </TextBlock>
                         </Grid>
                     </Button.Content>
                 </Button>
@@ -173,6 +180,18 @@
                                     A more concrete example using real live data fetched from web API and displayed using a reactive search component.
                                 </TextBlock>
                             </StackPanel>
+
+
+                            <controls:LayoutTransformControl Grid.Row="1"
+                                                             Margin="10 0"
+                                                             VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <controls:LayoutTransformControl.Transform>
+                                    <RotateTransform Angle="-30" CenterX="0.5" CenterY="0.5" />
+                                </controls:LayoutTransformControl.Transform>
+
+                                <Image Stretch="Uniform"
+                                       Source="Images/Pokedex.png" />
+                            </controls:LayoutTransformControl>
                         </Grid>
                     </Button.Content>
                 </Button>
