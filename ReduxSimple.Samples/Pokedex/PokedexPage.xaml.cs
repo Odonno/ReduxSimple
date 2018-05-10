@@ -75,6 +75,18 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
+            Store.ObserveState(state => state.Pokedex)
+                .ObserveOn(Scheduler.Default)
+                .Subscribe(pokedex =>
+                {
+                    ExecuteOnUIThreadAsync(() =>
+                    {
+                        GlobalLoadingProgressRing.IsActive = pokedex.IsEmpty;
+                        GlobalLoadingProgressRing.ShowIf(pokedex.IsEmpty);
+                        RootStackPanel.ShowIf(pokedex.Any());
+                    });
+                });
+
             Store.ObserveState(state => state.Search)
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(search =>
@@ -95,14 +107,8 @@ namespace ReduxSimple.Samples.Pokedex
                         else
                         {
                             // Search Pokemon by both Id and Name
-                            var suggestions = Store.State.Pokedex
-                                .Where(p => p.Id.ToString().Contains(search) || p.Name.ToLower().Contains(search.ToLower()))
-                                .OrderBy(p => p.Id)
-                                .Take(10)
-                                .ToImmutableList();
-
-                            if (suggestions.Any())
-                                Store.Dispatch(new GetPokemonByIdAction { Id = suggestions.First().Id });
+                            if (Store.State.Suggestions.Any())
+                                Store.Dispatch(new GetPokemonByIdAction { Id = Store.State.Suggestions.First().Id });
                             else
                                 Store.Dispatch(new ResetPokemonAction());
                         }
@@ -129,6 +135,7 @@ namespace ReduxSimple.Samples.Pokedex
                 {
                     ExecuteOnUIThreadAsync(() =>
                     {
+                        PokemonPanel.ShowIf(pokemon.HasValue);
                         PokemonIdTextBlock.Text = pokemon.HasValue ? $"#{pokemon.Value.Id}" : string.Empty;
                         PokemonNameTextBlock.Text = pokemon.HasValue ? pokemon.Value.Name : string.Empty;
                         PokemonImage.Source = pokemon.HasValue ? new BitmapImage(new Uri(pokemon.Value.Image)) : null;
@@ -163,15 +170,21 @@ namespace ReduxSimple.Samples.Pokedex
 
             // Initialize UI
             AutoSuggestBox.Text = Store.State.Search;
+
+            PokemonPanel.ShowIf(Store.State.Pokemon.HasValue);
             PokemonIdTextBlock.Text = Store.State.Pokemon.HasValue ? $"#{Store.State.Pokemon.Value.Id}" : string.Empty;
             PokemonNameTextBlock.Text = Store.State.Pokemon.HasValue ? Store.State.Pokemon.Value.Name : string.Empty;
             PokemonImage.Source = Store.State.Pokemon.HasValue ? new BitmapImage(new Uri(Store.State.Pokemon.Value.Image)) : null;
+
+            GlobalLoadingProgressRing.IsActive = Store.State.Pokedex.IsEmpty;
+            GlobalLoadingProgressRing.ShowIf(Store.State.Pokedex.IsEmpty);
+            RootStackPanel.ShowIf(Store.State.Pokedex.Any());
 
             // Initialize Components
             HistoryComponent.Store = Store;
 
             // Start logic
-            if (!Store.State.Loading && Store.State.Pokedex.Count <= 0)
+            if (!Store.State.Loading && Store.State.Pokedex.IsEmpty)
             {
                 Store.Dispatch(new GetPokemonListAction());
             }

@@ -108,6 +108,8 @@ namespace ReduxSimple.Samples.Pokedex
 
         private ImmutableList<PokemonGeneralInfo> GetSuggestions(ImmutableList<PokemonGeneralInfo> pokedex, string search)
         {
+            const int maximumOfSuggestions = 5;
+
             if (!string.IsNullOrWhiteSpace(search))
             {
                 if (search.StartsWith("#"))
@@ -118,7 +120,7 @@ namespace ReduxSimple.Samples.Pokedex
                         return pokedex
                             .Where(p => p.Id.ToString().StartsWith(searchedId.ToString()))
                             .OrderBy(p => p.Id)
-                            .Take(10)
+                            .Take(maximumOfSuggestions)
                             .ToImmutableList();
                     }
                 }
@@ -128,7 +130,7 @@ namespace ReduxSimple.Samples.Pokedex
                     return pokedex
                         .Where(p => p.Id.ToString().Contains(search) || p.Name.ToLower().Contains(search.ToLower()))
                         .OrderBy(p => p.Id)
-                        .Take(10)
+                        .Take(maximumOfSuggestions)
                         .ToImmutableList();
                 }
             }
