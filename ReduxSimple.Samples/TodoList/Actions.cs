@@ -12,6 +12,11 @@
         public int Id { get; set; }
     }
 
+    public class RevertCompleteTodoItemAction
+    {
+        public int Id { get; set; }
+    }
+
     public class RemoveTodoItemAction
     {
         public int Id { get; set; }

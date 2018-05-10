@@ -18,20 +18,36 @@
         <TextBox x:Name="TextBox" Grid.Column="0" 
                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                  FontSize="11"
-                 Padding="10 5" />
+                 Padding="10 7" />
 
         <Button x:Name="CompleteButton" Grid.Column="1"
+                Margin="10 0 0 0"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                Background="Green" Foreground="White" FontWeight="Bold"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Foreground="Green"
+                Style="{ThemeResource ButtonMainMenuStyle}"
+                FontWeight="Bold"
                 FontFamily="Segoe MDL2 Assets">
             &#xE8FB;
         </Button>
 
+        <Button x:Name="RevertCompleteButton" Grid.Column="1"
+                Visibility="Collapsed"
+                Margin="10 0 0 0"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Foreground="Orange"
+                Style="{ThemeResource ButtonMainMenuStyle}"
+                FontWeight="Bold"
+                FontFamily="Segoe MDL2 Assets">
+            &#xE7A7;
+        </Button>
+
         <Button x:Name="RemoveButton" Grid.Column="2"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                Background="Red" Foreground="White" FontWeight="Bold"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Foreground="Red"
+                Style="{ThemeResource ButtonMainMenuStyle}"
+                FontWeight="Bold"
                 FontFamily="Segoe MDL2 Assets">
-            &#xE74D;
+            &#xE711;
         </Button>
     </Grid>
 </UserControl>

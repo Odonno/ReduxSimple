@@ -2,6 +2,7 @@
 using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace ReduxSimple.Samples.TodoList
@@ -21,6 +22,8 @@ namespace ReduxSimple.Samples.TodoList
             var advancedCollectionView = new AdvancedCollectionView();
             advancedCollectionView.SortDescriptions.Add(new SortDescription("Id", SortDirection.Ascending));
 
+            var selectedButtonStyle = App.Current.Resources["SelectedButtonStyle"] as Style;
+
             // Observe changes on state
             Store.ObserveState(state => state.Filter)
                 .Subscribe(filter =>
@@ -37,6 +40,10 @@ namespace ReduxSimple.Samples.TodoList
                             advancedCollectionView.Filter = (x => ((TodoItem)x).Completed);
                             break;
                     }
+                    
+                    FilterAllButton.Style = (filter == TodoFilter.All) ? selectedButtonStyle : null;
+                    FilterTodoButton.Style = (filter == TodoFilter.Todo) ? selectedButtonStyle : null;
+                    FilterCompletedButton.Style = (filter == TodoFilter.Completed) ? selectedButtonStyle : null;
                 });
 
             Store.ObserveState(state => state.Items)
@@ -58,6 +65,9 @@ namespace ReduxSimple.Samples.TodoList
 
             // Initialize UI
             TodoItemsListView.ItemsSource = advancedCollectionView;
+            FilterAllButton.Style = (Store.State.Filter == TodoFilter.All) ? selectedButtonStyle : null;
+            FilterTodoButton.Style = (Store.State.Filter == TodoFilter.Todo) ? selectedButtonStyle : null;
+            FilterCompletedButton.Style = (Store.State.Filter == TodoFilter.Completed) ? selectedButtonStyle : null;
 
             // Initialize Components
             HistoryComponent.Store = Store;

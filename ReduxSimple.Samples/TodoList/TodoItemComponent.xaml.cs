@@ -34,6 +34,9 @@ namespace ReduxSimple.Samples.TodoList
             CompleteButton.ObserveOnClick()
                 .Subscribe(_ => Store.Dispatch(new CompleteTodoItemAction { Id = TodoItem.Id }));
 
+            RevertCompleteButton.ObserveOnClick()
+                .Subscribe(_ => Store.Dispatch(new RevertCompleteTodoItemAction { Id = TodoItem.Id }));
+
             RemoveButton.ObserveOnClick()
                 .Subscribe(_ => Store.Dispatch(new RemoveTodoItemAction { Id = TodoItem.Id }));
 
@@ -47,6 +50,9 @@ namespace ReduxSimple.Samples.TodoList
             {
                 // Initialize UI
                 TextBox.Text = TodoItem.Content ?? string.Empty;
+
+                CompleteButton.HideIf(TodoItem.Completed);
+                RevertCompleteButton.ShowIf(TodoItem.Completed);
             }
         }
     }

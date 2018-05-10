@@ -26,11 +26,21 @@ namespace ReduxSimple.Samples.TodoList
             }
             if (action is CompleteTodoItemAction completeTodoItemAction)
             {
-                var itemToUpdate = state.Items.Single(i => i.Id == completeTodoItemAction.Id);
+                var itemToUpdate = state.Items.Single(i => i.Id == completeTodoItemAction.Id && !i.Completed);
 
                 return new TodoListState
                 {
                     Items = state.Items.Replace(itemToUpdate, new TodoItem { Id = itemToUpdate.Id, Content = itemToUpdate.Content, Completed = true }),
+                    Filter = state.Filter
+                };
+            }
+            if (action is RevertCompleteTodoItemAction revertCompleteTodoItemAction)
+            {
+                var itemToUpdate = state.Items.Single(i => i.Id == revertCompleteTodoItemAction.Id && i.Completed);
+
+                return new TodoListState
+                {
+                    Items = state.Items.Replace(itemToUpdate, new TodoItem { Id = itemToUpdate.Id, Content = itemToUpdate.Content, Completed = false }),
                     Filter = state.Filter
                 };
             }
