@@ -179,25 +179,39 @@
                 <Grid Width="470" Margin="0 20 0 0">
                     <Pivot Margin="0 0 4 0">
                         <PivotItem Header="Introduction">
-                            <controls:MarkdownTextBlock x:Name="IntroductionMarkdownTextBlock" FontSize="12" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <controls:MarkdownTextBlock x:Name="IntroductionMarkdownTextBlock" FontSize="12" />
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="State">
-                            <controls:MarkdownTextBlock x:Name="StateMarkdownTextBlock" FontSize="11" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <controls:MarkdownTextBlock x:Name="StateMarkdownTextBlock" FontSize="11" />
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="Actions">
-                            <controls:MarkdownTextBlock x:Name="ActionsMarkdownTextBlock" FontSize="11"  />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <controls:MarkdownTextBlock x:Name="ActionsMarkdownTextBlock" FontSize="11" />
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="Store">
-                            <controls:MarkdownTextBlock x:Name="StoreMarkdownTextBlock" FontSize="11"  />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <controls:MarkdownTextBlock x:Name="StoreMarkdownTextBlock" FontSize="11" />
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="User Interface">
-                            <controls:MarkdownTextBlock x:Name="UserInterfaceMarkdownTextBlock" FontSize="11" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <controls:MarkdownTextBlock x:Name="UserInterfaceMarkdownTextBlock" FontSize="11" />
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="Code Behind">
-                            <controls:MarkdownTextBlock x:Name="CodeBehindMarkdownTextBlock" FontSize="11" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <controls:MarkdownTextBlock x:Name="CodeBehindMarkdownTextBlock" FontSize="11" />
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="Dependencies">
-                            <controls:MarkdownTextBlock x:Name="DependenciesMarkdownTextBlock" FontSize="11" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                                <controls:MarkdownTextBlock x:Name="DependenciesMarkdownTextBlock" FontSize="11" />
+                            </ScrollViewer>
                         </PivotItem>
                     </Pivot>
                 </Grid>
