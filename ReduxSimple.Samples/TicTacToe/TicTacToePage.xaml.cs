@@ -1,8 +1,10 @@
-﻿using ReduxSimple.Samples.Common;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using ReduxSimple.Samples.Common;
 using ReduxSimple.Samples.Extensions;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using static ReduxSimple.Samples.Extensions.FileExtensions;
 
@@ -107,31 +109,24 @@ namespace ReduxSimple.Samples.TicTacToe
             // Initialize Documentation
             InitializeDocumentationAsync();
         }
-
+        
         private async void InitializeDocumentationAsync()
         {
             const string folder = "TicTacToe";
 
-            IntroductionMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
-            IntroductionMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Introduction.md");
+            await LoadMarkdownComponent(IntroductionMarkdownTextBlock, $"{folder}/Introduction.md");
+            await LoadMarkdownComponent(StateMarkdownTextBlock, $"{folder}/State.md");
+            await LoadMarkdownComponent(ActionsMarkdownTextBlock, $"{folder}/Actions.md");
+            await LoadMarkdownComponent(StoreMarkdownTextBlock, $"{folder}/Store.md");
+            await LoadMarkdownComponent(UserInterfaceMarkdownTextBlock, $"{folder}/UI.md");
+            await LoadMarkdownComponent(CodeBehindMarkdownTextBlock, $"{folder}/CodeBehind.md");
+            await LoadMarkdownComponent(DependenciesMarkdownTextBlock, $"{folder}/Dependencies.md");
+        }
 
-            StateMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
-            StateMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/State.md");
-
-            ActionsMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
-            ActionsMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Actions.md");
-
-            StoreMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
-            StoreMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Store.md");
-
-            UserInterfaceMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
-            UserInterfaceMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/UI.md");
-
-            CodeBehindMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
-            CodeBehindMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/CodeBehind.md");
-
-            DependenciesMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
-            DependenciesMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Dependencies.md");
+        private async Task LoadMarkdownComponent(MarkdownTextBlock markdownTextBlock, string filePath)
+        {
+            markdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            markdownTextBlock.Text = await ReadFileAsync(filePath);
         }
     }
 }
