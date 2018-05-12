@@ -41,6 +41,7 @@ namespace ReduxSimple.Samples
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(255, 72, 42, 203);
             titleBar.ButtonPressedBackgroundColor = Color.FromArgb(200, 72, 42, 203);
+            titleBar.ButtonForegroundColor = Colors.Black;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
