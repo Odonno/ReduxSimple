@@ -1,16 +1,15 @@
 ﻿using ReduxSimple.Samples.Counter;
-using ReduxSimple.Samples.Extensions;
 using ReduxSimple.Samples.Pokedex;
 using ReduxSimple.Samples.TicTacToe;
 using ReduxSimple.Samples.TodoList;
 using System;
 using System.Reactive.Linq;
 using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
+using static Windows.UI.Core.AppViewBackButtonVisibility;
 
 namespace ReduxSimple.Samples
 {
@@ -20,23 +19,23 @@ namespace ReduxSimple.Samples
         {
             InitializeComponent();
 
-            GoToCounterButton.ObserveOnClick()
+            GoToCounterButton.Events().Tapped
                 .Subscribe(_ => Frame.Navigate(typeof(CounterPage)));
 
-            GoToTicTacToeButton.ObserveOnClick()
+            GoToTicTacToeButton.Events().Tapped
                 .Subscribe(_ => Frame.Navigate(typeof(TicTacToePage)));
 
-            GoToTodoListButton.ObserveOnClick()
+            GoToTodoListButton.Events().Tapped
                 .Subscribe(_ => Frame.Navigate(typeof(TodoListPage)));
 
-            GoToPokedexButton.ObserveOnClick()
+            GoToPokedexButton.Events().Tapped
                 .Subscribe(_ => Frame.Navigate(typeof(PokedexPage)));
 
             // Extend view into title bar
             SetExtendViewIntoTitleBar(this, true);
 
             // Set TitleBar properties (colors)
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            var titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(255, 72, 42, 203);
@@ -52,17 +51,21 @@ namespace ReduxSimple.Samples
             if (e.NavigationMode == NavigationMode.New)
             {
                 // Go back when back button clicked
-                SystemNavigationManager.GetForCurrentView().ObserveOnBackRequested()
+                var systemNavigationManager = Windows.UI.Core.SystemNavigationManager.GetForCurrentView();
+
+                Observable.FromEventPattern<EventHandler<Windows.UI.Core.BackRequestedEventArgs>, Windows.UI.Core.BackRequestedEventArgs>(
+                    h => systemNavigationManager.BackRequested += h,
+                    h => systemNavigationManager.BackRequested -= h
+                )
                     .Where(_ => Frame.CanGoBack)
                     .Subscribe(_ => Frame.GoBack());
 
                 // Show back button when required
-                Frame.ObserveOnNavigated()
-                    .Subscribe(_ =>
-                    {
-                        SetBackButtonVisibility(this,
-                            Frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed);
-                    });
+                Frame.Events().Navigated
+                   .Subscribe(_ =>
+                   {
+                       SetBackButtonVisibility(this, Frame.CanGoBack ? Visible : Collapsed);
+                   });
             }
         }
     }

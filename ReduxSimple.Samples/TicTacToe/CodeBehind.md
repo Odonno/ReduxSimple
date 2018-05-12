@@ -43,9 +43,9 @@ public sealed partial class TicTacToePage : Page
             });
 
         // Observe UI events
-        foreach (var cellGrid in cellsGrids)
+        foreach (Grid cellGrid in cellsGrids)
         {
-            cellGrid.ObserveOnTapped()
+            cellGrid.Events().Tapped
                 .Select(e =>
                 {
                     var grid = e.Sender as Grid;
@@ -62,8 +62,8 @@ public sealed partial class TicTacToePage : Page
                 });
         }
 
-        StartNewGameButton.ObserveOnClick()
-                .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
+        StartNewGameButton.Events().Tapped
+            .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
 
         // Initialize UI
         YourTurnTextBlock.HideIf(_store.State.GameEnded);

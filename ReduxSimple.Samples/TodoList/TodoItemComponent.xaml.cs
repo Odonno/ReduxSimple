@@ -31,16 +31,16 @@ namespace ReduxSimple.Samples.TodoList
             InitializeComponent();
 
             // Observe UI events
-            CompleteButton.ObserveOnClick()
+            CompleteButton.Events().Tapped
                 .Subscribe(_ => Store.Dispatch(new CompleteTodoItemAction { Id = TodoItem.Id }));
 
-            RevertCompleteButton.ObserveOnClick()
+            RevertCompleteButton.Events().Tapped
                 .Subscribe(_ => Store.Dispatch(new RevertCompleteTodoItemAction { Id = TodoItem.Id }));
 
-            RemoveButton.ObserveOnClick()
+            RemoveButton.Events().Tapped
                 .Subscribe(_ => Store.Dispatch(new RemoveTodoItemAction { Id = TodoItem.Id }));
 
-            TextBox.ObserveOnLostFocus()
+            TextBox.Events().LostFocus
                 .Subscribe(e => Store.Dispatch(new UpdateTodoItemAction { Id = TodoItem.Id, Content = TextBox.Text }));
         }
 

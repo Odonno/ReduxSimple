@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
-using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
@@ -53,14 +52,14 @@ namespace ReduxSimple.Samples.TodoList
                 });
 
             // Observe UI events
-            FilterAllButton.ObserveOnClick()
+            FilterAllButton.Events().Tapped
                 .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.All }));
-            FilterTodoButton.ObserveOnClick()
+            FilterTodoButton.Events().Tapped
                 .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Todo }));
-            FilterCompletedButton.ObserveOnClick()
+            FilterCompletedButton.Events().Tapped
                 .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Completed }));
 
-            AddNewItemButton.ObserveOnClick()
+            AddNewItemButton.Events().Tapped
                .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
 
             // Initialize UI

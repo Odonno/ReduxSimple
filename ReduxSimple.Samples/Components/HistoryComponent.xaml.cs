@@ -1,10 +1,10 @@
-﻿using ReduxSimple.Samples.Extensions;
-using SuccincT.Options;
+﻿using SuccincT.Options;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Linq;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace ReduxSimple.Samples.Components
 {
@@ -114,17 +114,20 @@ namespace ReduxSimple.Samples.Components
         public void Initialize<TState>(ReduxStoreWithHistory<TState> store) where TState : class, new()
         {
             // Observe UI events
-            UndoButton.ObserveOnClick()
+            UndoButton.Events().Tapped
                 .Subscribe(_ => store.Undo());
-            RedoButton.ObserveOnClick()
+            RedoButton.Events().Tapped
                 .Subscribe(_ => store.Redo());
-            ResetButton.ObserveOnClick()
+            ResetButton.Events().Tapped
                 .Subscribe(_ => store.Reset());
 
-            PlayPauseButton.ObserveOnClick()
+            PlayPauseButton.Events().Tapped
                 .Subscribe(_ => _internalStore.Dispatch(new TogglePlayPauseAction()));
 
-            Slider.ObserveOnValueChanged()
+            Observable.FromEventPattern<RangeBaseValueChangedEventHandler, RangeBaseValueChangedEventArgs>(
+                h => Slider.ValueChanged += h,
+                h => Slider.ValueChanged -= h
+            )
                 .Subscribe(e =>
                 {
                     int newPosition = (int)e.EventArgs.NewValue;

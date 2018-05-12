@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static ReduxSimple.Samples.Extensions.FileExtensions;
 
@@ -57,12 +58,12 @@ namespace ReduxSimple.Samples.TicTacToe
                 });
 
             // Observe UI events
-            foreach (var cellGrid in cellsGrids)
+            foreach (Grid cellGrid in cellsGrids)
             {
-                cellGrid.ObserveOnTapped()
+                cellGrid.Events().Tapped
                     .Select(e =>
                     {
-                        var grid = e.Sender as Grid;
+                        var grid = e.OriginalSource as Grid;
                         return new { Row = Grid.GetRow(grid), Column = Grid.GetColumn(grid) };
                     })
                     .Where(x =>
@@ -76,8 +77,8 @@ namespace ReduxSimple.Samples.TicTacToe
                     });
             }
 
-            StartNewGameButton.ObserveOnClick()
-                 .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
+            StartNewGameButton.Events().Tapped
+                .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
 
             // Initialize UI
             YourTurnTextBlock.HideIf(_store.State.GameEnded);

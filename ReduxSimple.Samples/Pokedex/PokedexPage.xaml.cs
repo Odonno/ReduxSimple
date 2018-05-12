@@ -1,7 +1,6 @@
 ﻿using ReduxSimple.Samples.Extensions;
 using SuccincT.Options;
 using System;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -143,7 +142,7 @@ namespace ReduxSimple.Samples.Pokedex
                 });
 
             // Observe UI events
-            AutoSuggestBox.ObserveOnTextChanged()
+            AutoSuggestBox.Events().TextChanged
                .ObserveOn(Scheduler.Default)
                .Subscribe(e =>
                {
@@ -153,13 +152,13 @@ namespace ReduxSimple.Samples.Pokedex
                    });
                });
 
-            AutoSuggestBox.ObserveOnSuggestionChosen()
+            AutoSuggestBox.Events().SuggestionChosen
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(e =>
                 {
                     ExecuteOnUIThreadAsync(() =>
                     {
-                        var selectedPokemonOption = (e.EventArgs.SelectedItem as PokemonGeneralInfo).ToOption();
+                        var selectedPokemonOption = (e.SelectedItem as PokemonGeneralInfo).ToOption();
                         if (selectedPokemonOption.HasValue)
                         {
                             AutoSuggestBox.Text = selectedPokemonOption.Value.Name; // Avoid the automatic change of the Text property of SuggestBox

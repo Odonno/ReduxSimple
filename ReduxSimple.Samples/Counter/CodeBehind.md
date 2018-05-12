@@ -15,10 +15,10 @@ public sealed partial class CounterPage : Page
             });
 
         // Observe UI events
-        IncrementButton.ObserveOnClick()
+        IncrementButton.Events().Tapped
             .Subscribe(_ => _store.Dispatch(new IncrementAction()));
 
-        DecrementButton.ObserveOnClick()
+        DecrementButton.Events().Tapped
             .Subscribe(_ => _store.Dispatch(new DecrementAction()));
 
         // Initialize UI

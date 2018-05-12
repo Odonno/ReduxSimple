@@ -1,7 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using ReduxSimple.Samples.Common;
 using ReduxSimple.Samples.Components;
-using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -29,10 +28,10 @@ namespace ReduxSimple.Samples.Counter
                 });
 
             // Observe UI events
-            IncrementButton.ObserveOnClick()
+            IncrementButton.Events().Tapped
                 .Subscribe(_ => _store.Dispatch(new IncrementAction()));
 
-            DecrementButton.ObserveOnClick()
+            DecrementButton.Events().Tapped
                 .Subscribe(_ => _store.Dispatch(new DecrementAction()));
 
             // Initialize UI
