@@ -168,54 +168,7 @@
                                   ShadowOpacity="0.6"
                                   Color="Black"
                                   VerticalAlignment="Stretch" HorizontalAlignment="Right">
-            <controls:Expander ExpandDirection="Left" 
-                               HeaderStyle="{StaticResource DocumentationHeaderToggleButtonStyle}"
-                               Background="White"
-                               VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right">
-                <controls:Expander.Header>
-                    Documentation
-                </controls:Expander.Header>
-
-                <Grid Width="470" Margin="0 20 0 0">
-                    <Pivot Margin="0 0 4 0">
-                        <PivotItem Header="Introduction">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                                <controls:MarkdownTextBlock x:Name="IntroductionMarkdownTextBlock" FontSize="12" />
-                            </ScrollViewer>
-                        </PivotItem>
-                        <PivotItem Header="State">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                                <controls:MarkdownTextBlock x:Name="StateMarkdownTextBlock" FontSize="11" />
-                            </ScrollViewer>
-                        </PivotItem>
-                        <PivotItem Header="Actions">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                                <controls:MarkdownTextBlock x:Name="ActionsMarkdownTextBlock" FontSize="11" />
-                            </ScrollViewer>
-                        </PivotItem>
-                        <PivotItem Header="Store">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                                <controls:MarkdownTextBlock x:Name="StoreMarkdownTextBlock" FontSize="11" />
-                            </ScrollViewer>
-                        </PivotItem>
-                        <PivotItem Header="User Interface">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                                <controls:MarkdownTextBlock x:Name="UserInterfaceMarkdownTextBlock" FontSize="11" />
-                            </ScrollViewer>
-                        </PivotItem>
-                        <PivotItem Header="Code Behind">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                                <controls:MarkdownTextBlock x:Name="CodeBehindMarkdownTextBlock" FontSize="11" />
-                            </ScrollViewer>
-                        </PivotItem>
-                        <PivotItem Header="Dependencies">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                                <controls:MarkdownTextBlock x:Name="DependenciesMarkdownTextBlock" FontSize="11" />
-                            </ScrollViewer>
-                        </PivotItem>
-                    </Pivot>
-                </Grid>
-            </controls:Expander>
+            <components:DocumentationComponent x:Name="DocumentationComponent" />
         </controls:DropShadowPanel>
     </Grid>
 </Page>

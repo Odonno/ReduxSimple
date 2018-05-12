@@ -96,6 +96,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\CodeMarkdownRenderer.cs" />
+    <Compile Include="Components\DocumentationComponent.xaml.cs">
+      <DependentUpon>DocumentationComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\HistoryComponent.xaml.cs">
       <DependentUpon>HistoryComponent.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Components\DocumentationComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\HistoryComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

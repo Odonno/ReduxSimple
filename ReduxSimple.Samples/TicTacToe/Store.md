@@ -1,5 +1,5 @@
 ```csharp
-public class TicTacToeStore : ReduxStoreWithHistory<TicTacToeState>
+public class TicTacToeStore : ReduxStore<TicTacToeState>
 {
     private static TicTacToeState DefaultState =>
         new TicTacToeState
