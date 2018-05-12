@@ -17,6 +17,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
+            <!-- Header component -->
             <StackPanel Grid.Row="0" 
                         Padding="50 10 40 20"
                         Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
@@ -33,6 +34,7 @@
                 </TextBlock>
             </StackPanel>
 
+            <!-- Root page component -->
             <ProgressRing x:Name="GlobalLoadingProgressRing" 
                           Grid.Row="1" 
                           Width="50" Height="50"
@@ -99,6 +101,7 @@
             </Grid>
         </Grid>
 
+        <!-- History component -->
         <controls:DropShadowPanel BlurRadius="15"
                                   ShadowOpacity="0.6"
                                   Color="Black"
@@ -106,6 +109,14 @@
                                   VerticalAlignment="Bottom"
                                   HorizontalAlignment="Center">
             <components:HistoryComponent x:Name="HistoryComponent" />
+        </controls:DropShadowPanel>
+
+        <!-- Documentation component -->
+        <controls:DropShadowPanel BlurRadius="15"
+                                  ShadowOpacity="0.6"
+                                  Color="Black"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Right">
+            <components:DocumentationComponent x:Name="DocumentationComponent" />
         </controls:DropShadowPanel>
     </Grid>
 </Page>

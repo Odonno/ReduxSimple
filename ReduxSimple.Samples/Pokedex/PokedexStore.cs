@@ -9,8 +9,6 @@ namespace ReduxSimple.Samples.Pokedex
     {
         protected override PokedexState Reduce(PokedexState state, object action)
         {
-            Debug.WriteLine(action.GetType().ToString());
-
             if (action is GetPokemonListAction _)
             {
                 return new PokedexState

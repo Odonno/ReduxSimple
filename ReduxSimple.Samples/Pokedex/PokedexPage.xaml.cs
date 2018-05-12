@@ -182,6 +182,9 @@ namespace ReduxSimple.Samples.Pokedex
             // Initialize Components
             HistoryComponent.Initialize(Store);
 
+            // Initialize Documentation
+            DocumentationComponent.LoadMarkdownFilesAsync("Pokedex");
+
             // Start logic
             if (!Store.State.Loading && Store.State.Pokedex.IsEmpty)
             {
