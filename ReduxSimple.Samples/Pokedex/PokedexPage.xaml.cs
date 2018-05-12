@@ -181,7 +181,7 @@ namespace ReduxSimple.Samples.Pokedex
             RootStackPanel.ShowIf(Store.State.Pokedex.Any());
 
             // Initialize Components
-            HistoryComponent.Store = Store;
+            HistoryComponent.Initialize(Store);
 
             // Start logic
             if (!Store.State.Loading && Store.State.Pokedex.IsEmpty)

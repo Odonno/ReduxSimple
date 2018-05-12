@@ -102,7 +102,7 @@ namespace ReduxSimple.Samples.TicTacToe
             }
 
             // Initialize Components
-            HistoryComponent.Store = _store;
+            HistoryComponent.Initialize(_store);
 
             // Initialize Documentation
             InitializeDocumentationAsync();

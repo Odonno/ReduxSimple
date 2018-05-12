@@ -70,7 +70,7 @@ namespace ReduxSimple.Samples.TodoList
             FilterCompletedButton.Style = (Store.State.Filter == TodoFilter.Completed) ? selectedButtonStyle : null;
 
             // Initialize Components
-            HistoryComponent.Store = Store;
+            HistoryComponent.Initialize(Store);
         }
     }
 }

@@ -4,31 +4,12 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Linq;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using HistoryStore = SuccincT.Unions.Union<ReduxSimple.Samples.Counter.CounterStore, ReduxSimple.Samples.TicTacToe.TicTacToeStore, ReduxSimple.Samples.TodoList.TodoListStore, ReduxSimple.Samples.Pokedex.PokedexStore>;
 
 namespace ReduxSimple.Samples.Components
 {
     public sealed partial class HistoryComponent : UserControl
     {
-        public HistoryStore Store
-        {
-            get { return (HistoryStore)GetValue(StoreProperty); }
-            set { SetValue(StoreProperty, value); }
-        }
-
-        public static readonly DependencyProperty StoreProperty =
-            DependencyProperty.Register(nameof(Store), typeof(HistoryStore), typeof(HistoryComponent), new PropertyMetadata(null, StoreChanged));
-
-        private static void StoreChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is HistoryComponent component)
-            {
-                component.Initialize();
-            }
-        }
-
         private class HistoryComponentState
         {
             public ImmutableList<object> CurrentActions { get; set; } = ImmutableList<object>.Empty;
@@ -130,20 +111,7 @@ namespace ReduxSimple.Samples.Components
             InitializeComponent();
         }
 
-        private void Initialize()
-        {
-            if (Store != null)
-            {
-                Store.Match()
-                    .Case1().Do(InitializeFromStore)
-                    .Case2().Do(InitializeFromStore)
-                    .Case3().Do(InitializeFromStore)
-                    .Case4().Do(InitializeFromStore)
-                    .Exec();
-            }
-        }
-
-        private void InitializeFromStore<TState>(ReduxStoreWithHistory<TState> store) where TState : class, new()
+        public void Initialize<TState>(ReduxStoreWithHistory<TState> store) where TState : class, new()
         {
             // Observe UI events
             UndoButton.ObserveOnClick()

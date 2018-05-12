@@ -37,7 +37,7 @@ namespace ReduxSimple.Samples.Counter
             CounterValueTextBlock.Text = _store.State.Count.ToString();
 
             // Initialize Components
-            HistoryComponent.Store = _store;
+            HistoryComponent.Initialize(_store);
 
             // Initialize Documentation
             InitializeDocumentationAsync();
