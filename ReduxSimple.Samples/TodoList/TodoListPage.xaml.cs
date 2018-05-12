@@ -70,6 +70,9 @@ namespace ReduxSimple.Samples.TodoList
 
             // Initialize Components
             HistoryComponent.Initialize(Store);
+
+            // Initialize Documentation
+            DocumentationComponent.LoadMarkdownFilesAsync("TodoList");
         }
     }
 }

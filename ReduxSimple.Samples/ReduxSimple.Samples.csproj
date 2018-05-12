@@ -160,6 +160,13 @@
     <Content Include="TicTacToe\State.md" />
     <Content Include="TicTacToe\Store.md" />
     <Content Include="TicTacToe\UI.md" />
+    <Content Include="TodoList\Actions.md" />
+    <Content Include="TodoList\CodeBehind.md" />
+    <Content Include="TodoList\Dependencies.md" />
+    <Content Include="TodoList\Introduction.md" />
+    <Content Include="TodoList\State.md" />
+    <Content Include="TodoList\Store.md" />
+    <Content Include="TodoList\UI.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\LargeTile.scale-100.png" />
