@@ -50,6 +50,7 @@
                                           ShadowOpacity="0.6"
                                           Color="Black">
                     <Button Grid.Column="0" x:Name="GoToCounterButton"
+                            Style="{StaticResource NonTransparentButtonStyle}"
                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
                             Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
@@ -90,6 +91,7 @@
                                           ShadowOpacity="0.6"
                                           Color="Black">
                     <Button x:Name="GoToTicTacToeButton"
+                            Style="{StaticResource NonTransparentButtonStyle}"
                             Padding="0" Margin="0" BorderThickness="0"
                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
@@ -132,6 +134,7 @@
                                           ShadowOpacity="0.6"
                                           Color="Black">
                     <Button x:Name="GoToTodoListButton"
+                            Style="{StaticResource NonTransparentButtonStyle}"
                             Padding="0" Margin="0" BorderThickness="0"
                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
@@ -175,6 +178,7 @@
                                           ShadowOpacity="0.6"
                                           Color="Black">
                     <Button x:Name="GoToPokedexButton"
+                            Style="{StaticResource NonTransparentButtonStyle}"
                             Padding="0" Margin="0" BorderThickness="0"
                             Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch"

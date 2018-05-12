@@ -36,7 +36,7 @@
                           FallbackColor="#7759ff"/>
 
             <!-- Styles -->
-            <Style TargetType="Button">
+            <Style x:Key="NonTransparentButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
