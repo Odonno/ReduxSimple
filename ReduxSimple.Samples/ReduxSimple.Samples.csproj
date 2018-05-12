@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Counter\CounterState.cs" />
     <Compile Include="Counter\CounterStore.cs" />
+    <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\IObservableExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -149,6 +150,13 @@
     <Content Include="Counter\Dependencies.md" />
     <Content Include="Counter\Introduction.md" />
     <None Include="ReduxSimple.Samples_TemporaryKey.pfx" />
+    <Content Include="TicTacToe\Actions.md" />
+    <Content Include="TicTacToe\CodeBehind.md" />
+    <Content Include="TicTacToe\Dependencies.md" />
+    <Content Include="TicTacToe\Introduction.md" />
+    <Content Include="TicTacToe\State.md" />
+    <Content Include="TicTacToe\Store.md" />
+    <Content Include="TicTacToe\UI.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\LargeTile.scale-100.png" />

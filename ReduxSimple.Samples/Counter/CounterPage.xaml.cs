@@ -3,9 +3,8 @@ using ReduxSimple.Samples.Components;
 using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.UI.Xaml.Controls;
+using static ReduxSimple.Samples.Extensions.FileExtensions;
 
 namespace ReduxSimple.Samples.Counter
 {
@@ -68,13 +67,6 @@ namespace ReduxSimple.Samples.Counter
 
             DependenciesMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
             DependenciesMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Dependencies.md");
-        }
-
-        private static async Task<string> ReadFileAsync(string filepath)
-        {
-            var uri = new Uri("ms-appx:///" + filepath);
-            var sampleFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-            return await FileIO.ReadTextAsync(sampleFile);
         }
     }
 }

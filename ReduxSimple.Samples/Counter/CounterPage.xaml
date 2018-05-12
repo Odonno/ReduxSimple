@@ -76,7 +76,6 @@
                                   Color="Black"
                                   VerticalAlignment="Stretch" HorizontalAlignment="Right">
             <controls:Expander ExpandDirection="Left" 
-                               IsExpanded="True"
                                HeaderStyle="{StaticResource DocumentationHeaderToggleButtonStyle}"
                                Background="White"
                                VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right">
