@@ -389,6 +389,12 @@
                                                                             Value="{ThemeResource SystemControlHighlightAccentBrush}" />
                                                 </ObjectAnimationUsingKeyFrames>
 
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
+                                                                               Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="White" />
+                                                </ObjectAnimationUsingKeyFrames>
+
                                                 <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                             </Storyboard>
                                         </VisualState>
@@ -398,6 +404,12 @@
                                                                                Storyboard.TargetName="RootGrid">
                                                     <DiscreteObjectKeyFrame KeyTime="0"
                                                                             Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
+                                                                               Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="White" />
                                                 </ObjectAnimationUsingKeyFrames>
 
                                                 <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
