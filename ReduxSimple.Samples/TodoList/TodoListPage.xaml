@@ -10,17 +10,17 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-        <Grid Margin="0 0 0 90">
+    <Grid Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Header component -->
             <StackPanel Grid.Row="0" 
-                        Padding="50 10 40 20"
-                        Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
+                        Padding="50 10 40 20">
                 <TextBlock Style="{ThemeResource HeaderTextBlockStyle}"
                            animations:Connected.Key="TodoListPageTitle">
                     Todo List
@@ -35,64 +35,74 @@
             </StackPanel>
 
             <!-- Root page component -->
-            <ScrollViewer Grid.Row="1" Width="500" Margin="10"
-                          VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+            <controls:DropShadowPanel Grid.Row="1" 
+                                      Margin="45 10" 
+                                      BlurRadius="30"
+                                      ShadowOpacity="0.6"
+                                      Color="Black"
+                                      VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                    <ScrollViewer Width="500" Margin="10" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-                        <Button x:Name="FilterAllButton" Grid.Column="0" 
-                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">All</Button>
-                        <Button x:Name="FilterTodoButton" Grid.Column="1"
-                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Todo</Button>
-                        <Button x:Name="FilterCompletedButton" Grid.Column="2"
-                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Completed</Button>
-                    </Grid>
+                                <Button x:Name="FilterAllButton" Grid.Column="0" 
+                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">All</Button>
+                                <Button x:Name="FilterTodoButton" Grid.Column="1"
+                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Todo</Button>
+                                <Button x:Name="FilterCompletedButton" Grid.Column="2"
+                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Completed</Button>
+                            </Grid>
 
-                    <ListView x:Name="TodoItemsListView" 
-                              SelectionMode="None">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <local:TodoItemComponent TodoItem="{Binding}" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
+                            <ListView x:Name="TodoItemsListView" 
+                                  SelectionMode="None">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:TodoItemComponent TodoItem="{Binding}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
 
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
 
-                    <Button x:Name="AddNewItemButton" Grid.Column="2"
-                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       Padding="0 2 0 0">
-                                &#xE710;
-                            </TextBlock>
-                            <TextBlock Margin="8 0 0 0">
-                                Add new item
-                            </TextBlock>
+                            <Button x:Name="AddNewItemButton" Grid.Column="2"
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe MDL2 Assets"
+                                           Padding="0 2 0 0">
+                                    &#xE710;
+                                    </TextBlock>
+                                    <TextBlock Margin="8 0 0 0">
+                                    Add new item
+                                    </TextBlock>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
-                    </Button>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </controls:DropShadowPanel>
 
-        <!-- History component -->
-        <controls:DropShadowPanel BlurRadius="15"
-                                  ShadowOpacity="0.6"
-                                  Color="Black"
-                                  Margin="20 40"
-                                  VerticalAlignment="Bottom"
-                                  HorizontalAlignment="Center">
-            <components:HistoryComponent x:Name="HistoryComponent" />
-        </controls:DropShadowPanel>
+            <!-- History component -->
+            <Grid Grid.Row="2">
+                <controls:DropShadowPanel BlurRadius="15"
+                                          ShadowOpacity="0.6"
+                                          Color="Black"
+                                          Margin="20 20"
+                                          VerticalAlignment="Bottom"
+                                          HorizontalAlignment="Center">
+                    <components:HistoryComponent x:Name="HistoryComponent" />
+                </controls:DropShadowPanel>
+            </Grid>
+        </Grid>
 
         <!-- Documentation component -->
         <controls:DropShadowPanel BlurRadius="15"

@@ -9,17 +9,17 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-        <Grid Margin="0 0 0 90">
+    <Grid Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Header component -->
             <StackPanel Grid.Row="0" 
-                        Padding="50 10 40 20"
-                        Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
+                        Padding="50 10 40 20">
                 <TextBlock Style="{ThemeResource HeaderTextBlockStyle}"
                            animations:Connected.Key="TicTacToePageTitle">
                     Tic Tac Toe
@@ -34,134 +34,143 @@
             </StackPanel>
 
             <!-- Root page component -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" 
-                            Width="200"
-                            VerticalAlignment="Center" HorizontalAlignment="Right">
-                    <TextBlock x:Name="YourTurnTextBlock" Margin="0 10 0 0" TextAlignment="Center">
-                        Your turn!
-                    </TextBlock>
-
-                    <Button x:Name="StartNewGameButton"
-                            HorizontalAlignment="Center"
-                            Margin="0 10 0 10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72C;"
-                                       VerticalAlignment="Center" />
-                            <TextBlock Text="Start a new game" Margin="10 0 0 0" />
-                        </StackPanel>
-                    </Button>
-
-                    <TextBlock x:Name="EndGameTextBlock" TextAlignment="Center">
-                        :) You won!
-                    </TextBlock>
-                </StackPanel>
-                
-                <Grid x:Name="CellsRootGrid" 
-                      Grid.Column="1"
-                      Height="300" Width="300"
-                      VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="100" />
-                        <RowDefinition MinHeight="100" />
-                        <RowDefinition MinHeight="100" />
-                    </Grid.RowDefinitions>
-
+            <controls:DropShadowPanel Grid.Row="1" 
+                                      Margin="45 10" 
+                                      BlurRadius="30"
+                                      ShadowOpacity="0.6"
+                                      Color="Black"
+                                      VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="100" />
-                        <ColumnDefinition MinWidth="100" />
-                        <ColumnDefinition MinWidth="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Row="0" Grid.Column="0" 
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="0 0 0 5">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                    <StackPanel Grid.Column="0" 
+                                Width="200"
+                                VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBlock x:Name="YourTurnTextBlock" Margin="0 10 0 0" TextAlignment="Center">
+                            Your turn!
+                        </TextBlock>
 
-                    <Grid Grid.Row="0" Grid.Column="1"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="5 0 5 5">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                        <Button x:Name="StartNewGameButton"
+                                HorizontalAlignment="Center"
+                                Margin="0 10 0 10">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE72C;"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="Start a new game" Margin="10 0 0 0" />
+                            </StackPanel>
+                        </Button>
 
-                    <Grid Grid.Row="0" Grid.Column="2"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="0 0 0 5">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                        <TextBlock x:Name="EndGameTextBlock" TextAlignment="Center">
+                            :) You won!
+                        </TextBlock>
+                    </StackPanel>
 
-                    <Grid Grid.Row="1" Grid.Column="0"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="0 0 0 5">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                    <Grid x:Name="CellsRootGrid" 
+                          Grid.Column="1"
+                          Height="300" Width="300"
+                          VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="100" />
+                            <RowDefinition MinHeight="100" />
+                            <RowDefinition MinHeight="100" />
+                        </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="1" Grid.Column="1"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="5 0 5 5">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="100" />
+                            <ColumnDefinition MinWidth="100" />
+                            <ColumnDefinition MinWidth="100" />
+                        </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Row="1" Grid.Column="2"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="0 0 0 5">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                        <Grid Grid.Row="0" Grid.Column="0" 
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="0 0 0 5">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
 
-                    <Grid Grid.Row="2" Grid.Column="0"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="0 0 0 0">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                        <Grid Grid.Row="0" Grid.Column="1"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="5 0 5 5">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
 
-                    <Grid Grid.Row="2" Grid.Column="1"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="5 0 5 0">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
+                        <Grid Grid.Row="0" Grid.Column="2"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="0 0 0 5">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
 
-                    <Grid Grid.Row="2" Grid.Column="2"
-                          Padding="5"
-                          Background="Transparent"
-                          BorderBrush="Gray" BorderThickness="0 0 0 0">
-                        <TextBlock Text="" FontSize="66"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <Grid Grid.Row="1" Grid.Column="0"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="0 0 0 5">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="1"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="5 0 5 5">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="2"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="0 0 0 5">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="0"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="0 0 0 0">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="1"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="5 0 5 0">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="2"
+                              Padding="5"
+                              Background="Transparent"
+                              BorderBrush="Gray" BorderThickness="0 0 0 0">
+                            <TextBlock Text="" FontSize="66"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
                     </Grid>
                 </Grid>
+            </controls:DropShadowPanel>
+            
+            <!-- History component -->
+            <Grid Grid.Row="2">
+                <controls:DropShadowPanel BlurRadius="15"
+                                          ShadowOpacity="0.6"
+                                          Color="Black"
+                                          Margin="20 20"
+                                          VerticalAlignment="Bottom"
+                                          HorizontalAlignment="Center">
+                    <components:HistoryComponent x:Name="HistoryComponent" />
+                </controls:DropShadowPanel>
             </Grid>
         </Grid>
-
-        <!-- History component -->
-        <controls:DropShadowPanel BlurRadius="15"
-                                  ShadowOpacity="0.6"
-                                  Color="Black"
-                                  Margin="20 40"
-                                  VerticalAlignment="Bottom"
-                                  HorizontalAlignment="Center">
-            <components:HistoryComponent x:Name="HistoryComponent" />
-        </controls:DropShadowPanel>
 
         <!-- Documentation component -->
         <controls:DropShadowPanel BlurRadius="15"
