@@ -1,7 +1,10 @@
-﻿using ReduxSimple.Samples.Components;
+﻿using ReduxSimple.Samples.Common;
+using ReduxSimple.Samples.Components;
 using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
 namespace ReduxSimple.Samples.Counter
@@ -36,6 +39,42 @@ namespace ReduxSimple.Samples.Counter
 
             // Initialize Components
             HistoryComponent.Store = _store;
+
+            // Initialize Documentation
+            InitializeDocumentationAsync();
+        }
+
+        private async void InitializeDocumentationAsync()
+        {
+            const string folder = "Counter";
+
+            IntroductionMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            IntroductionMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Introduction.md");
+
+            StateMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            StateMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/State.md");
+
+            ActionsMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            ActionsMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Actions.md");
+
+            StoreMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            StoreMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Store.md");
+
+            UserInterfaceMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            UserInterfaceMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/UI.md");
+
+            CodeBehindMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            CodeBehindMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/CodeBehind.md");
+
+            DependenciesMarkdownTextBlock.SetRenderer<CodeMarkdownRenderer>();
+            DependenciesMarkdownTextBlock.Text = await ReadFileAsync($"{folder}/Dependencies.md");
+        }
+
+        private static async Task<string> ReadFileAsync(string filepath)
+        {
+            var uri = new Uri("ms-appx:///" + filepath);
+            var sampleFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            return await FileIO.ReadTextAsync(sampleFile);
         }
     }
 }

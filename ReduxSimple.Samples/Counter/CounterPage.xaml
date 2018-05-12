@@ -16,6 +16,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
+            <!-- Header component -->
             <StackPanel Grid.Row="0" 
                         Padding="50 10 40 20"
                         Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
@@ -32,6 +33,7 @@
                 </TextBlock>
             </StackPanel>
 
+            <!-- Root page component -->
             <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock x:Name="CounterValueTextBlock" 
                            FontSize="42"
@@ -58,6 +60,7 @@
             </StackPanel>
         </Grid>
 
+        <!-- History component -->
         <controls:DropShadowPanel BlurRadius="15"
                                   ShadowOpacity="0.6"
                                   Color="Black"
@@ -65,6 +68,46 @@
                                   VerticalAlignment="Bottom"
                                   HorizontalAlignment="Center">
             <components:HistoryComponent x:Name="HistoryComponent" />
+        </controls:DropShadowPanel>
+
+        <!-- Documentation component -->
+        <controls:DropShadowPanel BlurRadius="15"
+                                  ShadowOpacity="0.6"
+                                  Color="Black"
+                                  VerticalAlignment="Stretch" HorizontalAlignment="Right">
+            <controls:Expander ExpandDirection="Left" 
+                               Background="White"
+                               VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right">
+                <controls:Expander.Header>
+                    Documentation
+                </controls:Expander.Header>
+
+                <Grid Width="470" Margin="0 20 0 0">
+                    <Pivot Margin="0 0 4 0">
+                        <PivotItem Header="Introduction">
+                            <controls:MarkdownTextBlock x:Name="IntroductionMarkdownTextBlock" FontSize="12" />
+                        </PivotItem>
+                        <PivotItem Header="State">
+                            <controls:MarkdownTextBlock x:Name="StateMarkdownTextBlock" FontSize="11" />
+                        </PivotItem>
+                        <PivotItem Header="Actions">
+                            <controls:MarkdownTextBlock x:Name="ActionsMarkdownTextBlock" FontSize="11"  />
+                        </PivotItem>
+                        <PivotItem Header="Store">
+                            <controls:MarkdownTextBlock x:Name="StoreMarkdownTextBlock" FontSize="11"  />
+                        </PivotItem>
+                        <PivotItem Header="User Interface">
+                            <controls:MarkdownTextBlock x:Name="UserInterfaceMarkdownTextBlock" FontSize="11" />
+                        </PivotItem>
+                        <PivotItem Header="Code Behind">
+                            <controls:MarkdownTextBlock x:Name="CodeBehindMarkdownTextBlock" FontSize="11" />
+                        </PivotItem>
+                        <PivotItem Header="Dependencies">
+                            <controls:MarkdownTextBlock x:Name="DependenciesMarkdownTextBlock" FontSize="11" />
+                        </PivotItem>
+                    </Pivot>
+                </Grid>
+            </controls:Expander>
         </controls:DropShadowPanel>
     </Grid>
 </Page>

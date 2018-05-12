@@ -95,10 +95,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\CodeMarkdownRenderer.cs" />
     <Compile Include="Components\HistoryComponent.xaml.cs">
       <DependentUpon>HistoryComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Counter\Actions.cs" />
+    <Content Include="Counter\Store.md" />
+    <Content Include="Counter\UI.md" />
+    <Content Include="Counter\State.md" />
     <Compile Include="Counter\CounterPage.xaml.cs">
       <DependentUpon>CounterPage.xaml</DependentUpon>
     </Compile>
@@ -140,6 +144,10 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Counter\Actions.md" />
+    <Content Include="Counter\CodeBehind.md" />
+    <Content Include="Counter\Dependencies.md" />
+    <Content Include="Counter\Introduction.md" />
     <None Include="ReduxSimple.Samples_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
