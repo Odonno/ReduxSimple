@@ -1,6 +1,7 @@
 ﻿using SuccincT.Options;
 using System.Collections.Immutable;
 using System.Linq;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Pokedex
 {
@@ -8,6 +9,8 @@ namespace ReduxSimple.Samples.Pokedex
     {
         protected override PokedexState Reduce(PokedexState state, object action)
         {
+            TrackReduxAction(action, action.GetType().Name != nameof(GetPokemonListFullfilledAction));
+
             if (action is GetPokemonListAction _)
             {
                 return new PokedexState

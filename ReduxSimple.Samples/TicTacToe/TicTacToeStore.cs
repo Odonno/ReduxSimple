@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
@@ -23,6 +24,8 @@ namespace ReduxSimple.Samples.TicTacToe
 
         protected override TicTacToeState Reduce(TicTacToeState state, object action)
         {
+            TrackReduxAction(action);
+
             if (action is PlayAction playAction)
             {
                 // Player take cell

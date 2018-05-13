@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.TodoList
 {
@@ -6,6 +7,8 @@ namespace ReduxSimple.Samples.TodoList
     {
         protected override TodoListState Reduce(TodoListState state, object action)
         {
+            TrackReduxAction(action);
+
             if (action is SetFilterAction setFilterAction)
             {
                 return new TodoListState

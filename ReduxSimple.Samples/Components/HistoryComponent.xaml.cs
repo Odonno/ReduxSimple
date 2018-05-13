@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Components
 {
@@ -23,6 +24,8 @@ namespace ReduxSimple.Samples.Components
         {
             protected override HistoryComponentState Reduce(HistoryComponentState state, object action)
             {
+                TrackReduxAction(action, action.GetType().Name != nameof(GoForwardAction));
+
                 if (action is GoBackAction)
                 {
                     var lastAction = state.CurrentActions.Last();

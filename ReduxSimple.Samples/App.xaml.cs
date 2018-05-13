@@ -1,4 +1,6 @@
-﻿using SuccincT.Options;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using SuccincT.Options;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -13,6 +15,9 @@ namespace ReduxSimple.Samples
         public App()
         {
             InitializeComponent();
+
+            AppCenter.Start("5f5a9584-4451-4feb-9927-a4f29bb3043d", typeof(Analytics));
+
             Suspending += OnSuspending;
         }
         

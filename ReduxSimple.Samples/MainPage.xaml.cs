@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
 using static Windows.UI.Core.AppViewBackButtonVisibility;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples
 {
@@ -21,16 +22,32 @@ namespace ReduxSimple.Samples
             InitializeComponent();
 
             GoToCounterButton.Events().Click
-                .Subscribe(_ => Frame.Navigate(typeof(CounterPage)));
+                .Subscribe(_ =>
+                {
+                    TrackNavigation(nameof(MainPage), nameof(CounterPage));
+                    Frame.Navigate(typeof(CounterPage));
+                });
 
             GoToTicTacToeButton.Events().Click
-                .Subscribe(_ => Frame.Navigate(typeof(TicTacToePage)));
+                .Subscribe(_ =>
+                {
+                    TrackNavigation(nameof(MainPage), nameof(TicTacToePage));
+                    Frame.Navigate(typeof(TicTacToePage));
+                });
 
             GoToTodoListButton.Events().Click
-                .Subscribe(_ => Frame.Navigate(typeof(TodoListPage)));
+                .Subscribe(_ =>
+                {
+                    TrackNavigation(nameof(MainPage), nameof(TodoListPage));
+                    Frame.Navigate(typeof(TodoListPage));
+                });
 
             GoToPokedexButton.Events().Click
-                .Subscribe(_ => Frame.Navigate(typeof(PokedexPage)));
+                .Subscribe(_ =>
+                {
+                    TrackNavigation(nameof(MainPage), nameof(PokedexPage));
+                    Frame.Navigate(typeof(PokedexPage));
+                });
 
             // Extend view into title bar
             SetExtendViewIntoTitleBar(this, true);
@@ -59,7 +76,11 @@ namespace ReduxSimple.Samples
                     h => systemNavigationManager.BackRequested -= h
                 )
                     .Where(_ => Frame.CanGoBack)
-                    .Subscribe(_ => Frame.GoBack());
+                    .Subscribe(_ =>
+                    {
+                        TrackNavigation(Frame.Content.GetType().Name, nameof(MainPage));
+                        Frame.GoBack();
+                    });
 
                 // Show back button when required
                 Frame.Events().Navigated
