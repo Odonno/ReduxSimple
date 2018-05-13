@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
 using static Windows.UI.Core.AppViewBackButtonVisibility;
@@ -19,16 +20,16 @@ namespace ReduxSimple.Samples
         {
             InitializeComponent();
 
-            GoToCounterButton.Events().Tapped
+            GoToCounterButton.Events().Click
                 .Subscribe(_ => Frame.Navigate(typeof(CounterPage)));
 
-            GoToTicTacToeButton.Events().Tapped
+            GoToTicTacToeButton.Events().Click
                 .Subscribe(_ => Frame.Navigate(typeof(TicTacToePage)));
 
-            GoToTodoListButton.Events().Tapped
+            GoToTodoListButton.Events().Click
                 .Subscribe(_ => Frame.Navigate(typeof(TodoListPage)));
 
-            GoToPokedexButton.Events().Tapped
+            GoToPokedexButton.Events().Click
                 .Subscribe(_ => Frame.Navigate(typeof(PokedexPage)));
 
             // Extend view into title bar

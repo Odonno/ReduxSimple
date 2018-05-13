@@ -62,7 +62,7 @@ public sealed partial class TicTacToePage : Page
                 });
         }
 
-        StartNewGameButton.Events().Tapped
+        StartNewGameButton.Events().Click
             .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
 
         // Initialize UI

@@ -3,6 +3,7 @@ using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace ReduxSimple.Samples.TodoList
 {
@@ -52,14 +53,14 @@ namespace ReduxSimple.Samples.TodoList
                 });
 
             // Observe UI events
-            FilterAllButton.Events().Tapped
+            FilterAllButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.All }));
-            FilterTodoButton.Events().Tapped
+            FilterTodoButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Todo }));
-            FilterCompletedButton.Events().Tapped
+            FilterCompletedButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Completed }));
 
-            AddNewItemButton.Events().Tapped
+            AddNewItemButton.Events().Click
                .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
 
             // Initialize UI

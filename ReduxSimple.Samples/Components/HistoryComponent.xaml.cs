@@ -114,23 +114,20 @@ namespace ReduxSimple.Samples.Components
         public void Initialize<TState>(ReduxStoreWithHistory<TState> store) where TState : class, new()
         {
             // Observe UI events
-            UndoButton.Events().Tapped
+            UndoButton.Events().Click
                 .Subscribe(_ => store.Undo());
-            RedoButton.Events().Tapped
+            RedoButton.Events().Click
                 .Subscribe(_ => store.Redo());
-            ResetButton.Events().Tapped
+            ResetButton.Events().Click
                 .Subscribe(_ => store.Reset());
 
-            PlayPauseButton.Events().Tapped
+            PlayPauseButton.Events().Click
                 .Subscribe(_ => _internalStore.Dispatch(new TogglePlayPauseAction()));
 
-            Observable.FromEventPattern<RangeBaseValueChangedEventHandler, RangeBaseValueChangedEventArgs>(
-                h => Slider.ValueChanged += h,
-                h => Slider.ValueChanged -= h
-            )
+            Slider.Events().ValueChanged
                 .Subscribe(e =>
                 {
-                    int newPosition = (int)e.EventArgs.NewValue;
+                    int newPosition = (int)e.NewValue;
                     _internalStore.Dispatch(new MoveToPositionAction { Position = newPosition });
                 });
 

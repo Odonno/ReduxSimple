@@ -2,6 +2,7 @@
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace ReduxSimple.Samples.Counter
 {
@@ -24,10 +25,10 @@ namespace ReduxSimple.Samples.Counter
                 });
 
             // Observe UI events
-            IncrementButton.Events().Tapped
+            IncrementButton.Events().Click
                 .Subscribe(_ => _store.Dispatch(new IncrementAction()));
 
-            DecrementButton.Events().Tapped
+            DecrementButton.Events().Click
                 .Subscribe(_ => _store.Dispatch(new DecrementAction()));
 
             // Initialize UI

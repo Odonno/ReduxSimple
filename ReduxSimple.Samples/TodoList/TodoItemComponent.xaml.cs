@@ -3,6 +3,7 @@ using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.TodoList.TodoListPage;
 
 namespace ReduxSimple.Samples.TodoList
@@ -31,13 +32,13 @@ namespace ReduxSimple.Samples.TodoList
             InitializeComponent();
 
             // Observe UI events
-            CompleteButton.Events().Tapped
+            CompleteButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new CompleteTodoItemAction { Id = TodoItem.Id }));
 
-            RevertCompleteButton.Events().Tapped
+            RevertCompleteButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new RevertCompleteTodoItemAction { Id = TodoItem.Id }));
 
-            RemoveButton.Events().Tapped
+            RemoveButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new RemoveTodoItemAction { Id = TodoItem.Id }));
 
             TextBox.Events().LostFocus

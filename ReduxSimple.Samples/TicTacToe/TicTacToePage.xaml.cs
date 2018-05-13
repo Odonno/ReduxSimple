@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
@@ -73,7 +74,7 @@ namespace ReduxSimple.Samples.TicTacToe
                     });
             }
 
-            StartNewGameButton.Events().Tapped
+            StartNewGameButton.Events().Click
                 .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
 
             // Initialize UI

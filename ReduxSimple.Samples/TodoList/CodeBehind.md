@@ -46,14 +46,14 @@ public sealed partial class TodoListPage : Page
             });
 
         // Observe UI events
-        FilterAllButton.Events().Tapped
+        FilterAllButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.All }));
-        FilterTodoButton.Events().Tapped
+        FilterTodoButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Todo }));
-        FilterCompletedButton.Events().Tapped
+        FilterCompletedButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new SetFilterAction { Filter = TodoFilter.Completed }));
 
-        AddNewItemButton.Events().Tapped
+        AddNewItemButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
 
         // Initialize UI
@@ -93,13 +93,13 @@ public sealed partial class TodoItemComponent : UserControl
         InitializeComponent();
 
         // Observe UI events
-        CompleteButton.Events().Tapped
+        CompleteButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new CompleteTodoItemAction { Id = TodoItem.Id }));
 
-        RevertCompleteButton.Events().Tapped
+        RevertCompleteButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new RevertCompleteTodoItemAction { Id = TodoItem.Id }));
 
-        RemoveButton.Events().Tapped
+        RemoveButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new RemoveTodoItemAction { Id = TodoItem.Id }));
 
         TextBox.Events().LostFocus
