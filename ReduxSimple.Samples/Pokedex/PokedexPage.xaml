@@ -42,9 +42,34 @@
                                       VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                     <ProgressRing x:Name="GlobalLoadingProgressRing" 
-                                    Grid.Row="1" 
-                                    Width="50" Height="50"
-                                    IsActive="True" />
+                                  Grid.Row="1" 
+                                  Width="50" Height="50"
+                                  IsActive="True" />
+
+                    <ListView x:Name="ErrorsListView"
+                              VerticalAlignment="Top" HorizontalAlignment="Right"
+                              SelectionMode="None"
+                              Margin="15">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Background="#ff8e8e" 
+                                      Width="180">
+                                    <TextBlock Margin="15" Foreground="Black"
+                                               FontSize="10"
+                                               TextAlignment="End"
+                                               TextWrapping="WrapWholeWords"
+                                               Text="{Binding}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
 
                     <Grid x:Name="RootStackPanel" 
                           Grid.Row="1"

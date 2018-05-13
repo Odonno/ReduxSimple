@@ -1,6 +1,5 @@
 ﻿using SuccincT.Options;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Linq;
 
 namespace ReduxSimple.Samples.Pokedex
@@ -17,7 +16,8 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = state.Search,
                     Suggestions = state.Suggestions,
                     Pokemon = state.Pokemon,
-                    Loading = true
+                    Loading = true,
+                    Errors = state.Errors
                 };
             }
             if (action is GetPokemonListFullfilledAction getPokemonListFullfilledAction)
@@ -28,10 +28,11 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = state.Search,
                     Suggestions = state.Suggestions,
                     Pokemon = state.Pokemon,
-                    Loading = false
+                    Loading = false,
+                    Errors = ImmutableList<string>.Empty
                 };
             }
-            if (action is GetPokemonListFailedAction _)
+            if (action is GetPokemonListFailedAction getPokemonListFailedAction)
             {
                 return new PokedexState
                 {
@@ -39,7 +40,8 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = state.Search,
                     Suggestions = state.Suggestions,
                     Pokemon = state.Pokemon,
-                    Loading = false
+                    Loading = false,
+                    Errors = state.Errors.Add(getPokemonListFailedAction.Exception.Message)
                 };
             }
 
@@ -51,7 +53,8 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = state.Search,
                     Suggestions = state.Suggestions,
                     Pokemon = state.Pokemon,
-                    Loading = true
+                    Loading = true,
+                    Errors = state.Errors
                 };
             }
             if (action is GetPokemonByIdFullfilledAction getPokemonByIdFullfilledAction)
@@ -62,10 +65,11 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = state.Search,
                     Suggestions = state.Suggestions,
                     Pokemon = getPokemonByIdFullfilledAction.Pokemon,
-                    Loading = false
+                    Loading = false,
+                    Errors = ImmutableList<string>.Empty
                 };
             }
-            if (action is GetPokemonByIdFailedAction _)
+            if (action is GetPokemonByIdFailedAction getPokemonByIdFailedAction)
             {
                 return new PokedexState
                 {
@@ -73,7 +77,8 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = state.Search,
                     Suggestions = state.Suggestions,
                     Pokemon = state.Pokemon,
-                    Loading = false
+                    Loading = false,
+                    Errors = state.Errors.Add(getPokemonByIdFailedAction.Exception.Message)
                 };
             }
 
@@ -85,7 +90,8 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = updateSearchAction.Search,
                     Suggestions = GetSuggestions(state.Pokedex, updateSearchAction.Search),
                     Pokemon = state.Pokemon,
-                    Loading = state.Loading
+                    Loading = state.Loading,
+                    Errors = state.Errors
                 };
             }
             
@@ -97,7 +103,8 @@ namespace ReduxSimple.Samples.Pokedex
                     Search = state.Search,
                     Suggestions = state.Suggestions,
                     Pokemon = Option<Pokemon>.None(),
-                    Loading = state.Loading
+                    Loading = state.Loading,
+                    Errors = state.Errors
                 };
             }
 

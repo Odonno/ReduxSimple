@@ -127,6 +127,16 @@ public sealed partial class PokedexPage : Page
                 });
             });
 
+        Store.ObserveState(state => state.Errors)
+            .ObserveOn(Scheduler.Default)
+            .Subscribe(errors =>
+            {
+                ExecuteOnUIThreadAsync(() =>
+                {
+                    ErrorsListView.ItemsSource = errors;
+                });
+            });
+
         // Observe UI events
         AutoSuggestBox.Events().TextChanged
             .ObserveOn(Scheduler.Default)

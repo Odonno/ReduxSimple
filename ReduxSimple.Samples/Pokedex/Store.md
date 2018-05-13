@@ -1,5 +1,5 @@
 ```csharp
-public class PokedexStore : ReduxStore<PokedexState>
+public class PokedexStore : ReduxStoreWithHistory<PokedexState>
 {
     protected override PokedexState Reduce(PokedexState state, object action)
     {
@@ -11,7 +11,8 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = state.Search,
                 Suggestions = state.Suggestions,
                 Pokemon = state.Pokemon,
-                Loading = true
+                Loading = true,
+                Errors = state.Errors
             };
         }
         if (action is GetPokemonListFullfilledAction getPokemonListFullfilledAction)
@@ -22,10 +23,11 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = state.Search,
                 Suggestions = state.Suggestions,
                 Pokemon = state.Pokemon,
-                Loading = false
+                Loading = false,
+                Errors = ImmutableList<string>.Empty
             };
         }
-        if (action is GetPokemonListFailedAction _)
+        if (action is GetPokemonListFailedAction getPokemonListFailedAction)
         {
             return new PokedexState
             {
@@ -33,7 +35,8 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = state.Search,
                 Suggestions = state.Suggestions,
                 Pokemon = state.Pokemon,
-                Loading = false
+                Loading = false,
+                Errors = state.Errors.Add(getPokemonListFailedAction.Exception.Message)
             };
         }
 
@@ -45,7 +48,8 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = state.Search,
                 Suggestions = state.Suggestions,
                 Pokemon = state.Pokemon,
-                Loading = true
+                Loading = true,
+                Errors = state.Errors
             };
         }
         if (action is GetPokemonByIdFullfilledAction getPokemonByIdFullfilledAction)
@@ -56,10 +60,11 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = state.Search,
                 Suggestions = state.Suggestions,
                 Pokemon = getPokemonByIdFullfilledAction.Pokemon,
-                Loading = false
+                Loading = false,
+                Errors = ImmutableList<string>.Empty
             };
         }
-        if (action is GetPokemonByIdFailedAction _)
+        if (action is GetPokemonByIdFailedAction getPokemonByIdFailedAction)
         {
             return new PokedexState
             {
@@ -67,7 +72,8 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = state.Search,
                 Suggestions = state.Suggestions,
                 Pokemon = state.Pokemon,
-                Loading = false
+                Loading = false,
+                Errors = state.Errors.Add(getPokemonByIdFailedAction.Exception.Message)
             };
         }
 
@@ -79,10 +85,11 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = updateSearchAction.Search,
                 Suggestions = GetSuggestions(state.Pokedex, updateSearchAction.Search),
                 Pokemon = state.Pokemon,
-                Loading = state.Loading
+                Loading = state.Loading,
+                Errors = state.Errors
             };
         }
-        
+            
         if (action is ResetPokemonAction _)
         {
             return new PokedexState
@@ -91,7 +98,8 @@ public class PokedexStore : ReduxStore<PokedexState>
                 Search = state.Search,
                 Suggestions = state.Suggestions,
                 Pokemon = Option<Pokemon>.None(),
-                Loading = state.Loading
+                Loading = state.Loading,
+                Errors = state.Errors
             };
         }
 
