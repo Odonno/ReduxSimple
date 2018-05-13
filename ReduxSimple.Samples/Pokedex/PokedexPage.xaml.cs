@@ -1,9 +1,11 @@
-﻿using ReduxSimple.Samples.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using ReduxSimple.Samples.Extensions;
 using SuccincT.Options;
 using System;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
@@ -184,6 +186,13 @@ namespace ReduxSimple.Samples.Pokedex
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Pokedex");
+
+            ContentGrid.Events().Tapped
+                .Subscribe(_ => DocumentationComponent.Collapse());
+            DocumentationComponent.ObserveOnExpanded()
+                .Subscribe(_ => ContentGrid.Blur(5).Start());
+            DocumentationComponent.ObserveOnCollapsed()
+                .Subscribe(_ => ContentGrid.Blur(0).Start());
 
             // Start logic
             if (!Store.State.Loading && Store.State.Pokedex.IsEmpty)

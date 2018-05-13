@@ -1,5 +1,8 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using ReduxSimple.Samples.Common;
+using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using static ReduxSimple.Samples.Extensions.FileExtensions;
@@ -11,6 +14,30 @@ namespace ReduxSimple.Samples.Components
         public DocumentationComponent()
         {
             InitializeComponent();
+        }
+
+        public IObservable<EventPattern<EventArgs>> ObserveOnExpanded()
+        {
+            return Observable.FromEventPattern<EventHandler, EventArgs>(
+                h => Expander.Expanded += h,
+                h => Expander.Expanded -= h
+            );
+        }
+
+        public IObservable<EventPattern<EventArgs>> ObserveOnCollapsed()
+        {
+            return Observable.FromEventPattern<EventHandler, EventArgs>(
+                h => Expander.Collapsed += h,
+                h => Expander.Collapsed -= h
+            );
+        }
+
+        public void Collapse()
+        {
+            if (Expander.IsExpanded)
+            {
+                Expander.IsExpanded = false;
+            }
         }
 
         public async Task LoadMarkdownFilesAsync(string folder)

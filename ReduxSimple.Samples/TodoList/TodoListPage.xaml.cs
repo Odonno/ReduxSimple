@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
@@ -74,6 +75,13 @@ namespace ReduxSimple.Samples.TodoList
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TodoList");
+
+            ContentGrid.Events().Tapped
+                .Subscribe(_ => DocumentationComponent.Collapse());
+            DocumentationComponent.ObserveOnExpanded()
+                .Subscribe(_ => ContentGrid.Blur(5).Start());
+            DocumentationComponent.ObserveOnCollapsed()
+                .Subscribe(_ => ContentGrid.Blur(0).Start());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ReduxSimple.Samples.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using ReduxSimple.Samples.Extensions;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
@@ -106,6 +107,13 @@ namespace ReduxSimple.Samples.TicTacToe
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TicTacToe");
+
+            ContentGrid.Events().Tapped
+                .Subscribe(_ => DocumentationComponent.Collapse());
+            DocumentationComponent.ObserveOnExpanded()
+                .Subscribe(_ => ContentGrid.Blur(5).Start());
+            DocumentationComponent.ObserveOnCollapsed()
+                .Subscribe(_ => ContentGrid.Blur(0).Start());
         }
     }
 }

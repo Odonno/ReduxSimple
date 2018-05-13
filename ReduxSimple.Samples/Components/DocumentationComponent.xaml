@@ -10,7 +10,8 @@
     d:DesignWidth="400">
 
     <Grid>
-        <controls:Expander ExpandDirection="Left" 
+        <controls:Expander x:Name="Expander" 
+                           ExpandDirection="Left" 
                            HeaderStyle="{StaticResource DocumentationHeaderToggleButtonStyle}"
                            Background="White"
                            VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right">

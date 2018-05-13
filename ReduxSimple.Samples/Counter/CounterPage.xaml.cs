@@ -1,6 +1,8 @@
-﻿using ReduxSimple.Samples.Components;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using ReduxSimple.Samples.Components;
 using System;
 using System.Reactive.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
@@ -39,6 +41,13 @@ namespace ReduxSimple.Samples.Counter
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Counter");
+
+            ContentGrid.Events().Tapped
+                .Subscribe(_ => DocumentationComponent.Collapse());
+            DocumentationComponent.ObserveOnExpanded()
+                .Subscribe(_ => ContentGrid.Blur(5).Start());
+            DocumentationComponent.ObserveOnCollapsed()
+                .Subscribe(_ => ContentGrid.Blur(0).Start());
         }
     }
 }
