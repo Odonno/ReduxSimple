@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuccincT.Options;
+using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -17,25 +18,22 @@ namespace ReduxSimple.Samples
         
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            var rootFrame = Window.Current.Content as Frame;
-
-            if (rootFrame == null)
-            {
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            var rootFrame = (Window.Current.Content as Frame).ToOption()
+                .Match<Frame>()
+                .None().Do(() =>
                 {
-                    // TODO : load app state previsouly suspended
-                }
+                    var newFrame = CreateNewFrame(e.PreviousExecutionState);
+                    Window.Current.Content = newFrame;
+                    return newFrame;
+                })
+                .Some().Do(f => f)
+                .Result();
 
-                Window.Current.Content = rootFrame;
-            }
-
-            if (e.PrelaunchActivated == false)
+            if (!e.PrelaunchActivated)
             {
-                if (rootFrame.Content == null)
+                var rootFrameContentOption = rootFrame.Content.ToOption();
+
+                if (!rootFrameContentOption.HasValue)
                 {
                     rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
@@ -43,7 +41,20 @@ namespace ReduxSimple.Samples
                 Window.Current.Activate();
             }
         }
-        
+
+        private Frame CreateNewFrame(ApplicationExecutionState previousExecutionState)
+        {
+            var newFrame = new Frame();
+            newFrame.NavigationFailed += OnNavigationFailed;
+
+            if (previousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                // TODO : load app state previously suspended
+            }
+
+            return newFrame;
+        }
+
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
