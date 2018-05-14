@@ -282,6 +282,9 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>3.0.0-preview-build.228</Version>
     </PackageReference>
+    <PackageReference Include="NETStandard.Library">
+      <Version>2.0.3</Version>
+    </PackageReference>
     <PackageReference Include="ReactiveUI.Events">
       <Version>8.0.1</Version>
     </PackageReference>
