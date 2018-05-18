@@ -24,7 +24,7 @@ namespace ReduxSimple
         /// Initializes a new instance of the <see cref="ReduxStore{TState}"/> class.
         /// </summary>
         /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
-        protected ReduxStore(TState initialState = null)
+        protected ReduxStore(in TState initialState = null)
         {
             State = _initialState = initialState ?? new TState();
         }
@@ -34,7 +34,7 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public virtual void Dispatch(object action)
+        public virtual void Dispatch(in object action)
         {
             UpdateState(Reduce(State, action));
             _actionSubject.OnNext(action);
@@ -47,7 +47,7 @@ namespace ReduxSimple
         /// <param name="state">The state to reduce.</param>
         /// <param name="action">The action to use for reducing the specified state.</param>
         /// <returns>The state that results from applying <paramref name="action"/> on <paramref name="state"/>.</returns>
-        protected virtual TState Reduce(TState state, object action)
+        protected virtual TState Reduce(in TState state, in object action)
         {
             return state;
         }
@@ -115,7 +115,7 @@ namespace ReduxSimple
         /// Updates the state of the store to the specified state.
         /// </summary>
         /// <param name="state">The new state of the store.</param>
-        protected void UpdateState(TState state)
+        protected void UpdateState(in TState state)
         {
             State = state;
             _stateSubject.OnNext(State);

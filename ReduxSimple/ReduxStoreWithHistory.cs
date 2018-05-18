@@ -19,7 +19,7 @@ namespace ReduxSimple
             public TState State { get; }
             public object Action { get; }
 
-            public ReduxStoreMemento(TState state, object action)
+            public ReduxStoreMemento(in TState state, in object action)
             {
                 State = state;
                 Action = action;
@@ -43,7 +43,7 @@ namespace ReduxSimple
         /// Initializes a new instance of the <see cref="ReduxStoreWithHistory{TState}"/> class.
         /// </summary>
         /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
-        protected ReduxStoreWithHistory(TState initialState = null) : base(initialState)
+        protected ReduxStoreWithHistory(in TState initialState = null) : base(initialState)
         { }
 
         /// <summary>
@@ -51,11 +51,11 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public override void Dispatch(object action)
+        public override void Dispatch(in object action)
         {
             Dispatch(action, true);
         }
-        private void Dispatch(object action, bool clearFuture)
+        private void Dispatch(in object action, in bool clearFuture)
         {
             if (clearFuture)
             {

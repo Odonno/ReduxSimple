@@ -49,7 +49,7 @@ namespace ReduxSimple.UnitTests
         {
         }
 
-        protected override TodoListState Reduce(TodoListState state, object action)
+        protected override TodoListState Reduce(in TodoListState state, in object action)
         {
             return ReduceTodoListState(state, action) ?? base.Reduce(state, action);
         }
@@ -75,7 +75,7 @@ namespace ReduxSimple.UnitTests
         {
         }
 
-        protected override TodoListState Reduce(TodoListState state, object action)
+        protected override TodoListState Reduce(in TodoListState state, in object action)
         {
             return ReduceTodoListState(state, action) ?? base.Reduce(state, action);
         }
