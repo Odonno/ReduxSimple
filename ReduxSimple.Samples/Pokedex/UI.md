@@ -1,8 +1,21 @@
 ```xaml
+<Button x:Name="OpenPokedexButton"
+        VerticalAlignment="Center" HorizontalAlignment="Center">
+    <StackPanel Orientation="Horizontal">
+        <TextBlock FontFamily="Segoe MDL2 Assets"
+                   Padding="0 2 0 0">
+            &#xE8F1;
+        </TextBlock>
+        <TextBlock Margin="8 0 0 0">
+            Open Pokedex
+        </TextBlock>
+    </StackPanel>
+</Button>
+                    
 <ProgressRing x:Name="GlobalLoadingProgressRing" 
-              Grid.Row="1" 
+              Visibility="Collapsed"
               Width="50" Height="50"
-              IsActive="True" />
+              IsActive="False" />
 
 <ListView x:Name="ErrorsListView"
           VerticalAlignment="Top" HorizontalAlignment="Right"

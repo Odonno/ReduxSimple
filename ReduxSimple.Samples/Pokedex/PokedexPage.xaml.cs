@@ -7,6 +7,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
 
@@ -76,15 +77,17 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
-            Store.ObserveState(state => state.Pokedex)
+            Store.ObserveState(state => new { state.Loading, state.Pokedex })
                 .ObserveOn(Scheduler.Default)
-                .Subscribe(pokedex =>
+                .Subscribe(x =>
                 {
                     ExecuteOnUIThreadAsync(() =>
                     {
-                        GlobalLoadingProgressRing.IsActive = pokedex.IsEmpty;
-                        GlobalLoadingProgressRing.ShowIf(pokedex.IsEmpty);
-                        RootStackPanel.ShowIf(pokedex.Any());
+                        OpenPokedexButton.ShowIf(!x.Loading && x.Pokedex.IsEmpty);
+
+                        GlobalLoadingProgressRing.IsActive = x.Loading && x.Pokedex.IsEmpty;
+                        GlobalLoadingProgressRing.ShowIf(x.Loading && x.Pokedex.IsEmpty);
+                        RootStackPanel.ShowIf(x.Pokedex.Any());
                     });
                 });
 
@@ -154,9 +157,13 @@ namespace ReduxSimple.Samples.Pokedex
                 });
 
             // Observe UI events
+            OpenPokedexButton.Events().Click
+               .ObserveOn(Scheduler.Default)
+               .Subscribe(_ => Store.Dispatch(new GetPokemonListAction()));
+
             AutoSuggestBox.Events().TextChanged
                .ObserveOn(Scheduler.Default)
-               .Subscribe(e =>
+               .Subscribe(_ =>
                {
                    ExecuteOnUIThreadAsync(() =>
                    {
@@ -187,8 +194,9 @@ namespace ReduxSimple.Samples.Pokedex
             PokemonNameTextBlock.Text = Store.State.Pokemon.HasValue ? Store.State.Pokemon.Value.Name : string.Empty;
             PokemonImage.Source = Store.State.Pokemon.HasValue ? new BitmapImage(new Uri(Store.State.Pokemon.Value.Image)) : null;
 
-            GlobalLoadingProgressRing.IsActive = Store.State.Pokedex.IsEmpty;
-            GlobalLoadingProgressRing.ShowIf(Store.State.Pokedex.IsEmpty);
+            OpenPokedexButton.ShowIf(!Store.State.Loading && Store.State.Pokedex.IsEmpty);
+            GlobalLoadingProgressRing.IsActive = Store.State.Loading && Store.State.Pokedex.IsEmpty;
+            GlobalLoadingProgressRing.ShowIf(Store.State.Loading && Store.State.Pokedex.IsEmpty);
             RootStackPanel.ShowIf(Store.State.Pokedex.Any());
 
             // Initialize Components
@@ -203,12 +211,6 @@ namespace ReduxSimple.Samples.Pokedex
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
-
-            // Start logic
-            if (!Store.State.Loading && Store.State.Pokedex.IsEmpty)
-            {
-                Store.Dispatch(new GetPokemonListAction());
-            }
         }
     }
 }
