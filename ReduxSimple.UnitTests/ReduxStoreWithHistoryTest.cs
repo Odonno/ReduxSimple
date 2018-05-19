@@ -247,5 +247,60 @@ namespace ReduxSimple.UnitTests
             Assert.False(store.CanRedo);
             Assert.False(store.CanUndo);
         }
+
+        [Fact]
+        public void RedoAndObserveNormalTimelineActionsOnly()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStoreWithHistory(initialState);
+
+            // Act
+            int observeCount = 0;
+
+            store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(_ =>
+                {
+                    observeCount++;
+                });
+
+            DispatchAllActions(store);
+
+            store.Undo();
+            store.Undo();
+            store.Undo();
+            store.Redo();
+            store.Redo();
+
+            // Assert
+            Assert.Equal(4, observeCount);
+        }
+        [Fact]
+        public void RedoAndObserveRedoneActionsOnly()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStoreWithHistory(initialState);
+
+            // Act
+            int observeCount = 0;
+
+            store.ObserveAction(ActionOriginFilter.Redone)
+                .Subscribe(_ =>
+                {
+                    observeCount++;
+                });
+
+            DispatchAllActions(store);
+
+            store.Undo();
+            store.Undo();
+            store.Undo();
+            store.Redo();
+            store.Redo();
+
+            // Assert
+            Assert.Equal(2, observeCount);
+        }
     }
 }
