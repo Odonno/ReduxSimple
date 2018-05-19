@@ -64,7 +64,14 @@ namespace ReduxSimple
 
             _pastMementos.Push(new ReduxStoreMemento(State, action));
 
-            base.Dispatch(action);
+            if (clearFuture)
+            {
+                base.Dispatch(action);
+            }
+            else
+            {
+                Dispatch(action, ActionOrigin.Redone);
+            }
         }
 
         /// <summary>
