@@ -79,7 +79,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about state changes.</returns>
         public IObservable<TState> ObserveState()
         {
-            return _stateSubject.AsObservable().DistinctUntilChanged();
+            return _stateSubject.DistinctUntilChanged();
         }
         /// <summary>
         /// Observes a value derived from the state of the store.
@@ -103,8 +103,7 @@ namespace ReduxSimple
         {
             return _actionSubject
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
-                .Select(x => x.Action)
-                .AsObservable();
+                .Select(x => x.Action);
         }
         /// <summary>
         /// Observes actions of a specific type being performed on the store.
@@ -119,8 +118,7 @@ namespace ReduxSimple
             return _actionSubject
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
                 .Select(x => x.Action)
-                .OfType<T>()
-                .AsObservable();
+                .OfType<T>();
         }
 
         /// <summary>
@@ -138,7 +136,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever the store is reset to its initial state.</returns>
         public IObservable<TState> ObserveReset()
         {
-            return _resetSubject.AsObservable();
+            return _resetSubject;
         }
 
         /// <summary>
