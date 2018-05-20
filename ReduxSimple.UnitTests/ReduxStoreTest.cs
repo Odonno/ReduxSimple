@@ -218,6 +218,35 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
+        public void CanObservePartialStateWithOneUpdatedPropertyAndOneNonUpdateProperty()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(initialState);
+
+            // Act
+            int observeCount = 0;
+            (IImmutableList<TodoItem> todoList, string uselessProperty) lastPartialState = (null, null);
+
+            store.ObserveState(state => (state.TodoList, state.UselessProperty))
+                .Subscribe(partialState =>
+                {
+                    observeCount++;
+                    lastPartialState = partialState;
+                });
+
+            DispatchAddTodoItemAction(store, 1, "Create unit tests");
+            DispatchSwitchUserAction(store, "Emily");
+            DispatchAddTodoItemAction(store, 2, "Create Models");
+            DispatchSwitchUserAction(store, "Emily");
+
+            // Assert
+            Assert.Equal(2, observeCount);
+            Assert.Equal(2, lastPartialState.todoList.Count);
+            Assert.Null(lastPartialState.uselessProperty);
+        }
+
+        [Fact]
         public void CanObserveActions()
         {
             // Arrange

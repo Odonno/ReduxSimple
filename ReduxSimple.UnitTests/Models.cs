@@ -23,6 +23,7 @@ namespace ReduxSimple.UnitTests
     {
         public ImmutableList<TodoItem> TodoList { get; set; }
         public string CurrentUser { get; set; }
+        public string UselessProperty { get; set; }
 
         public override bool Equals(object obj)
         {
