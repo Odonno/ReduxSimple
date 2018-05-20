@@ -157,7 +157,7 @@ Store.ObserveState(state => state.CurrentPage)
         // Listening to the "CurrentPage" property of the state (when only this property changes)
     });
 
-Store.ObserveState(state => new { state.CurrentPage, state.Errors })
+Store.ObserveState(state => (state.CurrentPage, state.Errors))
     .Subscribe(x =>
     {
         // Listening to few properties of the state (when any of these properties changes)
