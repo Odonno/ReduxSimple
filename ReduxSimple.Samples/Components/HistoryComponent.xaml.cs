@@ -217,21 +217,16 @@ namespace ReduxSimple.Samples.Components
                 });
 
             // Observe changes on listened state
-            store.ObserveAction(ActionOriginFilter.Normal)
+            var goForwardNormalActionOrigin = store.ObserveAction(ActionOriginFilter.Normal)
+                .Select(action => new { Action = action, BreaksTimeline = true });
+            var goForwardRedoneActionOrigin = store.ObserveAction(ActionOriginFilter.Redone)
+                .Select(action => new { Action = action, BreaksTimeline = false });
+
+            goForwardNormalActionOrigin.Merge(goForwardRedoneActionOrigin)
                 .ObserveOnDispatcher()
-                .Subscribe(action =>
+                .Subscribe(x =>
                 {
-                    _internalStore.Dispatch(new GoForwardAction { Action = action, BreaksTimeline = true });
-                    if (_internalStore.State.PlaySessionActive && !store.CanRedo)
-                    {
-                        _internalStore.Dispatch(new TogglePlayPauseAction());
-                    }
-                });
-            store.ObserveAction(ActionOriginFilter.Redone)
-                .ObserveOnDispatcher()
-                .Subscribe(action =>
-                {
-                    _internalStore.Dispatch(new GoForwardAction { Action = action, BreaksTimeline = false });
+                    _internalStore.Dispatch(new GoForwardAction { Action = x.Action, BreaksTimeline = x.BreaksTimeline });
                     if (_internalStore.State.PlaySessionActive && !store.CanRedo)
                     {
                         _internalStore.Dispatch(new TogglePlayPauseAction());
