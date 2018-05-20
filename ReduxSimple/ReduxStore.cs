@@ -79,7 +79,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about state changes.</returns>
         public IObservable<TState> ObserveState()
         {
-            return _stateSubject.DistinctUntilChanged();
+            return _stateSubject.DistinctUntilChanged(new FullStateComparer<TState>());
         }
         /// <summary>
         /// Observes a value derived from the state of the store.
