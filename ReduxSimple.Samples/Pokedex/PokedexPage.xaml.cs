@@ -29,7 +29,7 @@ namespace ReduxSimple.Samples.Pokedex
             // Observe changes on state
 
             // Load pokemon list from API
-            Store.ObserveAction<GetPokemonListAction>()
+            Store.ObserveAction<GetPokemonListAction>(ActionOriginFilter.Normal)
                 .SelectMany(_ => _pokedexApiClient.GetPokedex())
                 .Subscribe(response =>
                 {
@@ -48,7 +48,7 @@ namespace ReduxSimple.Samples.Pokedex
                 });
 
             // Load pokemon by id from API
-            Store.ObserveAction<GetPokemonByIdAction>()
+            Store.ObserveAction<GetPokemonByIdAction>(ActionOriginFilter.Normal)
                 .SelectMany(action =>
                 {
                     return _pokedexApiClient.GetPokemonById(action.Id)

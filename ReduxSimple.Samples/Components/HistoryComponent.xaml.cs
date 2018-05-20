@@ -3,6 +3,7 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.Common.EventTracking;
@@ -24,7 +25,7 @@ namespace ReduxSimple.Samples.Components
         {
             protected override HistoryComponentState Reduce(HistoryComponentState state, object action)
             {
-                TrackReduxAction(action, action.GetType().Name != nameof(GoForwardAction));
+                TrackReduxAction(action);
 
                 if (action is GoBackAction)
                 {
@@ -43,7 +44,7 @@ namespace ReduxSimple.Samples.Components
                 {
                     var futureActionOption = state.FutureActions.TryLast();
 
-                    if (futureActionOption.HasValue && futureActionOption.Value == goForwardAction.Action)
+                    if (futureActionOption.HasValue && !goForwardAction.BreaksTimeline)
                     {
                         // Continue on existing timeline
                         var futureAction = futureActionOption.Value;
@@ -99,6 +100,7 @@ namespace ReduxSimple.Samples.Components
         private class GoForwardAction
         {
             public object Action { get; set; }
+            public bool BreaksTimeline { get; set; }
         }
         private class ResetAction { }
         private class MoveToPositionAction
@@ -128,6 +130,7 @@ namespace ReduxSimple.Samples.Components
                 .Subscribe(_ => _internalStore.Dispatch(new TogglePlayPauseAction()));
 
             Slider.Events().ValueChanged
+                .Where(_ => Slider.FocusState != FocusState.Unfocused)
                 .Subscribe(e =>
                 {
                     int newPosition = (int)e.NewValue;
@@ -214,11 +217,21 @@ namespace ReduxSimple.Samples.Components
                 });
 
             // Observe changes on listened state
-            store.ObserveAction()
+            store.ObserveAction(ActionOriginFilter.Normal)
                 .ObserveOnDispatcher()
                 .Subscribe(action =>
                 {
-                    _internalStore.Dispatch(new GoForwardAction { Action = action });
+                    _internalStore.Dispatch(new GoForwardAction { Action = action, BreaksTimeline = true });
+                    if (_internalStore.State.PlaySessionActive && !store.CanRedo)
+                    {
+                        _internalStore.Dispatch(new TogglePlayPauseAction());
+                    }
+                });
+            store.ObserveAction(ActionOriginFilter.Redone)
+                .ObserveOnDispatcher()
+                .Subscribe(action =>
+                {
+                    _internalStore.Dispatch(new GoForwardAction { Action = action, BreaksTimeline = false });
                     if (_internalStore.State.PlaySessionActive && !store.CanRedo)
                     {
                         _internalStore.Dispatch(new TogglePlayPauseAction());
