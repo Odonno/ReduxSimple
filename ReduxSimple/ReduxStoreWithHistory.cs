@@ -51,7 +51,7 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public override void Dispatch(object action)
+        public new void Dispatch(object action)
         {
             Dispatch(action, true);
         }
@@ -64,14 +64,7 @@ namespace ReduxSimple
 
             _pastMementos.Push(new ReduxStoreMemento(State, action));
 
-            if (clearFuture)
-            {
-                base.Dispatch(action);
-            }
-            else
-            {
-                Dispatch(action, ActionOrigin.Redone);
-            }
+            Dispatch(action, clearFuture ? ActionOrigin.Normal : ActionOrigin.Redone);
         }
 
         /// <summary>

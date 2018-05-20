@@ -46,9 +46,16 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public virtual void Dispatch(object action)
+        public void Dispatch(object action)
         {
-            Dispatch(action, ActionOrigin.Normal);
+            if (this is ReduxStoreWithHistory<TState> storeWithHistory)
+            {
+                storeWithHistory.Dispatch(action);
+            }
+            else
+            {
+                Dispatch(action, ActionOrigin.Normal);
+            }
         }
         /// <summary>
         /// Dispatches the specified action to the store with the origin of the action (from current timeline, or previous one that meaning redone action)
