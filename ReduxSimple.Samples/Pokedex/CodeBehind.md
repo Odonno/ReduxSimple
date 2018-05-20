@@ -60,7 +60,7 @@ public sealed partial class PokedexPage : Page
                 });
             });
 
-        Store.ObserveState(state => new { state.Loading, state.Pokedex })
+        Store.ObserveState(state => (state.Loading, state.Pokedex))
             .ObserveOn(Scheduler.Default)
             .Subscribe(x =>
             {

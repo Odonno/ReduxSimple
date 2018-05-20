@@ -77,17 +77,19 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
-            Store.ObserveState(state => new { state.Loading, state.Pokedex })
+            Store.ObserveState(state => (state.Loading, state.Pokedex))
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(x =>
                 {
+                    var (loading, pokedex) = x;
+
                     ExecuteOnUIThreadAsync(() =>
                     {
-                        OpenPokedexButton.ShowIf(!x.Loading && x.Pokedex.IsEmpty);
+                        OpenPokedexButton.ShowIf(!loading && pokedex.IsEmpty);
 
-                        GlobalLoadingProgressRing.IsActive = x.Loading && x.Pokedex.IsEmpty;
-                        GlobalLoadingProgressRing.ShowIf(x.Loading && x.Pokedex.IsEmpty);
-                        RootStackPanel.ShowIf(x.Pokedex.Any());
+                        GlobalLoadingProgressRing.IsActive = loading && pokedex.IsEmpty;
+                        GlobalLoadingProgressRing.ShowIf(loading && pokedex.IsEmpty);
+                        RootStackPanel.ShowIf(pokedex.Any());
                     });
                 });
 

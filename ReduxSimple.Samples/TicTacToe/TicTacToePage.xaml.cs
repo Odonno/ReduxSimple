@@ -24,17 +24,19 @@ namespace ReduxSimple.Samples.TicTacToe
             var cellsGrids = CellsRootGrid.Children;
 
             // Observe changes on state
-            _store.ObserveState(state => new { state.GameEnded, state.Winner })
+            _store.ObserveState(state => (state.GameEnded, state.Winner))
                 .Subscribe(x =>
                 {
-                    YourTurnTextBlock.HideIf(x.GameEnded);
-                    StartNewGameButton.ShowIf(x.GameEnded);
-                    EndGameTextBlock.ShowIf(x.GameEnded);
+                    var (gameEnded, winner) = x;
 
-                    if (x.GameEnded)
+                    YourTurnTextBlock.HideIf(gameEnded);
+                    StartNewGameButton.ShowIf(gameEnded);
+                    EndGameTextBlock.ShowIf(gameEnded);
+
+                    if (gameEnded)
                     {
-                        if (x.Winner.HasValue)
-                            EndGameTextBlock.Text = $"{x.Winner.Value} won!";
+                        if (winner.HasValue)
+                            EndGameTextBlock.Text = $"{winner.Value} won!";
                         else
                             EndGameTextBlock.Text = "It's a tie!";
                     }
