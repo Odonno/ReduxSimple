@@ -131,7 +131,22 @@ namespace ReduxSimple
         /// <summary>
         /// Resets the store to its initial state.
         /// </summary>
-        public virtual void Reset()
+        public void Reset()
+        {
+            if (this is ReduxStoreWithHistory<TState> storeWithHistory)
+            {
+                storeWithHistory.Reset();
+            }
+            else
+            {
+                ResetState();
+            }
+        }
+
+        /// <summary>
+        /// Reset the state and trigger a new reset event.
+        /// </summary>
+        internal void ResetState()
         {
             UpdateState(_initialState);
             _resetSubject.OnNext(State);

@@ -125,11 +125,11 @@ namespace ReduxSimple
         /// <summary>
         /// Resets the store to its initial state.
         /// </summary>
-        public override void Reset()
+        public new void Reset()
         {
             _pastMementos.Clear();
             _futureActions.Clear();
-            base.Reset();
+            ResetState();
         }
     }
 }
