@@ -171,9 +171,9 @@ namespace ReduxSimple.UnitTests
 
             // Act
             int observeCount = 0;
-            dynamic lastPartialState = null;
+            (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            store.ObserveState(state => new { state.TodoList, state.CurrentUser })
+            store.ObserveState(state => (state.TodoList, state.CurrentUser))
                 .Subscribe(partialState =>
                 {
                     observeCount++;
@@ -184,8 +184,8 @@ namespace ReduxSimple.UnitTests
 
             // Assert
             Assert.Equal(4, observeCount);
-            Assert.Equal(3, lastPartialState.TodoList.Count);
-            Assert.Equal("Emily", lastPartialState.CurrentUser);
+            Assert.Equal(3, lastPartialState.todoList.Count);
+            Assert.Equal("Emily", lastPartialState.currentUser);
         }
 
         [Fact]
@@ -197,9 +197,9 @@ namespace ReduxSimple.UnitTests
 
             // Act
             int observeCount = 0;
-            dynamic lastPartialState = null;
+            (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            store.ObserveState(state => new { state.TodoList, state.CurrentUser })
+            store.ObserveState(state => (state.TodoList, state.CurrentUser))
                 .Subscribe(partialState =>
                 {
                     observeCount++;
@@ -213,8 +213,8 @@ namespace ReduxSimple.UnitTests
 
             // Assert
             Assert.Equal(3, observeCount);
-            Assert.Equal(2, lastPartialState.TodoList.Count);
-            Assert.Equal("Emily", lastPartialState.CurrentUser);
+            Assert.Equal(2, lastPartialState.todoList.Count);
+            Assert.Equal("Emily", lastPartialState.currentUser);
         }
 
         [Fact]
