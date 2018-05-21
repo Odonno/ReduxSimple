@@ -26,6 +26,7 @@ namespace ReduxSimple
         private readonly Subject<TState> _stateSubject = new Subject<TState>();
         private readonly Subject<ActionWithOrigin> _actionSubject = new Subject<ActionWithOrigin>();
         private readonly Subject<TState> _resetSubject = new Subject<TState>();
+        private readonly FullStateComparer<TState> _fullStateComparer = new FullStateComparer<TState>();
 
         /// <summary>
         /// Gets the current state of the store.
@@ -46,9 +47,16 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public virtual void Dispatch(object action)
+        public void Dispatch(object action)
         {
-            Dispatch(action, ActionOrigin.Normal);
+            if (this is ReduxStoreWithHistory<TState> storeWithHistory)
+            {
+                storeWithHistory.Dispatch(action);
+            }
+            else
+            {
+                Dispatch(action, ActionOrigin.Normal);
+            }
         }
         /// <summary>
         /// Dispatches the specified action to the store with the origin of the action (from current timeline, or previous one that meaning redone action)
@@ -79,7 +87,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about state changes.</returns>
         public IObservable<TState> ObserveState()
         {
-            return _stateSubject.DistinctUntilChanged();
+            return _stateSubject.DistinctUntilChanged(_fullStateComparer);
         }
         /// <summary>
         /// Observes a value derived from the state of the store.
@@ -124,7 +132,22 @@ namespace ReduxSimple
         /// <summary>
         /// Resets the store to its initial state.
         /// </summary>
-        public virtual void Reset()
+        public void Reset()
+        {
+            if (this is ReduxStoreWithHistory<TState> storeWithHistory)
+            {
+                storeWithHistory.Reset();
+            }
+            else
+            {
+                ResetState();
+            }
+        }
+
+        /// <summary>
+        /// Reset the state and trigger a new reset event.
+        /// </summary>
+        internal void ResetState()
         {
             UpdateState(_initialState);
             _resetSubject.OnNext(State);
