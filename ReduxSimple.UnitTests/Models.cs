@@ -46,7 +46,7 @@ namespace ReduxSimple.UnitTests
         public string NewUser { get; set; }
     }
 
-    public class HistoryStoreWithEmptyState : ReduxStore<EmptyState>
+    public class HistoryStoreWithEmptyState : ReduxStoreWithHistory<EmptyState>
     {
     }
 
