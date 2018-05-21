@@ -26,6 +26,7 @@ namespace ReduxSimple
         private readonly Subject<TState> _stateSubject = new Subject<TState>();
         private readonly Subject<ActionWithOrigin> _actionSubject = new Subject<ActionWithOrigin>();
         private readonly Subject<TState> _resetSubject = new Subject<TState>();
+        private readonly FullStateComparer<TState> _fullStateComparer = new FullStateComparer<TState>();
 
         /// <summary>
         /// Gets the current state of the store.
@@ -79,7 +80,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about state changes.</returns>
         public IObservable<TState> ObserveState()
         {
-            return _stateSubject.DistinctUntilChanged();
+            return _stateSubject.DistinctUntilChanged(_fullStateComparer);
         }
         /// <summary>
         /// Observes a value derived from the state of the store.
