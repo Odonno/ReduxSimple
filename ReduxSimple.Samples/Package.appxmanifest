@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="ec4d7fef-90e2-4d3d-aea8-e4d084ea4ffc" Publisher="CN=David" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="ec4d7fef-90e2-4d3d-aea8-e4d084ea4ffc" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="49142DavidBOTTIAU.ReduxSimpleSamples" Publisher="CN=519CD1E7-EAA2-4CE2-92D3-BDEE98B243DC" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="f562419a-1ffa-476e-b4f3-059381129a90" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>ReduxSimple.Samples</DisplayName>
-    <PublisherDisplayName>David</PublisherDisplayName>
+    <DisplayName>ReduxSimple Samples</DisplayName>
+    <PublisherDisplayName>David BOTTIAU</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
