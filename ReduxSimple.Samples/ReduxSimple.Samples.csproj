@@ -154,7 +154,6 @@
     <Content Include="Counter\CodeBehind.md" />
     <Content Include="Counter\Dependencies.md" />
     <Content Include="Counter\Introduction.md" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Pokedex\Actions.md" />
     <Content Include="Pokedex\CodeBehind.md" />
     <Content Include="Pokedex\Dependencies.md" />
@@ -162,8 +161,6 @@
     <Content Include="Pokedex\State.md" />
     <Content Include="Pokedex\Store.md" />
     <Content Include="Pokedex\UI.md" />
-    <None Include="ReduxSimple.Samples_StoreKey.pfx" />
-    <None Include="ReduxSimple.Samples_TemporaryKey.pfx" />
     <Content Include="TicTacToe\Actions.md" />
     <Content Include="TicTacToe\CodeBehind.md" />
     <Content Include="TicTacToe\Dependencies.md" />
