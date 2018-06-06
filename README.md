@@ -9,6 +9,12 @@
 
 Redux Simple is a .NET library based on [Redux](https://redux.js.org/) principle. Redux Simple is written with Rx.NET and built with the minimum of code you need to scale your whatever .NET application you want to design.
 
+## Example app
+
+There is a sample UWP application to show how ReduxSimple library can be used and the steps required to make a C#/XAML application using the Redux pattern.
+
+You can follow this link: https://www.microsoft.com/store/apps/9PDBXGFZCVMS
+
 ## Getting started
 
 Like the original Redux library, you will have to initialize a new `State` when creating a `Store` + you will create `Reduce` functions each linked to an `Action` which will possibly update this `State`. 
@@ -157,7 +163,7 @@ Store.ObserveState(state => state.CurrentPage)
         // Listening to the "CurrentPage" property of the state (when only this property changes)
     });
 
-Store.ObserveState(state => new { state.CurrentPage, state.Errors })
+Store.ObserveState(state => (state.CurrentPage, state.Errors))
     .Subscribe(x =>
     {
         // Listening to few properties of the state (when any of these properties changes)

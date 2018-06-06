@@ -1,0 +1,63 @@
+﻿<UserControl
+    x:Class="ReduxSimple.Samples.Components.DocumentationComponent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <controls:Expander x:Name="Expander" 
+                           ExpandDirection="Left" 
+                           HeaderStyle="{StaticResource DocumentationHeaderToggleButtonStyle}"
+                           Background="White"
+                           VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right">
+            <controls:Expander.Header>
+                Documentation
+            </controls:Expander.Header>
+
+            <Grid Width="470" Margin="0 20 0 0">
+                <Pivot Margin="0 0 4 0">
+                    <PivotItem Header="Introduction">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="IntroductionMarkdownTextBlock" FontSize="12" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="State">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="StateMarkdownTextBlock" FontSize="11" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="Actions">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="ActionsMarkdownTextBlock" FontSize="11" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="Store">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="StoreMarkdownTextBlock" FontSize="11" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="User Interface">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="UserInterfaceMarkdownTextBlock" FontSize="11" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="Code Behind">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="CodeBehindMarkdownTextBlock" FontSize="11" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="Dependencies">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="DependenciesMarkdownTextBlock" FontSize="11" />
+                        </ScrollViewer>
+                    </PivotItem>
+                </Pivot>
+            </Grid>
+        </controls:Expander>
+    </Grid>
+</UserControl>

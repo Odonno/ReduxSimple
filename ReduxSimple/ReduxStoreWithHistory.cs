@@ -51,7 +51,7 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public override void Dispatch(in object action)
+        public new void Dispatch(object action)
         {
             Dispatch(action, true);
         }
@@ -64,7 +64,7 @@ namespace ReduxSimple
 
             _pastMementos.Push(new ReduxStoreMemento(State, action));
 
-            base.Dispatch(action);
+            Dispatch(action, clearFuture ? ActionOrigin.Normal : ActionOrigin.Redone);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about actions that are reversed (undone).</returns>
         public IObservable<object> ObserveUndoneAction()
         {
-            return _undoneActionSubject.AsObservable();
+            return _undoneActionSubject;
         }
         /// <summary>
         /// Observes actions of a specific type that are reversed (undone).
@@ -119,17 +119,17 @@ namespace ReduxSimple
         /// </returns>
         public IObservable<T> ObserveUndoneAction<T>() where T : class
         {
-            return _undoneActionSubject.OfType<T>().AsObservable();
+            return _undoneActionSubject.OfType<T>();
         }
 
         /// <summary>
         /// Resets the store to its initial state.
         /// </summary>
-        public override void Reset()
+        public new void Reset()
         {
             _pastMementos.Clear();
             _futureActions.Clear();
-            base.Reset();
+            ResetState();
         }
     }
 }

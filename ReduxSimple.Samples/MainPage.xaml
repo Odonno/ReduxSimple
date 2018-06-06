@@ -1,0 +1,351 @@
+﻿<Page
+    x:Class="ReduxSimple.Samples.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    NavigationCacheMode="Required"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <!-- Adaptive view based on height -->
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="600"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="550"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="LogoImage.MaxHeight" Value="80" />
+                        <Setter Target="TitleTextBlock.FontSize" Value="24" />
+                        <Setter Target="DescriptionTextBlock.FontSize" Value="12" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="420"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="LogoImage.MaxHeight" Value="80" />
+                        <Setter Target="TitleTextBlock.FontSize" Value="24" />
+                        <Setter Target="DescriptionTextBlock.FontSize" Value="12" />
+
+                        <Setter Target="CounterTitleTextBlock.FontSize" Value="18" />
+                        <Setter Target="TicTacToeTitleTextBlock.FontSize" Value="18" />
+                        <Setter Target="TodoListTitleTextBlock.FontSize" Value="18" />
+                        <Setter Target="PokedexTitleTextBlock.FontSize" Value="18" />
+
+                        <Setter Target="CounterDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="TicTacToeDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="TodoListDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="PokedexDescriptionTextBlock.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="LogoImage.MaxHeight" Value="60" />
+                        <Setter Target="TitleTextBlock.FontSize" Value="24" />
+                        <Setter Target="DescriptionTextBlock.FontSize" Value="12" />
+
+                        <Setter Target="CounterTitleTextBlock.FontSize" Value="18" />
+                        <Setter Target="TicTacToeTitleTextBlock.FontSize" Value="18" />
+                        <Setter Target="TodoListTitleTextBlock.FontSize" Value="18" />
+                        <Setter Target="PokedexTitleTextBlock.FontSize" Value="18" />
+
+                        <Setter Target="CounterDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="TicTacToeDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="TodoListDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="PokedexDescriptionTextBlock.Visibility" Value="Collapsed" />
+
+                        <Setter Target="CounterImage.Visibility" Value="Collapsed" />
+                        <Setter Target="TicTacToeImage.Visibility" Value="Collapsed" />
+                        <Setter Target="TodoListIconTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="PokedexImage.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <!-- Adaptive view based on width -->
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="CounterDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="CounterTitleTextBlock.FontSize" Value="16" />
+
+                        <Setter Target="CounterImage.Visibility" Value="Collapsed" />
+                        
+                        <Setter Target="TicTacToeDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="TicTacToeTitleTextBlock.FontSize" Value="16" />
+
+                        <Setter Target="TicTacToeImage.Visibility" Value="Collapsed" />
+
+                        <Setter Target="TodoListDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="TodoListTitleTextBlock.FontSize" Value="16" />
+
+                        <Setter Target="TodoListIconTextBlock.Visibility" Value="Collapsed" />
+
+                        <Setter Target="PokedexDescriptionTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="PokedexTitleTextBlock.FontSize" Value="16" />
+
+                        <Setter Target="PokedexImage.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" 
+                        Padding="10 30 10 10">
+                <Image x:Name="LogoImage" 
+                       Source="Assets/Logo.png"
+                       MaxHeight="120"
+                       Stretch="Uniform" />
+
+                <TextBlock x:Name="TitleTextBlock" 
+                           HorizontalAlignment="Center"
+                           Margin="0 5 0 0"
+                           Style="{ThemeResource HeaderTextBlockStyle}">
+                    Redux Simple
+                </TextBlock>
+
+                <TextBlock x:Name="DescriptionTextBlock" 
+                           HorizontalAlignment="Center" 
+                           FontSize="15"
+                           Margin="0 5 0 0"
+                           Style="{ThemeResource SubtitleTextBlockStyle}">
+                    Simple Stupid Redux Store using Reactive Extensions
+                </TextBlock>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <controls:DropShadowPanel Grid.Column="0" BlurRadius="15"
+                                          Margin="20 20 10 20" 
+                                          VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                          ShadowOpacity="0.6"
+                                          Color="Black">
+                    <Button Grid.Column="0" x:Name="GoToCounterButton" 
+                            Style="{StaticResource NonTransparentButtonStyle}"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                            VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                        <Button.Content>
+                            <Grid Padding="10 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="2*" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Margin="0 15 0 0">
+                                    <TextBlock x:Name="CounterTitleTextBlock" 
+                                               Style="{ThemeResource TitleTextBlockStyle}"
+                                               HorizontalAlignment="Center"
+                                               animations:Connected.Key="CounterPageTitle">
+                                        Counter
+                                    </TextBlock>
+
+                                    <TextBlock x:Name="CounterDescriptionTextBlock" 
+                                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                                               Margin="0 10 0 0"
+                                               FontSize="10"
+                                               TextAlignment="Center"
+                                               animations:Connected.Key="CounterPageSubtitle">
+                                        A really simple example with two actions: increment and decrement.
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Image x:Name="CounterImage" 
+                                       Grid.Row="1" Stretch="UniformToFill"
+                                       VerticalAlignment="Top" HorizontalAlignment="Center"
+                                       Source="Images/Counter.png" />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </controls:DropShadowPanel>
+
+                <controls:DropShadowPanel Grid.Column="1" BlurRadius="15"
+                                          Margin="10 20"
+                                          VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                          ShadowOpacity="0.6"
+                                          Color="Black">
+                    <Button x:Name="GoToTicTacToeButton"
+                            Style="{StaticResource NonTransparentButtonStyle}"
+                            Padding="0" Margin="0" BorderThickness="0"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                            VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                        <Button.Content>
+                            <Grid Padding="10 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="2*" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Margin="0 20 0 0">
+                                    <TextBlock x:Name="TicTacToeTitleTextBlock" 
+                                               Style="{ThemeResource TitleTextBlockStyle}"
+                                               HorizontalAlignment="Center"
+                                               animations:Connected.Key="TicTacToePageTitle">
+                                        Tic Tac Toe
+                                    </TextBlock>
+
+                                    <TextBlock x:Name="TicTacToeDescriptionTextBlock" 
+                                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                                               Margin="0 10 0 0"
+                                               FontSize="10"
+                                               TextAlignment="Center"
+                                               animations:Connected.Key="TicTacToePageSubtitle">
+                                        A simple game to experience event-driven application and game logic encapsulated in a Redux Store.
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Image x:Name="TicTacToeImage" 
+                                       Grid.Row="1" Stretch="Uniform"
+                                       Margin="10 10 10 20"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       Source="Images/TictacToe.png" />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </controls:DropShadowPanel>
+                
+                <controls:DropShadowPanel Grid.Column="2" BlurRadius="15"
+                                          Margin="10 20"
+                                          VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                          ShadowOpacity="0.6"
+                                          Color="Black">
+                    <Button x:Name="GoToTodoListButton"
+                            Style="{StaticResource NonTransparentButtonStyle}"
+                            Padding="0" Margin="0" BorderThickness="0"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                        <Button.Content>
+                            <Grid Padding="10 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="2*" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Margin="0 20 0 0">
+                                    <TextBlock x:Name="TodoListTitleTextBlock" 
+                                               Style="{ThemeResource TitleTextBlockStyle}"
+                                               HorizontalAlignment="Center"
+                                               animations:Connected.Key="TodoListPageTitle">
+                                        Todo List
+                                    </TextBlock>
+
+                                    <TextBlock x:Name="TodoListDescriptionTextBlock" 
+                                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                                               Margin="0 10 0 0"
+                                               FontSize="10"
+                                               TextAlignment="Center"
+                                               animations:Connected.Key="TodoListPageSubtitle">
+                                        A more concrete example with input text and child components.
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <TextBlock x:Name="TodoListIconTextBlock" 
+                                           Grid.Row="1" FontSize="80"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    &#xE762;
+                                </TextBlock>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </controls:DropShadowPanel>
+
+                <controls:DropShadowPanel Grid.Column="3" BlurRadius="15"
+                                          Margin="10 20 20 20"
+                                          VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                          ShadowOpacity="0.6"
+                                          Color="Black">
+                    <Button x:Name="GoToPokedexButton"
+                            Style="{StaticResource NonTransparentButtonStyle}"
+                            Padding="0" Margin="0" BorderThickness="0"
+                            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Button.Content>
+                            <Grid Padding="10 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="2*" />
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Margin="0 20 0 0">
+                                    <TextBlock x:Name="PokedexTitleTextBlock" 
+                                               Style="{ThemeResource TitleTextBlockStyle}"
+                                               HorizontalAlignment="Center"
+                                               animations:Connected.Key="PokedexPageTitle">
+                                        Pokedex
+                                    </TextBlock>
+
+                                    <TextBlock x:Name="PokedexDescriptionTextBlock" 
+                                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                                               Margin="0 10 0 0"
+                                               FontSize="10"
+                                               TextAlignment="Center"
+                                               animations:Connected.Key="PokedexPageSubtitle">
+                                        Using real live data fetched from web API and displayed using a reactive search component.
+                                    </TextBlock>
+                                </StackPanel>
+
+
+                                <controls:LayoutTransformControl Grid.Row="1"
+                                                                 Margin="10 0"
+                                                                 VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <controls:LayoutTransformControl.Transform>
+                                        <RotateTransform Angle="-30" CenterX="0.5" CenterY="0.5" />
+                                    </controls:LayoutTransformControl.Transform>
+
+                                    <Image x:Name="PokedexImage"
+                                           Stretch="Uniform"
+                                           Source="Images/Pokedex.png" />
+                                </controls:LayoutTransformControl>
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </controls:DropShadowPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
