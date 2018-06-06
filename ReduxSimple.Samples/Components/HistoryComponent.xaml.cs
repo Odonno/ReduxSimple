@@ -23,7 +23,7 @@ namespace ReduxSimple.Samples.Components
 
         private class HistoryComponentStore : ReduxStore<HistoryComponentState>
         {
-            protected override HistoryComponentState Reduce(HistoryComponentState state, object action)
+            protected override HistoryComponentState Reduce(in HistoryComponentState state, in object action)
             {
                 TrackReduxAction(action);
 

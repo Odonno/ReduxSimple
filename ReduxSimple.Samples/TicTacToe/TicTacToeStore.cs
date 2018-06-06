@@ -22,7 +22,7 @@ namespace ReduxSimple.Samples.TicTacToe
         {
         }
 
-        protected override TicTacToeState Reduce(TicTacToeState state, object action)
+        protected override TicTacToeState Reduce(in TicTacToeState state, in object action)
         {
             TrackReduxAction(action);
 
@@ -64,13 +64,13 @@ namespace ReduxSimple.Samples.TicTacToe
             return base.Reduce(state, action);
         }
 
-        private static ImmutableArray<Cell> PlayerTakeCell(ImmutableArray<Cell> cells, PlayAction playAction)
+        private static ImmutableArray<Cell> PlayerTakeCell(in ImmutableArray<Cell> cells, PlayAction playAction)
         {
             var cellToUpdate = cells.Single(c => c.Row == playAction.Row && c.Column == playAction.Column);
             return cells.Replace(cellToUpdate, new Cell { Row = playAction.Row, Column = playAction.Column, Mine = true });
         }
 
-        private ImmutableArray<Cell> BotTakeCell(ImmutableArray<Cell> cells)
+        private ImmutableArray<Cell> BotTakeCell(in ImmutableArray<Cell> cells)
         {
             var random = new Random();
 
@@ -79,7 +79,7 @@ namespace ReduxSimple.Samples.TicTacToe
             return cells.Replace(cellToUpdate, new Cell { Row = cellToUpdate.Row, Column = cellToUpdate.Column, Mine = false });
         }
 
-        private (bool gameEnded, Option<string> winner) CheckEndGame(ImmutableArray<Cell> cells)
+        private (bool gameEnded, Option<string> winner) CheckEndGame(in ImmutableArray<Cell> cells)
         {
             // Check rows
             var rowsGroups = cells.GroupBy(c => c.Row);
@@ -117,11 +117,11 @@ namespace ReduxSimple.Samples.TicTacToe
             return (cells.All(c => c.Mine.HasValue), Option<string>.None());
         }
 
-        private static bool HasPlayerWon(IEnumerable<Cell> cells)
+        private static bool HasPlayerWon(in IEnumerable<Cell> cells)
         {
             return cells.All(c => c.Mine.HasValue && c.Mine == true);
         }
-        private static bool HasBotWon(IEnumerable<Cell> cells)
+        private static bool HasBotWon(in IEnumerable<Cell> cells)
         {
             return cells.All(c => c.Mine.HasValue && c.Mine == false);
         }

@@ -51,7 +51,7 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public new void Dispatch(object action)
+        public new void Dispatch(in object action)
         {
             Dispatch(action, true);
         }

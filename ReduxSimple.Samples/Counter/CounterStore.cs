@@ -4,7 +4,7 @@ namespace ReduxSimple.Samples.Counter
 {
     public class CounterStore : ReduxStoreWithHistory<CounterState>
     {
-        protected override CounterState Reduce(CounterState state, object action)
+        protected override CounterState Reduce(in CounterState state, in object action)
         {
             TrackReduxAction(action);
 

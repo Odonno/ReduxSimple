@@ -47,7 +47,7 @@ namespace ReduxSimple
         /// on the current state.
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
-        public void Dispatch(object action)
+        public void Dispatch(in object action)
         {
             if (this is ReduxStoreWithHistory<TState> storeWithHistory)
             {
@@ -63,7 +63,7 @@ namespace ReduxSimple
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
         /// <param name="origin">The origin of the action.</param>
-        internal void Dispatch(object action, ActionOrigin origin)
+        internal void Dispatch(in object action, in ActionOrigin origin)
         {
             UpdateState(Reduce(State, action));
             _actionSubject.OnNext(new ActionWithOrigin(action, origin));
@@ -97,7 +97,7 @@ namespace ReduxSimple
         /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
-        public IObservable<TPartial> ObserveState<TPartial>(Func<TState, TPartial> selector)
+        public IObservable<TPartial> ObserveState<TPartial>(in Func<TState, TPartial> selector)
         {
             return _stateSubject.Select(selector).DistinctUntilChanged();
         }

@@ -7,7 +7,7 @@ namespace ReduxSimple.Samples.Pokedex
 {
     public class PokedexStore : ReduxStoreWithHistory<PokedexState>
     {
-        protected override PokedexState Reduce(PokedexState state, object action)
+        protected override PokedexState Reduce(in PokedexState state, in object action)
         {
             TrackReduxAction(action, action.GetType().Name != nameof(GetPokemonListFullfilledAction));
 
@@ -114,7 +114,7 @@ namespace ReduxSimple.Samples.Pokedex
             return base.Reduce(state, action);
         }
 
-        private ImmutableList<PokemonGeneralInfo> GetSuggestions(ImmutableList<PokemonGeneralInfo> pokedex, string search)
+        private ImmutableList<PokemonGeneralInfo> GetSuggestions(in ImmutableList<PokemonGeneralInfo> pokedex, in string search)
         {
             const int maximumOfSuggestions = 5;
 
