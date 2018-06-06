@@ -14,7 +14,7 @@ namespace ReduxSimple
     public abstract class ReduxStoreWithHistory<TState> : ReduxStore<TState>
         where TState : class, new()
     {
-        private class ReduxStoreMemento
+        private readonly struct ReduxStoreMemento
         {
             public TState State { get; }
             public object Action { get; }

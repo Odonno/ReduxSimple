@@ -10,10 +10,10 @@ namespace ReduxSimple
     /// <typeparam name="TState">The type of the state.</typeparam>
     public abstract class ReduxStore<TState> where TState : class, new()
     {
-        private class ActionWithOrigin
+        private readonly struct ActionWithOrigin
         {
             public object Action { get; }
-            public ActionOrigin Origin { get; set; }
+            public ActionOrigin Origin { get; }
 
             public ActionWithOrigin(object action, ActionOrigin origin)
             {

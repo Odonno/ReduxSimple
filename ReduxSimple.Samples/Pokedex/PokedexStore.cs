@@ -114,7 +114,7 @@ namespace ReduxSimple.Samples.Pokedex
             return base.Reduce(state, action);
         }
 
-        private ImmutableList<PokemonGeneralInfo> GetSuggestions(in ImmutableList<PokemonGeneralInfo> pokedex, in string search)
+        private ImmutableList<PokemonGeneralInfo> GetSuggestions(in ImmutableList<PokemonGeneralInfo> pokedex, string search)
         {
             const int maximumOfSuggestions = 5;
 
