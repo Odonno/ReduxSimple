@@ -23,7 +23,7 @@ namespace ReduxSimple
         }
 
         private readonly TState _initialState;
-        private readonly Subject<TState> _stateSubject = new Subject<TState>();
+        private readonly BehaviorSubject<TState> _stateSubject;
         private readonly Subject<ActionWithOrigin> _actionSubject = new Subject<ActionWithOrigin>();
         private readonly Subject<TState> _resetSubject = new Subject<TState>();
         private readonly FullStateComparer<TState> _fullStateComparer = new FullStateComparer<TState>();
@@ -40,6 +40,7 @@ namespace ReduxSimple
         protected ReduxStore(TState initialState = null)
         {
             State = _initialState = initialState ?? new TState();
+            _stateSubject = new BehaviorSubject<TState>(State);
         }
 
         /// <summary>
