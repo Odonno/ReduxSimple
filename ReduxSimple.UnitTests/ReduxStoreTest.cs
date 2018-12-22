@@ -84,7 +84,7 @@ namespace ReduxSimple.UnitTests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(2, observeCount);
+            Assert.Equal(3, observeCount);
             Assert.Single(lastState.TodoList);
             Assert.Equal("Emily", lastState.CurrentUser);
         }
@@ -111,7 +111,7 @@ namespace ReduxSimple.UnitTests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(3, observeCount);
+            Assert.Equal(4, observeCount);
         }
 
         [Fact]
@@ -135,7 +135,7 @@ namespace ReduxSimple.UnitTests
             DispatchAllActions(store);
 
             // Assert
-            Assert.Equal(3, observeCount);
+            Assert.Equal(4, observeCount);
             Assert.Equal(3, lastResult.Count);
         }
 
@@ -159,7 +159,7 @@ namespace ReduxSimple.UnitTests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(1, observeCount);
+            Assert.Equal(2, observeCount);
         }
 
         [Fact]
@@ -183,7 +183,7 @@ namespace ReduxSimple.UnitTests
             DispatchAllActions(store);
 
             // Assert
-            Assert.Equal(4, observeCount);
+            Assert.Equal(5, observeCount);
             Assert.Equal(3, lastPartialState.todoList.Count);
             Assert.Equal("Emily", lastPartialState.currentUser);
         }
@@ -212,7 +212,7 @@ namespace ReduxSimple.UnitTests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(3, observeCount);
+            Assert.Equal(4, observeCount);
             Assert.Equal(2, lastPartialState.todoList.Count);
             Assert.Equal("Emily", lastPartialState.currentUser);
         }
@@ -241,7 +241,7 @@ namespace ReduxSimple.UnitTests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(2, observeCount);
+            Assert.Equal(3, observeCount);
             Assert.Equal(2, lastPartialState.todoList.Count);
             Assert.Null(lastPartialState.uselessProperty);
         }

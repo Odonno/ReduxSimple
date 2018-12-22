@@ -33,9 +33,6 @@ namespace ReduxSimple.Samples.Counter
             DecrementButton.Events().Click
                 .Subscribe(_ => _store.Dispatch(new DecrementAction()));
 
-            // Initialize UI
-            CounterValueTextBlock.Text = _store.State.Count.ToString();
-
             // Initialize Components
             HistoryComponent.Initialize(_store);
 
