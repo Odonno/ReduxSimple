@@ -20,9 +20,6 @@ public sealed partial class CounterPage : Page
 
         DecrementButton.Events().Click
             .Subscribe(_ => _store.Dispatch(new DecrementAction()));
-
-        // Initialize UI
-        CounterValueTextBlock.Text = _store.State.Count.ToString();
     }
 }
 ```

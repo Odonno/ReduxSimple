@@ -80,30 +80,6 @@ namespace ReduxSimple.Samples.TicTacToe
             StartNewGameButton.Events().Click
                 .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
 
-            // Initialize UI
-            YourTurnTextBlock.HideIf(_store.State.GameEnded);
-            StartNewGameButton.ShowIf(_store.State.GameEnded);
-            EndGameTextBlock.ShowIf(_store.State.GameEnded);
-
-            if (_store.State.GameEnded)
-            {
-                if (_store.State.Winner.HasValue)
-                    EndGameTextBlock.Text = $"{_store.State.Winner.Value} won!";
-                else
-                    EndGameTextBlock.Text = "It's a tie!";
-            }
-
-            for (int i = 0; i < _store.State.Cells.Length; i++)
-            {
-                var cellGrid = cellsGrids[i] as Grid;
-                var textBlock = cellGrid.Children[0] as TextBlock;
-
-                if (_store.State.Cells[i].Mine.HasValue)
-                    textBlock.Text = _store.State.Cells[i].Mine.Value ? "O" : "X";
-                else
-                    textBlock.Text = string.Empty;
-            }
-
             // Initialize Components
             HistoryComponent.Initialize(_store);
 

@@ -42,6 +42,9 @@ public sealed partial class TodoListPage : Page
         Store.ObserveState(state => state.Items)
             .Subscribe(items =>
             {
+                if (TodoItemsListView.ItemsSource != advancedCollectionView)
+                    TodoItemsListView.ItemsSource = advancedCollectionView;
+
                 advancedCollectionView.Source = items;
             });
 
@@ -55,12 +58,6 @@ public sealed partial class TodoListPage : Page
 
         AddNewItemButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
-
-        // Initialize UI
-        TodoItemsListView.ItemsSource = advancedCollectionView;
-        FilterAllButton.Style = (Store.State.Filter == TodoFilter.All) ? selectedButtonStyle : null;
-        FilterTodoButton.Style = (Store.State.Filter == TodoFilter.Todo) ? selectedButtonStyle : null;
-        FilterCompletedButton.Style = (Store.State.Filter == TodoFilter.Completed) ? selectedButtonStyle : null;
     }
 }
 ```

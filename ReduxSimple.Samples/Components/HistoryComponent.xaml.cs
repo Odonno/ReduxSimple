@@ -248,12 +248,6 @@ namespace ReduxSimple.Samples.Components
                 {
                     store.Redo();
                 });
-
-            // Initialize UI
-            UndoButton.IsEnabled = store.CanUndo;
-            RedoButton.IsEnabled = store.CanRedo;
-            ResetButton.IsEnabled = store.CanUndo || store.CanRedo;
-            PlayPauseButton.IsEnabled = store.CanRedo;
         }
     }
 }

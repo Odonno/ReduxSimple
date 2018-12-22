@@ -97,6 +97,9 @@ namespace ReduxSimple.Samples.Pokedex
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(search =>
                 {
+                    if (Store.State.Pokedex.IsEmpty)
+                        return;
+
                     if (!string.IsNullOrWhiteSpace(search))
                     {
                         if (search.StartsWith("#"))
@@ -187,20 +190,7 @@ namespace ReduxSimple.Samples.Pokedex
                         }
                     });
                 });
-
-            // Initialize UI
-            AutoSuggestBox.Text = Store.State.Search;
-
-            PokemonPanel.ShowIf(Store.State.Pokemon.HasValue);
-            PokemonIdTextBlock.Text = Store.State.Pokemon.HasValue ? $"#{Store.State.Pokemon.Value.Id}" : string.Empty;
-            PokemonNameTextBlock.Text = Store.State.Pokemon.HasValue ? Store.State.Pokemon.Value.Name : string.Empty;
-            PokemonImage.Source = Store.State.Pokemon.HasValue ? new BitmapImage(new Uri(Store.State.Pokemon.Value.Image)) : null;
-
-            OpenPokedexButton.ShowIf(!Store.State.Loading && Store.State.Pokedex.IsEmpty);
-            GlobalLoadingProgressRing.IsActive = Store.State.Loading && Store.State.Pokedex.IsEmpty;
-            GlobalLoadingProgressRing.ShowIf(Store.State.Loading && Store.State.Pokedex.IsEmpty);
-            RootStackPanel.ShowIf(Store.State.Pokedex.Any());
-
+            
             // Initialize Components
             HistoryComponent.Initialize(Store);
 
