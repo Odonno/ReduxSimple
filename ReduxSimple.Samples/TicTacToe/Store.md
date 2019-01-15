@@ -26,12 +26,12 @@ public class TicTacToeStore : ReduxStore<TicTacToeState>
 
             if (gameEndedTurn1)
             {
-                return new TicTacToeState
+                return state.With(new
                 {
                     Cells = cellsTurnPlayer,
                     GameEnded = gameEndedTurn1,
                     Winner = winnerTurn1
-                };
+                });
             }
 
             // Bot take cell
@@ -40,12 +40,12 @@ public class TicTacToeStore : ReduxStore<TicTacToeState>
             // Check end game
             var (gameEndedTurn2, winnerTurn2) = CheckEndGame(cellsTurnBot);
 
-            return new TicTacToeState
+            return state.With(new
             {
                 Cells = cellsTurnBot,
                 GameEnded = gameEndedTurn2,
                 Winner = winnerTurn2
-            };
+            });
         }
         if (action is StartNewGameAction _)
         {

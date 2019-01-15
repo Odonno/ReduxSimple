@@ -1,106 +1,60 @@
 ```csharp
-public class PokedexStore : ReduxStoreWithHistory<PokedexState>
+public class PokedexStore : ReduxStore<PokedexState>
 {
     protected override PokedexState Reduce(PokedexState state, object action)
     {
-        if (action is GetPokemonListAction _)
+        if (action is GetPokemonListAction _ || action is GetPokemonByIdAction _)
         {
-            return new PokedexState
-            {
-                Pokedex = state.Pokedex,
-                Search = state.Search,
-                Suggestions = state.Suggestions,
-                Pokemon = state.Pokemon,
-                Loading = true,
-                Errors = state.Errors
-            };
+            return state.With(new { Loading = true });
         }
         if (action is GetPokemonListFullfilledAction getPokemonListFullfilledAction)
         {
-            return new PokedexState
+            return state.With(new
             {
                 Pokedex = getPokemonListFullfilledAction.Pokedex.ToImmutableList(),
-                Search = state.Search,
-                Suggestions = state.Suggestions,
-                Pokemon = state.Pokemon,
                 Loading = false,
                 Errors = ImmutableList<string>.Empty
-            };
+            });
         }
         if (action is GetPokemonListFailedAction getPokemonListFailedAction)
         {
-            return new PokedexState
+            return state.With(new
             {
-                Pokedex = state.Pokedex,
-                Search = state.Search,
-                Suggestions = state.Suggestions,
-                Pokemon = state.Pokemon,
                 Loading = false,
                 Errors = state.Errors.Add(getPokemonListFailedAction.Exception.Message)
-            };
-        }
-
-        if (action is GetPokemonByIdAction _)
-        {
-            return new PokedexState
-            {
-                Pokedex = state.Pokedex,
-                Search = state.Search,
-                Suggestions = state.Suggestions,
-                Pokemon = state.Pokemon,
-                Loading = true,
-                Errors = state.Errors
-            };
+            });
         }
         if (action is GetPokemonByIdFullfilledAction getPokemonByIdFullfilledAction)
         {
-            return new PokedexState
+            return state.With(new
             {
-                Pokedex = state.Pokedex,
-                Search = state.Search,
-                Suggestions = state.Suggestions,
-                Pokemon = getPokemonByIdFullfilledAction.Pokemon,
                 Loading = false,
                 Errors = ImmutableList<string>.Empty
-            };
+            });
         }
         if (action is GetPokemonByIdFailedAction getPokemonByIdFailedAction)
         {
-            return new PokedexState
+            return state.With(new
             {
-                Pokedex = state.Pokedex,
-                Search = state.Search,
-                Suggestions = state.Suggestions,
-                Pokemon = state.Pokemon,
                 Loading = false,
                 Errors = state.Errors.Add(getPokemonByIdFailedAction.Exception.Message)
-            };
+            });
         }
 
         if (action is UpdateSearchStringAction updateSearchAction)
         {
-            return new PokedexState
+            return state.With(new
             {
-                Pokedex = state.Pokedex,
-                Search = updateSearchAction.Search,
-                Suggestions = GetSuggestions(state.Pokedex, updateSearchAction.Search),
-                Pokemon = state.Pokemon,
-                Loading = state.Loading,
-                Errors = state.Errors
-            };
+                Suggestions = GetSuggestions(state.Pokedex, updateSearchAction.Search)
+            });
         }
-            
+
         if (action is ResetPokemonAction _)
         {
-            return new PokedexState
+            return state.With(new
             {
-                Pokedex = state.Pokedex,
-                Search = state.Search,
-                Suggestions = state.Suggestions,
-                Pokemon = Option<Pokemon>.None(),
-                Loading = state.Loading,
-                Errors = state.Errors
-            };
+                Pokemon = Option<Pokemon>.None()
+            });
         }
 
         return base.Reduce(state, action);

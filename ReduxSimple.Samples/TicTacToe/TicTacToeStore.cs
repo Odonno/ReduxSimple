@@ -1,4 +1,5 @@
-﻿using SuccincT.Options;
+﻿using Converto;
+using SuccincT.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -36,12 +37,12 @@ namespace ReduxSimple.Samples.TicTacToe
 
                 if (gameEndedTurn1)
                 {
-                    return new TicTacToeState
+                    return state.With(new
                     {
                         Cells = cellsTurnPlayer,
                         GameEnded = gameEndedTurn1,
                         Winner = winnerTurn1
-                    };
+                    });
                 }
 
                 // Bot take cell
@@ -50,12 +51,12 @@ namespace ReduxSimple.Samples.TicTacToe
                 // Check end game
                 var (gameEndedTurn2, winnerTurn2) = CheckEndGame(cellsTurnBot);
 
-                return new TicTacToeState
+                return state.With(new
                 {
                     Cells = cellsTurnBot,
                     GameEnded = gameEndedTurn2,
                     Winner = winnerTurn2
-                };
+                });
             }
             if (action is StartNewGameAction _)
             {
