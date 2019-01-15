@@ -267,6 +267,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Converto">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>1.6.1</Version>
     </PackageReference>
