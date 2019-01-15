@@ -77,29 +77,25 @@ public sealed class MyAppStore : ReduxStore<AppState>
 
     private static AppState Reduce(AppState state, NavigateAction action)
     {
-        return new AppState
-        {
-            CurrentPage = action.PageName,
-            Pages = state.Pages.Add(action.PageName)
-        };
+        return state.With(new { Pages = state.Pages.Add(action.PageName) });
     }
     private static AppState Reduce(AppState state, GoBackAction action)
     {
         var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
 
-        return new AppState
+        return state.With(new
         {
             CurrentPage = newPages.LastOrDefault(),
             Pages = newPages
-        };
+        });
     }
     private static AppState Reduce(AppState state, ResetAction action)
     {
-        return new AppState
+        return state.With(new 
         {
             CurrentPage = string.Empty,
             Pages = ImmutableArray<string>.Empty
-        };
+        });
     }
 }
 ```
@@ -204,27 +200,23 @@ Store.Dispatch(new GetTodosAction());
 ```csharp
 private static AppState Reduce(AppState state, GetTodosAction action)
 {
-    return new AppState
-    {
-        Loading = true,
-        Todos = state.Todos
-    };
+    return state.With(new { Loading = true });
 }
 private static AppState Reduce(AppState state, GetTodosFulfilledAction action)
 {
-    return new AppState
+    return state.With(new
     {
         Loading = false,
         Todos = action.Todos.ToImmutableArray()
-    };
+    });
 }
 private static AppState Reduce(AppState state, GetTodosFailedAction action)
 {
-    return new AppState
+    return state.With(new
     {
         Loading = false,
         Todos = ImmutableArray<Todo>.Empty
-    };
+    });
 }
 ```
 

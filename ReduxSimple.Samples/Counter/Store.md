@@ -5,11 +5,11 @@ public class CounterStore : ReduxStore<CounterState>
     {
         if (action is IncrementAction _)
         {
-            return new CounterState { Count = state.Count + 1 };
+            return state.With(new { Count = state.Count + 1 });
         }
         if (action is DecrementAction _)
         {
-            return new CounterState { Count = state.Count - 1 };
+            return state.With(new { Count = state.Count - 1 });
         }
         return base.Reduce(state, action);
     }

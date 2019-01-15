@@ -1,4 +1,5 @@
-﻿using SuccincT.Options;
+﻿using Converto;
+using SuccincT.Options;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
@@ -31,14 +32,12 @@ namespace ReduxSimple.Samples.Components
                 {
                     var lastAction = state.CurrentActions.Last();
 
-                    return new HistoryComponentState
+                    return state.With(new
                     {
                         CurrentActions = state.CurrentActions.Remove(lastAction),
                         FutureActions = state.FutureActions.Add(lastAction),
-                        MaxPosition = state.MaxPosition,
-                        CurrentPosition = state.CurrentPosition - 1,
-                        PlaySessionActive = state.PlaySessionActive
-                    };
+                        CurrentPosition = state.CurrentPosition - 1
+                    });
                 }
                 if (action is GoForwardAction goForwardAction)
                 {
@@ -48,49 +47,38 @@ namespace ReduxSimple.Samples.Components
                     {
                         // Continue on existing timeline
                         var futureAction = futureActionOption.Value;
-                        return new HistoryComponentState
+                        return state.With(new
                         {
                             CurrentActions = state.CurrentActions.Add(futureAction),
                             FutureActions = state.FutureActions.Remove(futureAction),
-                            MaxPosition = state.MaxPosition,
-                            CurrentPosition = state.CurrentPosition + 1,
-                            PlaySessionActive = state.PlaySessionActive
-                        };
+                            CurrentPosition = state.CurrentPosition + 1
+                        });
                     }
                     else
                     {
                         // Create a new timeline
-                        return new HistoryComponentState
+                        return state.With(new
                         {
                             CurrentActions = state.CurrentActions.Add(goForwardAction.Action),
                             FutureActions = ImmutableList<object>.Empty,
                             MaxPosition = state.CurrentActions.Count + 1,
-                            CurrentPosition = state.CurrentPosition + 1,
-                            PlaySessionActive = state.PlaySessionActive
-                        };
+                            CurrentPosition = state.CurrentPosition + 1
+                        });
                     }
                 }
                 if (action is ResetAction)
                 {
-                    return new HistoryComponentState
+                    return state.With(new
                     {
                         CurrentActions = ImmutableList<object>.Empty,
                         FutureActions = ImmutableList<object>.Empty,
                         MaxPosition = 0,
-                        CurrentPosition = 0,
-                        PlaySessionActive = state.PlaySessionActive
-                    };
+                        CurrentPosition = 0
+                    });
                 }
                 if (action is TogglePlayPauseAction)
                 {
-                    return new HistoryComponentState
-                    {
-                        CurrentActions = state.CurrentActions,
-                        FutureActions = state.FutureActions,
-                        MaxPosition = state.MaxPosition,
-                        CurrentPosition = state.CurrentPosition,
-                        PlaySessionActive = !state.PlaySessionActive
-                    };
+                    return state.With(new { PlaySessionActive = !state.PlaySessionActive });
                 }
                 return base.Reduce(state, action);
             }
