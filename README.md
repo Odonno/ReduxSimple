@@ -65,37 +65,23 @@ public sealed class MyAppStore : ReduxStore<AppState>
         switch (action)
         {
             case NavigateAction navigateAction:
-                return Reduce(state, navigateAction);
-            case GoBackAction goBackAction:
-                return Reduce(state, goBackAction);
-            case ResetAction resetAction:
-                return Reduce(state, resetAction);
+                return state.With(new { Pages = state.Pages.Add(navigateAction.PageName) });
+            case GoBackAction:
+                var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
+                return state.With(new
+                {
+                    CurrentPage = newPages.LastOrDefault(),
+                    Pages = newPages
+                });
+            case ResetAction:
+                return state.With(new 
+                {
+                    CurrentPage = string.Empty,
+                    Pages = ImmutableArray<string>.Empty
+                });
         }
 
         return base.Reduce(state, action);
-    }
-
-    private static AppState Reduce(AppState state, NavigateAction action)
-    {
-        return state.With(new { Pages = state.Pages.Add(action.PageName) });
-    }
-    private static AppState Reduce(AppState state, GoBackAction action)
-    {
-        var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
-
-        return state.With(new
-        {
-            CurrentPage = newPages.LastOrDefault(),
-            Pages = newPages
-        });
-    }
-    private static AppState Reduce(AppState state, ResetAction action)
-    {
-        return state.With(new 
-        {
-            CurrentPage = string.Empty,
-            Pages = ImmutableArray<string>.Empty
-        });
     }
 }
 ```
