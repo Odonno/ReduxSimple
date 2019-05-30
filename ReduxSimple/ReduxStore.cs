@@ -122,7 +122,7 @@ namespace ReduxSimple
         /// <returns>
         /// An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever an action of <typeparamref name="T"/> is performed on the store.
         /// </returns>
-        public IObservable<T> ObserveAction<T>(ActionOriginFilter filter = ActionOriginFilter.All) where T : class
+        public IObservable<T> ObserveAction<T>(ActionOriginFilter filter = ActionOriginFilter.All)
         {
             return _actionSubject
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))

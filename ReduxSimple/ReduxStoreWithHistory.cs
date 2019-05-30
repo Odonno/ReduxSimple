@@ -117,7 +117,7 @@ namespace ReduxSimple
         /// <returns>
         /// An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever an action of <typeparamref name="T"/> is reversed (undone).
         /// </returns>
-        public IObservable<T> ObserveUndoneAction<T>() where T : class
+        public IObservable<T> ObserveUndoneAction<T>()
         {
             return _undoneActionSubject.OfType<T>();
         }
