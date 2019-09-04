@@ -87,6 +87,18 @@ namespace ReduxSimple
         }
 
         /// <summary>
+        /// Observes changes on CanUndo property.
+        /// </summary>
+        /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about CanUndo property.</returns>
+        public IObservable<bool> ObserveCanUndo()
+        {
+            return Observable.Merge(ObserveAction(), ObserveReset(), ObserveUndoneAction())
+                .Select(_ => CanUndo)
+                .StartWith(CanUndo)
+                .DistinctUntilChanged();
+        }
+
+        /// <summary>
         /// Redoes an operation, if any, that was previously undone.
         /// </summary>
         /// <returns><c>true</c> if an action was redone; <c>false</c> otherwise.</returns>
@@ -100,6 +112,18 @@ namespace ReduxSimple
             Dispatch(_futureActions.Pop(), false);
 
             return true;
+        }
+
+        /// <summary>
+        /// Observes changes on CanRedo property.
+        /// </summary>
+        /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about CanRedo property.</returns>
+        public IObservable<bool> ObserveCanRedo()
+        {
+            return Observable.Merge(ObserveAction(), ObserveReset(), ObserveUndoneAction())
+                .Select(_ => CanRedo)
+                .StartWith(CanRedo)
+                .DistinctUntilChanged();
         }
 
         /// <summary>

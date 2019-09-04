@@ -126,29 +126,26 @@ namespace ReduxSimple.Samples.Components
                 });
 
             // Observe changes on internal state
-            _internalStore.ObserveState(state => state.MaxPosition)
+            _internalStore.Select(state => state.MaxPosition)
                 .Subscribe(maxPosition =>
                 {
                     Slider.Maximum = maxPosition;
                 });
 
-            _internalStore.ObserveState(state => state.CurrentPosition)
-                .Subscribe(currentPosition =>
+            Observable.CombineLatest(
+                _internalStore.Select(state => state.CurrentPosition),
+                _internalStore.Select(state => state.PlaySessionActive),
+                _internalStore.Select(state => state.MaxPosition),
+                store.ObserveCanUndo(),
+                store.ObserveCanRedo(),
+                (value1, value2, value3, value4, value5) => Tuple.Create(value1, value2, value3, value4, value5)
+            )
+                .Subscribe(x =>
                 {
+                    var (currentPosition, playSessionActive, maxPosition, canUndo, canRedo) = x;
+
                     Slider.Value = currentPosition;
 
-                    if (!_internalStore.State.PlaySessionActive)
-                    {
-                        UndoButton.IsEnabled = store.CanUndo;
-                        RedoButton.IsEnabled = store.CanRedo;
-                        ResetButton.IsEnabled = store.CanUndo || store.CanRedo;
-                        PlayPauseButton.IsEnabled = store.CanRedo;
-                    }
-                });
-
-            _internalStore.ObserveState(state => state.PlaySessionActive)
-                .Subscribe(playSessionActive =>
-                {
                     if (playSessionActive)
                     {
                         UndoButton.IsEnabled = false;
@@ -162,12 +159,12 @@ namespace ReduxSimple.Samples.Components
                     }
                     else
                     {
-                        UndoButton.IsEnabled = store.CanUndo;
-                        RedoButton.IsEnabled = store.CanRedo;
-                        ResetButton.IsEnabled = store.CanUndo || store.CanRedo;
-                        PlayPauseButton.IsEnabled = store.CanRedo;
+                        UndoButton.IsEnabled = canUndo;
+                        RedoButton.IsEnabled = canRedo;
+                        ResetButton.IsEnabled = canUndo || canRedo;
+                        PlayPauseButton.IsEnabled = canRedo;
 
-                        Slider.IsEnabled = _internalStore.State.MaxPosition > 0;
+                        Slider.IsEnabled = maxPosition > 0;
 
                         PlayPauseButton.Content = "\xE768";
                     }
@@ -189,18 +186,6 @@ namespace ReduxSimple.Samples.Components
                         {
                             store.Redo();
                         }
-                    }
-                });
-
-            _internalStore.ObserveAction<ResetAction>()
-                .Subscribe(_ =>
-                {
-                    if (!_internalStore.State.PlaySessionActive)
-                    {
-                        UndoButton.IsEnabled = store.CanUndo;
-                        RedoButton.IsEnabled = store.CanRedo;
-                        ResetButton.IsEnabled = store.CanUndo || store.CanRedo;
-                        PlayPauseButton.IsEnabled = store.CanRedo;
                     }
                 });
 
@@ -229,12 +214,19 @@ namespace ReduxSimple.Samples.Components
                 .ObserveOnDispatcher()
                 .Subscribe(_ => _internalStore.Dispatch(new ResetAction()));
 
-            Observable.Interval(TimeSpan.FromSeconds(1))
+            _internalStore.Select(state => state.PlaySessionActive)
+                .Select(playSessionActive =>
+                    playSessionActive ? Observable.Interval(TimeSpan.FromSeconds(1)) : Observable.Empty<long>()
+                )
+                .Switch()
                 .ObserveOnDispatcher()
-                .Where(_ => _internalStore.State.PlaySessionActive)
                 .Subscribe(_ =>
                 {
-                    store.Redo();
+                    bool canRedo = store.Redo();
+                    if (!canRedo)
+                    {
+                        _internalStore.Dispatch(new TogglePlayPauseAction());
+                    }
                 });
         }
     }

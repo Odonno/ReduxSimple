@@ -6,12 +6,13 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.TicTacToe.Selectors;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
     public sealed partial class TicTacToePage : Page
     {
-        private static TicTacToeStore _store = new TicTacToeStore();
+        private static readonly TicTacToeStore _store = new TicTacToeStore();
 
         public TicTacToePage()
         {
@@ -24,7 +25,7 @@ namespace ReduxSimple.Samples.TicTacToe
             var cellsGrids = CellsRootGrid.Children;
 
             // Observe changes on state
-            _store.ObserveState(state => (state.GameEnded, state.Winner))
+            _store.Select(SelectGameEnded, SelectWinner)
                 .Subscribe(x =>
                 {
                     var (gameEnded, winner) = x;
@@ -42,7 +43,7 @@ namespace ReduxSimple.Samples.TicTacToe
                     }
                 });
 
-            _store.ObserveState(state => state.Cells)
+            _store.Select(SelectCells)
                 .Subscribe(cells =>
                 {
                     for (int i = 0; i < cells.Length; i++)
