@@ -1,7 +1,7 @@
 ﻿using Converto;
 using System.Collections.Immutable;
 
-namespace ReduxSimple.UnitTests
+namespace ReduxSimple.UnitTests.Setup.TodoListStore
 {
     public static class Functions
     {

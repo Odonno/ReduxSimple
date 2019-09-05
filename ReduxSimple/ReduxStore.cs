@@ -94,15 +94,16 @@ namespace ReduxSimple
             return _stateSubject
                 .DistinctUntilChanged(_fullStateComparer);
         }
+
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial">The type of the partial state to be observed.</typeparam>
+        /// <typeparam name="TSelectorResult">The type of the selector result.</typeparam>
         /// <param name="selector">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
-        public IObservable<TPartial> Select<TPartial>(Func<TState, TPartial> selector)
+        public IObservable<TSelectorResult> Select<TSelectorResult>(Func<TState, TSelectorResult> selector)
         {
             return _stateSubject
                 .Select(selector)
@@ -111,16 +112,16 @@ namespace ReduxSimple
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial1">The return type of the first selector.</typeparam>
-        /// <typeparam name="TPartial2">The return type of the second selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The return type of the first selector.</typeparam>
+        /// <typeparam name="TSelectorResult2">The return type of the second selector.</typeparam>
         /// <param name="selector1">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial1"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult1"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector2">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial2"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult2"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
-        /// <returns></returns>
-        public IObservable<Tuple<TPartial1, TPartial2>> Select<TPartial1, TPartial2>(Func<TState, TPartial1> selector1, Func<TState, TPartial2> selector2)
+        /// <returns></returns>        
+        public IObservable<Tuple<TSelectorResult1, TSelectorResult2>> Select<TSelectorResult1, TSelectorResult2>(Func<TState, TSelectorResult1> selector1, Func<TState, TSelectorResult2> selector2)
         {
             return Observable.CombineLatest(
                 ApplySelector(selector1),
@@ -131,20 +132,20 @@ namespace ReduxSimple
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial1">The return type of the first selector.</typeparam>
-        /// <typeparam name="TPartial2">The return type of the second selector.</typeparam>
-        /// <typeparam name="TPartial3">The return type of the third selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The return type of the first selector.</typeparam>
+        /// <typeparam name="TSelectorResult2">The return type of the second selector.</typeparam>
+        /// <typeparam name="TSelectorResult3">The return type of the third selector.</typeparam>
         /// <param name="selector1">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial1"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult1"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector2">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial2"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult2"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector3">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial3"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult3"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
-        public IObservable<Tuple<TPartial1, TPartial2, TPartial3>> Select<TPartial1, TPartial2, TPartial3>(Func<TState, TPartial1> selector1, Func<TState, TPartial2> selector2, Func<TState, TPartial3> selector3)
+        public IObservable<Tuple<TSelectorResult1, TSelectorResult2, TSelectorResult3>> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3>(Func<TState, TSelectorResult1> selector1, Func<TState, TSelectorResult2> selector2, Func<TState, TSelectorResult3> selector3)
         {
             return Observable.CombineLatest(
                 ApplySelector(selector1),
@@ -156,24 +157,24 @@ namespace ReduxSimple
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial1">The return type of the first selector.</typeparam>
-        /// <typeparam name="TPartial2">The return type of the second selector.</typeparam>
-        /// <typeparam name="TPartial3">The return type of the third selector.</typeparam>
-        /// <typeparam name="TPartial4">The return type of the fourth selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The return type of the first selector.</typeparam>
+        /// <typeparam name="TSelectorResult2">The return type of the second selector.</typeparam>
+        /// <typeparam name="TSelectorResult3">The return type of the third selector.</typeparam>
+        /// <typeparam name="TSelectorResult4">The return type of the fourth selector.</typeparam>
         /// <param name="selector1">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial1"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult1"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector2">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial2"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult2"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector3">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial3"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult3"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector4">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial4"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult4"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
-        public IObservable<Tuple<TPartial1, TPartial2, TPartial3, TPartial4>> Select<TPartial1, TPartial2, TPartial3, TPartial4>(Func<TState, TPartial1> selector1, Func<TState, TPartial2> selector2, Func<TState, TPartial3> selector3, Func<TState, TPartial4> selector4)
+        public IObservable<Tuple<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4>> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4>(Func<TState, TSelectorResult1> selector1, Func<TState, TSelectorResult2> selector2, Func<TState, TSelectorResult3> selector3, Func<TState, TSelectorResult4> selector4)
         {
             return Observable.CombineLatest(
                 ApplySelector(selector1),
@@ -186,28 +187,28 @@ namespace ReduxSimple
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial1">The return type of the first selector.</typeparam>
-        /// <typeparam name="TPartial2">The return type of the second selector.</typeparam>
-        /// <typeparam name="TPartial3">The return type of the third selector.</typeparam>
-        /// <typeparam name="TPartial4">The return type of the fifth selector.</typeparam>
-        /// <typeparam name="TPartial5">The return type of the fourth selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The return type of the first selector.</typeparam>
+        /// <typeparam name="TSelectorResult2">The return type of the second selector.</typeparam>
+        /// <typeparam name="TSelectorResult3">The return type of the third selector.</typeparam>
+        /// <typeparam name="TSelectorResult4">The return type of the fifth selector.</typeparam>
+        /// <typeparam name="TSelectorResult5">The return type of the fourth selector.</typeparam>
         /// <param name="selector1">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial1"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult1"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector2">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial2"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult2"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector3">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial3"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult3"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector4">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial4"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult4"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector5">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial5"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult5"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
-        public IObservable<Tuple<TPartial1, TPartial2, TPartial3, TPartial4, TPartial5>> Select<TPartial1, TPartial2, TPartial3, TPartial4, TPartial5>(Func<TState, TPartial1> selector1, Func<TState, TPartial2> selector2, Func<TState, TPartial3> selector3, Func<TState, TPartial4> selector4, Func<TState, TPartial5> selector5)
+        public IObservable<Tuple<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5>> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5>(Func<TState, TSelectorResult1> selector1, Func<TState, TSelectorResult2> selector2, Func<TState, TSelectorResult3> selector3, Func<TState, TSelectorResult4> selector4, Func<TState, TSelectorResult5> selector5)
         {
             return Observable.CombineLatest(
                 ApplySelector(selector1),
@@ -221,32 +222,32 @@ namespace ReduxSimple
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial1">The return type of the first selector.</typeparam>
-        /// <typeparam name="TPartial2">The return type of the second selector.</typeparam>
-        /// <typeparam name="TPartial3">The return type of the third selector.</typeparam>
-        /// <typeparam name="TPartial4">The return type of the fourth selector.</typeparam>
-        /// <typeparam name="TPartial5">The return type of the fifth selector.</typeparam>
-        /// <typeparam name="TPartial6">The return type of the sixth selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The return type of the first selector.</typeparam>
+        /// <typeparam name="TSelectorResult2">The return type of the second selector.</typeparam>
+        /// <typeparam name="TSelectorResult3">The return type of the third selector.</typeparam>
+        /// <typeparam name="TSelectorResult4">The return type of the fourth selector.</typeparam>
+        /// <typeparam name="TSelectorResult5">The return type of the fifth selector.</typeparam>
+        /// <typeparam name="TSelectorResult6">The return type of the sixth selector.</typeparam>
         /// <param name="selector1">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial1"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult1"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector2">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial2"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult2"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector3">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial3"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult3"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector4">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial4"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult4"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector5">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial5"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult5"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector6">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial6"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult6"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
-        public IObservable<Tuple<TPartial1, TPartial2, TPartial3, TPartial4, TPartial5, TPartial6>> Select<TPartial1, TPartial2, TPartial3, TPartial4, TPartial5, TPartial6>(Func<TState, TPartial1> selector1, Func<TState, TPartial2> selector2, Func<TState, TPartial3> selector3, Func<TState, TPartial4> selector4, Func<TState, TPartial5> selector5, Func<TState, TPartial6> selector6)
+        public IObservable<Tuple<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6>> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6>(Func<TState, TSelectorResult1> selector1, Func<TState, TSelectorResult2> selector2, Func<TState, TSelectorResult3> selector3, Func<TState, TSelectorResult4> selector4, Func<TState, TSelectorResult5> selector5, Func<TState, TSelectorResult6> selector6)
         {
             return Observable.CombineLatest(
                 ApplySelector(selector1),
@@ -261,36 +262,36 @@ namespace ReduxSimple
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial1">The return type of the first selector.</typeparam>
-        /// <typeparam name="TPartial2">The return type of the second selector.</typeparam>
-        /// <typeparam name="TPartial3">The return type of the third selector.</typeparam>
-        /// <typeparam name="TPartial4">The return type of the fourth selector.</typeparam>
-        /// <typeparam name="TPartial5">The return type of the fifth selector.</typeparam>
-        /// <typeparam name="TPartial6">The return type of the sixth selector.</typeparam>
-        /// <typeparam name="TPartial7">The return type of the seventh selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The return type of the first selector.</typeparam>
+        /// <typeparam name="TSelectorResult2">The return type of the second selector.</typeparam>
+        /// <typeparam name="TSelectorResult3">The return type of the third selector.</typeparam>
+        /// <typeparam name="TSelectorResult4">The return type of the fourth selector.</typeparam>
+        /// <typeparam name="TSelectorResult5">The return type of the fifth selector.</typeparam>
+        /// <typeparam name="TSelectorResult6">The return type of the sixth selector.</typeparam>
+        /// <typeparam name="TSelectorResult7">The return type of the seventh selector.</typeparam>
         /// <param name="selector1">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial1"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult1"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector2">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial2"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult2"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector3">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial3"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult3"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector4">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial4"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult4"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector5">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial5"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult5"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector6">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial6"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult6"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="selector7">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial7"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult7"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
-        public IObservable<Tuple<TPartial1, TPartial2, TPartial3, TPartial4, TPartial5, TPartial6, TPartial7>> Select<TPartial1, TPartial2, TPartial3, TPartial4, TPartial5, TPartial6, TPartial7>(Func<TState, TPartial1> selector1, Func<TState, TPartial2> selector2, Func<TState, TPartial3> selector3, Func<TState, TPartial4> selector4, Func<TState, TPartial5> selector5, Func<TState, TPartial6> selector6, Func<TState, TPartial7> selector7)
+        public IObservable<Tuple<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7>> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7>(Func<TState, TSelectorResult1> selector1, Func<TState, TSelectorResult2> selector2, Func<TState, TSelectorResult3> selector3, Func<TState, TSelectorResult4> selector4, Func<TState, TSelectorResult5> selector5, Func<TState, TSelectorResult6> selector6, Func<TState, TSelectorResult7> selector7)
         {
             return Observable.CombineLatest(
                 ApplySelector(selector1),
@@ -306,19 +307,361 @@ namespace ReduxSimple
         /// <summary>
         /// Select a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial">The return type of the selector.</typeparam>
+        /// <typeparam name="TSelectorResult">The return type of the selector.</typeparam>
         /// <typeparam name="TProps">The type of the props to use in the selector.</typeparam>
         /// <param name="selector">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <param name="props">
         /// The properties used in the selector.
         /// </param>
         /// <returns></returns>
-        public IObservable<TPartial> Select<TPartial, TProps>(Func<TState, TProps, TPartial> selector, TProps props)
+        public IObservable<TSelectorResult> Select<TSelectorResult, TProps>(Func<TState, TProps, TSelectorResult> selector, TProps props)
         {
             return _stateSubject
                 .Select(state => selector(state, props))
+                .DistinctUntilChanged();
+        }
+
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TSelectorResult">The type of the selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TSelectorResult, TResult>(MemoizedSelector<TState, TSelectorResult, TResult> memo)
+        {
+            return ApplySelector(memo.Selector)
+                .Select(memo.ProjectorFunction)
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TSelectorResult1, TSelectorResult2, TResult>(MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TResult> memo)
+        {
+            return Observable.CombineLatest(
+                ApplySelector(memo.Selector1),
+                ApplySelector(memo.Selector2),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult3">The type of the third selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TResult>(MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TResult> memo)
+        {
+            return Observable.CombineLatest(
+                ApplySelector(memo.Selector1),
+                ApplySelector(memo.Selector2),
+                ApplySelector(memo.Selector3),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        x.Item3
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult3">The type of the third selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult4">The type of the fourth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TResult>(MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TResult> memo)
+        {
+            return Observable.CombineLatest(
+                ApplySelector(memo.Selector1),
+                ApplySelector(memo.Selector2),
+                ApplySelector(memo.Selector3),
+                ApplySelector(memo.Selector4),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        x.Item3,
+                        x.Item4
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult3">The type of the third selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult4">The type of the fourth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult5">The type of the fifth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TResult>(MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TResult> memo)
+        {
+            return Observable.CombineLatest(
+                ApplySelector(memo.Selector1),
+                ApplySelector(memo.Selector2),
+                ApplySelector(memo.Selector3),
+                ApplySelector(memo.Selector4),
+                ApplySelector(memo.Selector5),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        x.Item3,
+                        x.Item4,
+                        x.Item5
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult3">The type of the third selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult4">The type of the fourth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult5">The type of the fifth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult6">The type of the sixth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TResult>(MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TResult> memo)
+        {
+            return Observable.CombineLatest(
+                ApplySelector(memo.Selector1),
+                ApplySelector(memo.Selector2),
+                ApplySelector(memo.Selector3),
+                ApplySelector(memo.Selector4),
+                ApplySelector(memo.Selector5),
+                ApplySelector(memo.Selector6),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        x.Item3,
+                        x.Item4,
+                        x.Item5,
+                        x.Item6
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult3">The type of the third selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult4">The type of the fourth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult5">The type of the fifth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult6">The type of the sixth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult7">The type of the seventh selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7, TResult>(MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7, TResult> memo)
+        {
+            return Observable.CombineLatest(
+                ApplySelector(memo.Selector1),
+                ApplySelector(memo.Selector2),
+                ApplySelector(memo.Selector3),
+                ApplySelector(memo.Selector4),
+                ApplySelector(memo.Selector5),
+                ApplySelector(memo.Selector6),
+                ApplySelector(memo.Selector7),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        x.Item3,
+                        x.Item4,
+                        x.Item5,
+                        x.Item6,
+                        x.Item7
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TProps">The type of the props to use in the selector.</typeparam>
+        /// <typeparam name="TSelectorResult">The type of the selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <param name="props">
+        /// The properties used in the selector.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TProps, TSelectorResult, TResult>(
+            MemoizedSelectorWithProps<TState, TProps, TSelectorResult, TResult> memo,
+            TProps props
+        )
+        {
+            return ApplySelectorWithProps(memo.Selector, props)
+                 .Select(result => memo.ProjectorFunction(result, props))
+                 .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TProps">The type of the props to use in the selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <param name="props">
+        /// The properties used in the selector.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TProps, TSelectorResult1, TSelectorResult2, TResult>(
+            MemoizedSelectorWithProps<TState, TProps, TSelectorResult1, TSelectorResult2, TResult> memo,
+            TProps props
+        )
+        {
+            return Observable.CombineLatest(
+                ApplySelectorWithProps(memo.Selector1, props),
+                ApplySelectorWithProps(memo.Selector2, props),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        props
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TProps">The type of the props to use in the selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult3">The type of the third selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <param name="props">
+        /// The properties used in the selector.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TProps, TSelectorResult1, TSelectorResult2, TSelectorResult3, TResult>(
+            MemoizedSelectorWithProps<TState, TProps, TSelectorResult1, TSelectorResult2, TSelectorResult3, TResult> memo,
+            TProps props
+        )
+        {
+            return Observable.CombineLatest(
+                ApplySelectorWithProps(memo.Selector1, props),
+                ApplySelectorWithProps(memo.Selector2, props),
+                ApplySelectorWithProps(memo.Selector3, props),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        x.Item3,
+                        props
+                    )
+                )
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Select a value derived from the state of the store.
+        /// </summary>
+        /// <typeparam name="TProps">The type of the props to use in the selector.</typeparam>
+        /// <typeparam name="TSelectorResult1">The type of the first selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult2">The type of the second selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult3">The type of the third selector's memoized selector result.</typeparam>
+        /// <typeparam name="TSelectorResult4">The type of the fourth selector's memoized selector result.</typeparam>
+        /// <typeparam name="TResult">The type of the projector's memoized selector result.</typeparam>
+        /// <param name="memo">
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TResult"/> from an instance of <typeparamref name="TState"/>.
+        /// </param>
+        /// <param name="props">
+        /// The properties used in the selector.
+        /// </param>
+        /// <returns></returns>
+        public IObservable<TResult> Select<TProps, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TResult>(
+            MemoizedSelectorWithProps<TState, TProps, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TResult> memo,
+            TProps props
+        )
+        {
+            return Observable.CombineLatest(
+                ApplySelectorWithProps(memo.Selector1, props),
+                ApplySelectorWithProps(memo.Selector2, props),
+                ApplySelectorWithProps(memo.Selector3, props),
+                ApplySelectorWithProps(memo.Selector4, props),
+                Tuple.Create
+            )
+                .Select(x =>
+                    memo.ProjectorFunction(
+                        x.Item1,
+                        x.Item2,
+                        x.Item3,
+                        x.Item4,
+                        props
+                    )
+                )
                 .DistinctUntilChanged();
         }
 
@@ -338,13 +681,13 @@ namespace ReduxSimple
         /// <summary>
         /// Observes a value derived from the state of the store.
         /// </summary>
-        /// <typeparam name="TPartial">The type of the partial state to be observed.</typeparam>
+        /// <typeparam name="TSelectorResult">The type of the partial state to be observed.</typeparam>
         /// <param name="selector">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TPartial"/> from an instance of <typeparamref name="TState"/>.
+        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult"/> from an instance of <typeparamref name="TState"/>.
         /// </param>
         /// <returns></returns>
         [Obsolete("You should now use the Select method.")]
-        public IObservable<TPartial> ObserveState<TPartial>(Func<TState, TPartial> selector)
+        public IObservable<TSelectorResult> ObserveState<TSelectorResult>(Func<TState, TSelectorResult> selector)
         {
             return _stateSubject.Select(selector).DistinctUntilChanged();
         }
@@ -424,13 +767,27 @@ namespace ReduxSimple
         /// <summary>
         /// Apply a selector to the state observable.
         /// </summary>
-        /// <typeparam name="TPartial">The return type of the selector.</typeparam>
+        /// <typeparam name="TSelectorResult">The return type of the selector.</typeparam>
         /// <param name="selector">The selector to apply.</param>
-        /// <returns>An <see cref="IObservable{TPartial}"/> that can be subscribed to in order to receive partial state changes based on the selector function.</returns>
-        private IObservable<TPartial> ApplySelector<TPartial>(Func<TState, TPartial> selector)
+        /// <returns>An <see cref="IObservable{TSelectorResult}"/> that can be subscribed to in order to receive partial state changes based on the selector function.</returns>
+        private IObservable<TSelectorResult> ApplySelector<TSelectorResult>(Func<TState, TSelectorResult> selector)
         {
             return _stateSubject
                 .Select(selector)
+                .DistinctUntilChanged();
+        }
+        /// <summary>
+        /// Apply a selector with props to the state observable.
+        /// </summary>
+        /// <typeparam name="TProps">The type of the props used in the selector.</typeparam>
+        /// <typeparam name="TSelectorResult">The return type of the selector.</typeparam>
+        /// <param name="selector">The selector to apply.</param>
+        /// <param name="props">The props to use in the selector.</param>
+        /// <returns>An <see cref="IObservable{TSelectorResult}"/> that can be subscribed to in order to receive partial state changes based on the selector function.</returns>
+        private IObservable<TSelectorResult> ApplySelectorWithProps<TProps, TSelectorResult>(Func<TState, TProps, TSelectorResult> selector, TProps props)
+        {
+            return _stateSubject
+                .Select(state => selector(state, props))
                 .DistinctUntilChanged();
         }
     }
