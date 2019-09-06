@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -50,6 +51,11 @@ namespace ReduxSimple
         /// <param name="action">The action to be performed on the current state.</param>
         public void Dispatch(object action)
         {
+            if (action == null)
+            {
+                Debug.WriteLine("[Warning] Dispatching a `null` action is forbidden.");
+            }
+
             if (this is ReduxStoreWithHistory<TState> storeWithHistory)
             {
                 storeWithHistory.Dispatch(action);
