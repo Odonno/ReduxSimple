@@ -11,7 +11,11 @@ public sealed partial class TicTacToePage : Page
         var cellsGrids = CellsRootGrid.Children;
 
         // Observe changes on state
-		_store.ObserveState(state => (state.GameEnded, state.Winner))
+		Observable.CombineLatest(
+            _store.Select(SelectGameEnded),
+            _store.Select(SelectWinner),
+            Tuple.Create
+        )
             .Subscribe(x =>
             {
                 var (gameEnded, winner) = x;
@@ -29,7 +33,7 @@ public sealed partial class TicTacToePage : Page
                 }
             });
 
-        _store.ObserveState(state => state.Cells)
+        _store.Select(SelectCells)
             .Subscribe(cells =>
             {
                 for (int i = 0; i < cells.Length; i++)

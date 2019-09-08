@@ -158,10 +158,12 @@
     <Content Include="Counter\CodeBehind.md" />
     <Content Include="Counter\Dependencies.md" />
     <Content Include="Counter\Introduction.md" />
+    <Content Include="Counter\Selectors.md" />
     <Content Include="Pokedex\Actions.md" />
     <Content Include="Pokedex\CodeBehind.md" />
     <Content Include="Pokedex\Dependencies.md" />
     <Content Include="Pokedex\Introduction.md" />
+    <Content Include="Pokedex\Selectors.md" />
     <Content Include="Pokedex\State.md" />
     <Content Include="Pokedex\Store.md" />
     <Content Include="Pokedex\UI.md" />
@@ -169,6 +171,7 @@
     <Content Include="TicTacToe\CodeBehind.md" />
     <Content Include="TicTacToe\Dependencies.md" />
     <Content Include="TicTacToe\Introduction.md" />
+    <Content Include="TicTacToe\Selectors.md" />
     <Content Include="TicTacToe\State.md" />
     <Content Include="TicTacToe\Store.md" />
     <Content Include="TicTacToe\UI.md" />
@@ -176,6 +179,7 @@
     <Content Include="TodoList\CodeBehind.md" />
     <Content Include="TodoList\Dependencies.md" />
     <Content Include="TodoList\Introduction.md" />
+    <Content Include="TodoList\Selectors.md" />
     <Content Include="TodoList\State.md" />
     <Content Include="TodoList\Store.md" />
     <Content Include="TodoList\UI.md" />
@@ -308,7 +312,6 @@
       <Name>ReduxSimple</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

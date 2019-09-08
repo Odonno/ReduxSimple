@@ -78,7 +78,11 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
-            Store.Select(SelectLoading, SelectIsPokedexEmpty)
+            Observable.CombineLatest(
+                Store.Select(SelectLoading),
+                Store.Select(SelectIsPokedexEmpty),
+                Tuple.Create
+            )
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(x =>
                 {

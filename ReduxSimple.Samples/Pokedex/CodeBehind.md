@@ -60,21 +60,27 @@ public sealed partial class PokedexPage : Page
                 });
             });
 
-        Store.ObserveState(state => (state.Loading, state.Pokedex))
+        Observable.CombineLatest(
+            Store.Select(SelectLoading),
+            Store.Select(SelectIsPokedexEmpty),
+            Tuple.Create
+        )
             .ObserveOn(Scheduler.Default)
             .Subscribe(x =>
             {
+                var (loading, isPokedexEmpty) = x;
+
                 ExecuteOnUIThreadAsync(() =>
                 {
-                    OpenPokedexButton.ShowIf(!x.Loading && x.Pokedex.IsEmpty);
+                    OpenPokedexButton.ShowIf(!loading && isPokedexEmpty);
 
-                    GlobalLoadingProgressRing.IsActive = x.Loading && x.Pokedex.IsEmpty;
-                    GlobalLoadingProgressRing.ShowIf(x.Loading && x.Pokedex.IsEmpty);
-                    RootStackPanel.ShowIf(x.Pokedex.Any());
+                    GlobalLoadingProgressRing.IsActive = loading && isPokedexEmpty;
+                    GlobalLoadingProgressRing.ShowIf(loading && isPokedexEmpty);
+                    RootStackPanel.ShowIf(!isPokedexEmpty);
                 });
             });
 
-        Store.ObserveState(state => state.Search)
+        Store.Select(SelectSearch)
             .ObserveOn(Scheduler.Default)
             .Subscribe(search =>
             {
@@ -109,7 +115,7 @@ public sealed partial class PokedexPage : Page
                 }
             });
 
-        Store.ObserveState(state => state.Suggestions)
+        Store.Select(SelectSuggestions)
             .ObserveOn(Scheduler.Default)
             .Subscribe(suggestions =>
             {
@@ -119,7 +125,7 @@ public sealed partial class PokedexPage : Page
                 });
             });
 
-        Store.ObserveState(state => state.Pokemon)
+        Store.Select(SelectPokemon)
             .ObserveOn(Scheduler.Default)
             .Subscribe(pokemon =>
             {
@@ -132,7 +138,7 @@ public sealed partial class PokedexPage : Page
                 });
             });
 
-        Store.ObserveState(state => state.Errors)
+        Store.Select(SelectErrors)
             .ObserveOn(Scheduler.Default)
             .Subscribe(errors =>
             {

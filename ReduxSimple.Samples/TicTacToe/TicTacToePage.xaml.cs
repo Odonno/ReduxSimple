@@ -25,7 +25,11 @@ namespace ReduxSimple.Samples.TicTacToe
             var cellsGrids = CellsRootGrid.Children;
 
             // Observe changes on state
-            _store.Select(SelectGameEnded, SelectWinner)
+            Observable.CombineLatest(
+                _store.Select(SelectGameEnded),
+                _store.Select(SelectWinner),
+                Tuple.Create
+            )
                 .Subscribe(x =>
                 {
                     var (gameEnded, winner) = x;

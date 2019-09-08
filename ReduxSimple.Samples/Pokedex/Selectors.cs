@@ -8,7 +8,7 @@ namespace ReduxSimple.Samples.Pokedex
     public static class Selectors
     {
         public static Func<PokedexState, ImmutableList<PokemonGeneralInfo>> SelectPokedex = state => state.Pokedex;
-        public static Func<PokedexState, bool> SelectIsPokedexEmpty = CreateSelector(
+        public static MemoizedSelector<PokedexState, ImmutableList<PokemonGeneralInfo>, bool> SelectIsPokedexEmpty = CreateSelector(
             SelectPokedex,
             pokedex => pokedex.IsEmpty
         );

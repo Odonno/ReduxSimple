@@ -1,6 +1,7 @@
 ﻿using ReduxSimple.UnitTests.Setup.TodoListStore;
 using System;
 using System.Collections.Immutable;
+using System.Reactive.Linq;
 using Xunit;
 using static ReduxSimple.UnitTests.Setup.TodoListStore.Functions;
 using static ReduxSimple.UnitTests.Setup.TodoListStore.Selectors;
@@ -120,7 +121,11 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            store.Select(SelectTodoList, SelectCurrentUser)
+            Observable.CombineLatest(
+                store.Select(SelectTodoList),
+                store.Select(SelectCurrentUser),
+                Tuple.Create
+            )
                 .Subscribe(x =>
                 {
                     var (todolist, currentUser) = x;
@@ -148,7 +153,11 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            store.Select(SelectTodoList, SelectCurrentUser)
+            Observable.CombineLatest(
+                store.Select(SelectTodoList),
+                store.Select(SelectCurrentUser),
+                Tuple.Create
+            )
                 .Subscribe(x =>
                 {
                     var (todolist, currentUser) = x;
@@ -179,7 +188,11 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string uselessProperty) lastPartialState = (null, null);
 
-            store.Select(SelectTodoList, SelectUselessProperty)
+            Observable.CombineLatest(
+                store.Select(SelectTodoList),
+                store.Select(SelectUselessProperty),
+                Tuple.Create
+            )
                 .Subscribe(x =>
                 {
                     var (todolist, uselessProperty) = x;

@@ -8,7 +8,7 @@ public sealed partial class CounterPage : Page
         InitializeComponent();
 
         // Observe changes on state
-        _store.ObserveState()
+        _store.Select(SelectCount)
             .Subscribe(state =>
             {
                 CounterValueTextBlock.Text = state.Count.ToString();
