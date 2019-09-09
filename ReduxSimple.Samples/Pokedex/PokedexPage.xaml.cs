@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
+using static ReduxSimple.Samples.Pokedex.Selectors;
 
 namespace ReduxSimple.Samples.Pokedex
 {
@@ -17,7 +18,7 @@ namespace ReduxSimple.Samples.Pokedex
     {
         private readonly PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
-        public PokedexStore Store = new PokedexStore();
+        public static readonly PokedexStore Store = new PokedexStore();
 
         public PokedexPage()
         {
@@ -77,23 +78,27 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
-            Store.ObserveState(state => (state.Loading, state.Pokedex))
+            Observable.CombineLatest(
+                Store.Select(SelectLoading),
+                Store.Select(SelectIsPokedexEmpty),
+                Tuple.Create
+            )
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(x =>
                 {
-                    var (loading, pokedex) = x;
+                    var (loading, isPokedexEmpty) = x;
 
                     ExecuteOnUIThreadAsync(() =>
                     {
-                        OpenPokedexButton.ShowIf(!loading && pokedex.IsEmpty);
+                        OpenPokedexButton.ShowIf(!loading && isPokedexEmpty);
 
-                        GlobalLoadingProgressRing.IsActive = loading && pokedex.IsEmpty;
-                        GlobalLoadingProgressRing.ShowIf(loading && pokedex.IsEmpty);
-                        RootStackPanel.ShowIf(pokedex.Any());
+                        GlobalLoadingProgressRing.IsActive = loading && isPokedexEmpty;
+                        GlobalLoadingProgressRing.ShowIf(loading && isPokedexEmpty);
+                        RootStackPanel.ShowIf(!isPokedexEmpty);
                     });
                 });
 
-            Store.ObserveState(state => state.Search)
+            Store.Select(SelectSearch)
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(search =>
                 {
@@ -128,7 +133,7 @@ namespace ReduxSimple.Samples.Pokedex
                     }
                 });
 
-            Store.ObserveState(state => state.Suggestions)
+            Store.Select(SelectSuggestions)
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(suggestions =>
                 {
@@ -138,7 +143,7 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
-            Store.ObserveState(state => state.Pokemon)
+            Store.Select(SelectPokemon)
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(pokemon =>
                 {
@@ -151,7 +156,7 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
-            Store.ObserveState(state => state.Errors)
+            Store.Select(SelectErrors)
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(errors =>
                 {

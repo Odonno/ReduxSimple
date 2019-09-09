@@ -122,34 +122,75 @@ Store.ObserveAction<NavigateAction>().Subscribe(_ =>
     // TODO : Handle navigation
 });
 
-Store.ObserveState()
-    .Where(state => state.CurrentPage == nameof(Page1))
+Store.Select(state => state.CurrentPage)
+    .Where(currentPage => currentPage == nameof(Page1))
     .Subscribe(_ =>
     {
         // TODO : Handle event when the current page is now "Page1"
     });
 ```
 
+## Selectors
+
 Based on what you need, you can observe the entire state or just a part of it.
 
+### Full state
+
 ```csharp
-Store.ObserveState()
+Store.Select()
     .Subscribe(state =>
     {
         // Listening to the full state (when any property changes)
     });
+```
 
-Store.ObserveState(state => state.CurrentPage)
+### Inline function
+
+You can use functions to select a part of the state, like this:
+
+```csharp
+Store.Select(state => state.CurrentPage)
     .Subscribe(currentPage =>
     {
         // Listening to the "CurrentPage" property of the state (when only this property changes)
     });
+```
 
-Store.ObserveState(state => (state.CurrentPage, state.Errors))
-    .Subscribe(x =>
+It can be inline functions or static functions.
+
+```csharp
+public static Func<AppState, string> SelectCurrentPage = state => state.CurrentPage;
+public static Func<AppState, ImmutableArray<string>> SelectPages = state => state.Pages;
+
+Store.Select(SelectCurrentPage)
+    .Subscribe(currentPage =>
     {
-        // Listening to few properties of the state (when any of these properties changes)
+        // Listening to the "CurrentPage" property of the state (when only this property changes)
     });
+```
+
+The benefits of static functions is that they can be reused in multiple components and they can be reused to create other selectors. 
+
+### Memoized selectors
+
+Memoized selectors are a kind of selectors that combine multiple selectors to create a new one.
+
+```csharp
+public static MemoizedSelectorWithProps<AppState, ImmutableArray<string>, bool> SelectHasPreviousPage = CreateSelector(
+    SelectPages,
+    (ImmutableArray<string> pages) => pages.Count() > 1
+);
+```
+
+### Memoized selectors with props
+
+Same as memoized selectors, but you can now use variables out of the store to create a new selector.   
+
+```csharp
+public static MemoizedSelectorWithProps<AppState, string, string, bool> SelectIsPageSelected = CreateSelector(
+    SelectCurrentPage,
+    (string currentPage, string selectedPage) => currentPage == selectedPage
+);
 ```
 
 ### Asynchronous Actions
@@ -225,7 +266,7 @@ if (Store.CanUndo)
 It will then fires an `UndoneAction` event you can subscribe to.
 
 ```csharp
-Store.ObserveState()
+Store.Select()
     .Subscribe(_ =>
     {
         // TODO : Handle event when the State changed 

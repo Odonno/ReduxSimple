@@ -18,7 +18,7 @@ public sealed partial class TodoListPage : Page
         var selectedButtonStyle = App.Current.Resources["SelectedButtonStyle"] as Style;
 
         // Observe changes on state
-        Store.ObserveState(state => state.Filter)
+        Store.Select(SelectFilter)
             .Subscribe(filter =>
             {
                 switch (filter)
@@ -39,7 +39,7 @@ public sealed partial class TodoListPage : Page
                 FilterCompletedButton.Style = (filter == TodoFilter.Completed) ? selectedButtonStyle : null;
             });
 
-        Store.ObserveState(state => state.Items)
+        Store.Select(SelectItems)
             .Subscribe(items =>
             {
                 if (TodoItemsListView.ItemsSource != advancedCollectionView)

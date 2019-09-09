@@ -1,69 +1,17 @@
+﻿using ReduxSimple.UnitTests.Setup.TodoListStore;
 using System;
 using System.Collections.Immutable;
+using System.Reactive.Linq;
 using Xunit;
-using static ReduxSimple.UnitTests.Functions;
+using static ReduxSimple.UnitTests.Setup.TodoListStore.Functions;
+using static ReduxSimple.UnitTests.Setup.TodoListStore.Selectors;
 
 namespace ReduxSimple.UnitTests
 {
-    public class ReduxStoreTest
+    public class SelectorTest
     {
         [Fact]
-        public void CanCreateAStoreWithEmptyState()
-        {
-            // Arrange
-            var store = new StoreWithEmptyState();
-
-            // Act
-
-            // Assert
-            Assert.NotNull(store.State);
-        }
-
-        [Fact]
-        public void CanCreateAStoreWithDefaultState()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(initialState);
-
-            // Act
-
-            // Assert
-            Assert.Empty(store.State.TodoList);
-        }
-        
-        [Fact]
-        public void CanDispatchAction()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(initialState);
-
-            // Act
-            DispatchAddTodoItemAction(store, 1, "Create unit tests");
-
-            // Assert
-            Assert.Single(store.State.TodoList);
-        }
-
-        [Fact]
-        public void CanDispatchDifferentActions()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(initialState);
-
-            // Act
-            DispatchAddTodoItemAction(store, 1, "Create unit tests");
-            DispatchSwitchUserAction(store, "Emily");
-
-            // Assert
-            Assert.Single(store.State.TodoList);
-            Assert.Equal("Emily", store.State.CurrentUser);
-        }
-
-        [Fact]
-        public void CanObserveEntireState()
+        public void CanSelectEntireState()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -73,7 +21,7 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             TodoListState lastState = null;
 
-            store.ObserveState()
+            store.Select()
                 .Subscribe(state =>
                 {
                     observeCount++;
@@ -90,7 +38,7 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
-        public void CanObserveEntireStateWithUnchangedValue()
+        public void CanSelectEntireStateWithUnchangedValue()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -99,7 +47,7 @@ namespace ReduxSimple.UnitTests
             // Act
             int observeCount = 0;
 
-            store.ObserveState()
+            store.Select()
                 .Subscribe(state =>
                 {
                     observeCount++;
@@ -115,7 +63,7 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
-        public void CanObserveOnePropertyOfState()
+        public void CanSelectOnePropertyOfState()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -125,7 +73,7 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             ImmutableList<TodoItem> lastResult = null;
 
-            store.ObserveState(state => state.TodoList)
+            store.Select(SelectTodoList)
                 .Subscribe(todoList =>
                 {
                     observeCount++;
@@ -140,7 +88,7 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
-        public void CanObserveOnePropertyOfStateWithUnchangedValue()
+        public void CanSelectOnePropertyOfStateWithUnchangedValue()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -149,7 +97,7 @@ namespace ReduxSimple.UnitTests
             // Act
             int observeCount = 0;
 
-            store.ObserveState(state => state.CurrentUser)
+            store.Select(SelectCurrentUser)
                 .Subscribe(_ =>
                 {
                     observeCount++;
@@ -163,7 +111,7 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
-        public void CanObservePartialStateWithTwoProperties()
+        public void CanSelectPartialStateWithTwoProperties()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -173,11 +121,17 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            store.ObserveState(state => (state.TodoList, state.CurrentUser))
-                .Subscribe(partialState =>
+            Observable.CombineLatest(
+                store.Select(SelectTodoList),
+                store.Select(SelectCurrentUser),
+                Tuple.Create
+            )
+                .Subscribe(x =>
                 {
+                    var (todolist, currentUser) = x;
+
                     observeCount++;
-                    lastPartialState = partialState;
+                    lastPartialState = (todolist, currentUser);
                 });
 
             DispatchAllActions(store);
@@ -189,7 +143,7 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
-        public void CanObservePartialStateWithTwoPropertiesWithUnchangedValue()
+        public void CanSelectPartialStateWithTwoPropertiesWithUnchangedValue()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -199,11 +153,17 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            store.ObserveState(state => (state.TodoList, state.CurrentUser))
-                .Subscribe(partialState =>
+            Observable.CombineLatest(
+                store.Select(SelectTodoList),
+                store.Select(SelectCurrentUser),
+                Tuple.Create
+            )
+                .Subscribe(x =>
                 {
+                    var (todolist, currentUser) = x;
+
                     observeCount++;
-                    lastPartialState = partialState;
+                    lastPartialState = (todolist, currentUser);
                 });
 
             DispatchAddTodoItemAction(store, 1, "Create unit tests");
@@ -218,7 +178,7 @@ namespace ReduxSimple.UnitTests
         }
 
         [Fact]
-        public void CanObservePartialStateWithOneUpdatedPropertyAndOneNonUpdateProperty()
+        public void CanSelectPartialStateWithOneUpdatedPropertyAndOneNonUpdateProperty()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -228,11 +188,17 @@ namespace ReduxSimple.UnitTests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string uselessProperty) lastPartialState = (null, null);
 
-            store.ObserveState(state => (state.TodoList, state.UselessProperty))
-                .Subscribe(partialState =>
+            Observable.CombineLatest(
+                store.Select(SelectTodoList),
+                store.Select(SelectUselessProperty),
+                Tuple.Create
+            )
+                .Subscribe(x =>
                 {
+                    var (todolist, uselessProperty) = x;
+
                     observeCount++;
-                    lastPartialState = partialState;
+                    lastPartialState = (todolist, uselessProperty);
                 });
 
             DispatchAddTodoItemAction(store, 1, "Create unit tests");
@@ -244,84 +210,6 @@ namespace ReduxSimple.UnitTests
             Assert.Equal(3, observeCount);
             Assert.Equal(2, lastPartialState.todoList.Count);
             Assert.Null(lastPartialState.uselessProperty);
-        }
-
-        [Fact]
-        public void CanObserveActions()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(initialState);
-
-            // Act
-            int observeCount = 0;
-            object lastAction = null;
-
-            store.ObserveAction()
-                .Subscribe(action =>
-                {
-                    observeCount++;
-                    lastAction = action;
-                });
-
-            DispatchAllActions(store);
-
-            // Assert
-            Assert.Equal(4, observeCount);
-            Assert.IsType<AddTodoItemAction>(lastAction);
-        }
-
-        [Fact]
-        public void CanObserveSingleActionType()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(initialState);
-
-            // Act
-            int observeCount = 0;
-            object lastAction = null;
-
-            store.ObserveAction<SwitchUserAction>()
-                .Subscribe(action =>
-                {
-                    observeCount++;
-                    lastAction = action;
-                });
-
-            DispatchAllActions(store);
-
-            // Assert
-            Assert.Equal(1, observeCount);
-            Assert.IsType<SwitchUserAction>(lastAction);
-        }
-
-        [Fact]
-        public void CanResetStore()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(initialState);
-
-            // Act
-            int observeCount = 0;
-            TodoListState lastState = null;
-
-            store.ObserveReset()
-                .Subscribe(state =>
-                {
-                    observeCount++;
-                    lastState = state;
-                });
-
-            DispatchAllActions(store);
-
-            store.Reset();
-
-            // Assert
-            Assert.Equal(1, observeCount);
-            Assert.Empty(lastState.TodoList);
-            Assert.Equal("David", lastState.CurrentUser);
         }
     }
 }

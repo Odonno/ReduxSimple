@@ -5,12 +5,13 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.TodoList.Selectors;
 
 namespace ReduxSimple.Samples.TodoList
 {
     public sealed partial class TodoListPage : Page
     {
-        public static TodoListStore Store = new TodoListStore();
+        public static readonly TodoListStore Store = new TodoListStore();
 
         public TodoListPage()
         {
@@ -26,7 +27,7 @@ namespace ReduxSimple.Samples.TodoList
             var selectedButtonStyle = App.Current.Resources["SelectedButtonStyle"] as Style;
 
             // Observe changes on state
-            Store.ObserveState(state => state.Filter)
+            Store.Select(SelectFilter)
                 .Subscribe(filter =>
                 {
                     switch (filter)
@@ -47,7 +48,7 @@ namespace ReduxSimple.Samples.TodoList
                     FilterCompletedButton.Style = (filter == TodoFilter.Completed) ? selectedButtonStyle : null;
                 });
 
-            Store.ObserveState(state => state.Items)
+            Store.Select(SelectItems)
                 .Subscribe(items =>
                 {
                     if (TodoItemsListView.ItemsSource != advancedCollectionView)

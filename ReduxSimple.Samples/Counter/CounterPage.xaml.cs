@@ -5,12 +5,13 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.Counter.Selectors;
 
 namespace ReduxSimple.Samples.Counter
 {
     public sealed partial class CounterPage : Page
     {
-        private static CounterStore _store = new CounterStore();
+        private static readonly CounterStore _store = new CounterStore();
 
         public CounterPage()
         {
@@ -20,10 +21,10 @@ namespace ReduxSimple.Samples.Counter
             _store.Reset();
 
             // Observe changes on state
-            _store.ObserveState()
-                .Subscribe(state =>
+            _store.Select(SelectCount)
+                .Subscribe(count =>
                 {
-                    CounterValueTextBlock.Text = state.Count.ToString();
+                    CounterValueTextBlock.Text = count.ToString();
                 });
 
             // Observe UI events
