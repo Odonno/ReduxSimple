@@ -85,8 +85,12 @@ namespace ReduxSimple.Samples.TicTacToe
             StartNewGameButton.Events().Click
                 .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
 
-            // Initialize Components
-            HistoryComponent.Initialize(_store);
+            // Redux DevTools
+            OpenDevtoolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(_store);
+                });
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TicTacToe");

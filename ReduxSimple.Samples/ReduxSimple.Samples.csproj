@@ -11,7 +11,7 @@
     <AssemblyName>ReduxSimple.Samples</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -98,11 +98,11 @@
     </Compile>
     <Compile Include="Common\CodeMarkdownRenderer.cs" />
     <Compile Include="Common\EventTracking.cs" />
+    <Compile Include="Components\DevToolsComponent.xaml.cs">
+      <DependentUpon>DevToolsComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\DocumentationComponent.xaml.cs">
       <DependentUpon>DocumentationComponent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\HistoryComponent.xaml.cs">
-      <DependentUpon>HistoryComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Counter\Actions.cs" />
     <Content Include="Counter\Store.md" />
@@ -116,6 +116,7 @@
     <Compile Include="Counter\Selectors.cs" />
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\IObservableExtensions.cs" />
+    <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -241,11 +242,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Components\DocumentationComponent.xaml">
+    <Page Include="Components\DevToolsComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Components\HistoryComponent.xaml">
+    <Page Include="Components\DocumentationComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

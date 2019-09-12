@@ -7,11 +7,10 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Components
 {
-    public sealed partial class HistoryComponent : UserControl
+    public sealed partial class DevToolsComponent : Page
     {
         private class HistoryComponentState
         {
@@ -26,8 +25,6 @@ namespace ReduxSimple.Samples.Components
         {
             protected override HistoryComponentState Reduce(HistoryComponentState state, object action)
             {
-                TrackReduxAction(action);
-
                 if (action is GoBackAction)
                 {
                     var lastAction = state.CurrentActions.Last();
@@ -97,9 +94,9 @@ namespace ReduxSimple.Samples.Components
         }
         private class TogglePlayPauseAction { }
 
-        private HistoryComponentStore _internalStore = new HistoryComponentStore();
+        private readonly HistoryComponentStore _internalStore = new HistoryComponentStore();
 
-        public HistoryComponent()
+        public DevToolsComponent()
         {
             InitializeComponent();
         }
@@ -138,7 +135,7 @@ namespace ReduxSimple.Samples.Components
                 _internalStore.Select(state => state.MaxPosition),
                 store.ObserveCanUndo(),
                 store.ObserveCanRedo(),
-                (value1, value2, value3, value4, value5) => Tuple.Create(value1, value2, value3, value4, value5)
+                Tuple.Create
             )
                 .Subscribe(x =>
                 {

@@ -195,9 +195,13 @@ namespace ReduxSimple.Samples.Pokedex
                         }
                     });
                 });
-            
-            // Initialize Components
-            HistoryComponent.Initialize(Store);
+
+            // Redux DevTools
+            OpenDevtoolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(Store);
+                });
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Pokedex");

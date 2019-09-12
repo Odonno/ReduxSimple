@@ -14,7 +14,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Header component -->
@@ -31,11 +30,15 @@
                            FontSize="14">
                     A really simple example with two actions: increment and decrement.
                 </TextBlock>
+
+                <Button x:Name="OpenDevtoolsButton">
+                    Open Redux DevTools
+                </Button>
             </StackPanel>
 
             <!-- Root page component -->
             <controls:DropShadowPanel Grid.Row="1" 
-                                      Margin="45 10" 
+                                      Margin="45 10 45 0" 
                                       BlurRadius="30"
                                       ShadowOpacity="0.6"
                                       Color="Black"
@@ -67,18 +70,6 @@
                     </StackPanel>
                 </Grid>
             </controls:DropShadowPanel>
-
-            <!-- History component -->
-            <Grid Grid.Row="2">
-                <controls:DropShadowPanel BlurRadius="15"
-                                          ShadowOpacity="0.6"
-                                          Color="Black"
-                                          Margin="20 20"
-                                          VerticalAlignment="Bottom"
-                                          HorizontalAlignment="Center">
-                    <components:HistoryComponent x:Name="HistoryComponent" />
-                </controls:DropShadowPanel>
-            </Grid>
         </Grid>
 
         <!-- Documentation component -->

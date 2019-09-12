@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using ReduxSimple.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
@@ -68,8 +69,12 @@ namespace ReduxSimple.Samples.TodoList
             AddNewItemButton.Events().Click
                .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
 
-            // Initialize Components
-            HistoryComponent.Initialize(Store);
+            // Redux DevTools
+            OpenDevtoolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(Store);
+                });
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TodoList");

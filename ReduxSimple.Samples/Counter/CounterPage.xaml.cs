@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.Counter.Selectors;
+using ReduxSimple.Samples.Extensions;
 
 namespace ReduxSimple.Samples.Counter
 {
@@ -34,8 +35,12 @@ namespace ReduxSimple.Samples.Counter
             DecrementButton.Events().Click
                 .Subscribe(_ => _store.Dispatch(new DecrementAction()));
 
-            // Initialize Components
-            HistoryComponent.Initialize(_store);
+            // Redux DevTools
+            OpenDevtoolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(_store);
+                });
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Counter");
