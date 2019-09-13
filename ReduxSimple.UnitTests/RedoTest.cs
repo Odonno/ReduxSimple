@@ -1,7 +1,7 @@
-﻿using ReduxSimple.UnitTests.Setup.TodoListStore;
-using System;
+﻿using System;
 using Xunit;
 using static ReduxSimple.UnitTests.Setup.TodoListStore.Functions;
+using TodoListStore = ReduxSimple.ReduxStoreWithHistory<ReduxSimple.UnitTests.Setup.TodoListStore.TodoListState>;
 
 namespace ReduxSimple.UnitTests
 {
@@ -12,7 +12,10 @@ namespace ReduxSimple.UnitTests
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
-            var store = new TodoListStoreWithHistory(initialState);
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState
+            );
 
             // Act
             DispatchAllActions(store);
@@ -47,7 +50,10 @@ namespace ReduxSimple.UnitTests
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
-            var store = new TodoListStoreWithHistory(initialState);
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState
+            );
 
             // Act
             DispatchAllActions(store);
@@ -61,7 +67,10 @@ namespace ReduxSimple.UnitTests
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
-            var store = new TodoListStoreWithHistory(initialState);
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState
+            );
 
             // Act
             int observeCount = 0;
@@ -89,7 +98,10 @@ namespace ReduxSimple.UnitTests
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
-            var store = new TodoListStoreWithHistory(initialState);
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState
+            );
 
             // Act
             int observeCount = 0;

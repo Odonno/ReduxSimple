@@ -5,13 +5,16 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.TodoList.Reducers;
 using static ReduxSimple.Samples.TodoList.Selectors;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.TodoList
 {
     public sealed partial class TodoListPage : Page
     {
-        public static readonly TodoListStore Store = new TodoListStore();
+        public static readonly ReduxStoreWithHistory<TodoListState> Store = 
+            new ReduxStoreWithHistory<TodoListState>(CreateReducers());
 
         public TodoListPage()
         {
@@ -80,6 +83,13 @@ namespace ReduxSimple.Samples.TodoList
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
+
+            // Track redux actions
+            Store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    TrackReduxAction(action);
+                });
         }
     }
 }

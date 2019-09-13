@@ -5,13 +5,16 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.Counter.Reducers;
 using static ReduxSimple.Samples.Counter.Selectors;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Counter
 {
     public sealed partial class CounterPage : Page
     {
-        private static readonly CounterStore _store = new CounterStore();
+        private static readonly ReduxStoreWithHistory<CounterState> _store = 
+            new ReduxStoreWithHistory<CounterState>(CreateReducers());
 
         public CounterPage()
         {
@@ -46,6 +49,13 @@ namespace ReduxSimple.Samples.Counter
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
+
+            // Track redux actions
+            _store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    TrackReduxAction(action);
+                });
         }
     }
 }

@@ -17,7 +17,7 @@ You can follow this link: https://www.microsoft.com/store/apps/9PDBXGFZCVMS
 
 ## Getting started
 
-Like the original Redux library, you will have to initialize a new `State` when creating a `Store` + you will create `Reduce` functions each linked to an `Action` which will possibly update this `State`. 
+Like the original Redux library, you will have to initialize a new `State` when creating a `Store` + you will create `Reducer` functions each linked to an `Action` which will possibly update this `State`. 
 
 In your app, you can:
 
@@ -26,9 +26,11 @@ In your app, you can:
 
 We will go through using an example.
 
-### The default State
+### A simple Store
 
-Each State should immutable. That's why we prefer to use immutable types for each property of the State.
+You will need to follow the following steps to create your own Redux Store:
+
+1. Create `State` definition
 
 ```csharp
 public class AppState
@@ -38,11 +40,9 @@ public class AppState
 }
 ```
 
-### A simple Store
+Each State should immutable. That's why we prefer to use immutable types for each property of the State.
 
-You will need 3 steps to create your own Redux Store:
-
-1. Create `Actions` used in the Reduce function
+2. Create `Action` definitions
 
 ```csharp
 public class NavigateAction
@@ -55,50 +55,54 @@ public class GoBackAction { }
 public class ResetAction { }
 ```
 
-2. Create a new Store class inherited from `ReduxStore`
+3. Create `Reducer` functions
 
 ```csharp
-public sealed class MyAppStore : ReduxStore<AppState>
+public static class Reducers
 {
-    public override AppState Reduce(AppState state, object action)
+    public static IEnumerable<On<AppState>> CreateReducers()
     {
-        switch (action)
+        return new List<On<AppState>>
         {
-            case NavigateAction navigateAction:
-                return state.With(new { Pages = state.Pages.Add(navigateAction.PageName) });
-            case GoBackAction:
-                var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
-                return state.With(new
+            On<NavigateAction, AppState>(
+                (state, action) => state.With(new { Pages = state.Pages.Add(action.PageName) })
+            ),
+            On<GoBackAction, AppState>(
+                state => 
                 {
-                    CurrentPage = newPages.LastOrDefault(),
-                    Pages = newPages
-                });
-            case ResetAction:
-                return state.With(new 
-                {
+                    var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
+                    return state.With(new { 
+                        CurrentPage = newPages.LastOrDefault(),
+                        Pages = newPages
+                    });
+                }
+            ),
+            On<ResetAction, AppState>(
+                state => state.With(new { 
                     CurrentPage = string.Empty,
                     Pages = ImmutableArray<string>.Empty
-                });
-        }
-
-        return base.Reduce(state, action);
+                })
+            )
+        };
     }
 }
 ```
 
-3. Create a new instance of your Store
+4. Create a new instance of your Store
 
 ```csharp
 sealed partial class App
 {
-    public static readonly MyAppStore Store;
+    public static readonly ReduxStore<AppState> Store;
 
     static App()
     {
-        Store = new MyAppStore();
+        Store = new ReduxStore<AppState>(CreateReducers());
     }
 }
 ```
+
+5. And be ready to use your store inside your entire application...
 
 ### Dispatch & Subscribe
 
@@ -220,31 +224,6 @@ public class GetTodosFailedAction
 
 ```csharp
 Store.Dispatch(new GetTodosAction());
-```
-
-#### Reduce functions
-
-```csharp
-private static AppState Reduce(AppState state, GetTodosAction action)
-{
-    return state.With(new { Loading = true });
-}
-private static AppState Reduce(AppState state, GetTodosFulfilledAction action)
-{
-    return state.With(new
-    {
-        Loading = false,
-        Todos = action.Todos.ToImmutableArray()
-    });
-}
-private static AppState Reduce(AppState state, GetTodosFailedAction action)
-{
-    return state.With(new
-    {
-        Loading = false,
-        Todos = ImmutableArray<Todo>.Empty
-    });
-}
 ```
 
 ### Time travel / History

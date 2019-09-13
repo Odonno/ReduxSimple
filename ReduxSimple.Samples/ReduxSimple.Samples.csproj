@@ -105,14 +105,14 @@
       <DependentUpon>HistoryComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Counter\Actions.cs" />
-    <Content Include="Counter\Store.md" />
+    <Content Include="Counter\Reducers.md" />
     <Content Include="Counter\UI.md" />
     <Content Include="Counter\State.md" />
     <Compile Include="Counter\CounterPage.xaml.cs">
       <DependentUpon>CounterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Counter\CounterState.cs" />
-    <Compile Include="Counter\CounterStore.cs" />
+    <Compile Include="Counter\Reducers.cs" />
     <Compile Include="Counter\Selectors.cs" />
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\IObservableExtensions.cs" />
@@ -127,18 +127,19 @@
       <DependentUpon>PokedexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pokedex\PokedexState.cs" />
-    <Compile Include="Pokedex\PokedexStore.cs" />
+    <Compile Include="Pokedex\Reducers.cs" />
     <Compile Include="Pokedex\Selectors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="TicTacToe\Actions.cs" />
+    <Compile Include="TicTacToe\Reducers.cs" />
     <Compile Include="TicTacToe\Selectors.cs" />
     <Compile Include="TicTacToe\TicTacToePage.xaml.cs">
       <DependentUpon>TicTacToePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TicTacToe\TicTacToeState.cs" />
-    <Compile Include="TicTacToe\TicTacToeStore.cs" />
     <Compile Include="TodoList\Actions.cs" />
+    <Compile Include="TodoList\Reducers.cs" />
     <Compile Include="TodoList\Selectors.cs" />
     <Compile Include="TodoList\TodoItemComponent.xaml.cs">
       <DependentUpon>TodoItemComponent.xaml</DependentUpon>
@@ -147,7 +148,6 @@
       <DependentUpon>TodoListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TodoList\TodoListState.cs" />
-    <Compile Include="TodoList\TodoListStore.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +165,7 @@
     <Content Include="Pokedex\Introduction.md" />
     <Content Include="Pokedex\Selectors.md" />
     <Content Include="Pokedex\State.md" />
-    <Content Include="Pokedex\Store.md" />
+    <Content Include="Pokedex\Reducers.md" />
     <Content Include="Pokedex\UI.md" />
     <Content Include="TicTacToe\Actions.md" />
     <Content Include="TicTacToe\CodeBehind.md" />
@@ -173,7 +173,7 @@
     <Content Include="TicTacToe\Introduction.md" />
     <Content Include="TicTacToe\Selectors.md" />
     <Content Include="TicTacToe\State.md" />
-    <Content Include="TicTacToe\Store.md" />
+    <Content Include="TicTacToe\Reducers.md" />
     <Content Include="TicTacToe\UI.md" />
     <Content Include="TodoList\Actions.md" />
     <Content Include="TodoList\CodeBehind.md" />
@@ -181,7 +181,7 @@
     <Content Include="TodoList\Introduction.md" />
     <Content Include="TodoList\Selectors.md" />
     <Content Include="TodoList\State.md" />
-    <Content Include="TodoList\Store.md" />
+    <Content Include="TodoList\Reducers.md" />
     <Content Include="TodoList\UI.md" />
   </ItemGroup>
   <ItemGroup>

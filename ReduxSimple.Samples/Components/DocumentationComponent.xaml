@@ -36,9 +36,9 @@
                             <controls:MarkdownTextBlock x:Name="ActionsMarkdownTextBlock" FontSize="11" />
                         </ScrollViewer>
                     </PivotItem>
-                    <PivotItem Header="Store">
+                    <PivotItem Header="Reducers">
                         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
-                            <controls:MarkdownTextBlock x:Name="StoreMarkdownTextBlock" FontSize="11" />
+                            <controls:MarkdownTextBlock x:Name="ReducersMarkdownTextBlock" FontSize="11" />
                         </ScrollViewer>
                     </PivotItem>
                     <PivotItem Header="Selectors">

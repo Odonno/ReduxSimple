@@ -1,4 +1,4 @@
-﻿namespace ReduxSimple.UnitTests.Setup
+﻿namespace ReduxSimple.UnitTests.Setup.EmptyStore
 {
     public class EmptyState
     {

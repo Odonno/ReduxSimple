@@ -1,5 +1,4 @@
-﻿using Converto;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 namespace ReduxSimple.UnitTests.Setup.TodoListStore
 {
@@ -33,27 +32,7 @@ namespace ReduxSimple.UnitTests.Setup.TodoListStore
                 NewUser = newUser
             });
         }
-
-        public static TodoListState ReduceTodoListState(TodoListState state, object action)
-        {
-            if (action is AddTodoItemAction addTodoItemAction)
-            {
-                return state.With(new
-                {
-                    TodoList = state.TodoList.Add(addTodoItemAction.TodoItem)
-                });
-            }
-            if (action is SwitchUserAction switchUserAction)
-            {
-                return state.With(new
-                {
-                    CurrentUser = switchUserAction.NewUser
-                });
-            }
-
-            return state;
-        }
-
+        
         public static void DispatchAllActions<T>(ReduxStore<T> store) where T : class, new()
         {
             DispatchAddTodoItemAction(store, 1, "Create unit tests");

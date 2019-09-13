@@ -11,7 +11,9 @@ namespace ReduxSimple.UnitTests
         public void CanCreateAStoreWithEmptyState()
         {
             // Arrange
-            var store = new StoreWithEmptyState();
+            var store = new ReduxStore<EmptyState>(
+                Setup.EmptyStore.Reducers.CreateReducers()
+            );
 
             // Act
 
@@ -24,7 +26,10 @@ namespace ReduxSimple.UnitTests
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(initialState);
+            var store = new ReduxStore<TodoListState>(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState
+            );
 
             // Act
 

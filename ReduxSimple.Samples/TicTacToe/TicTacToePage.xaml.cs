@@ -6,13 +6,16 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.TicTacToe.Reducers;
 using static ReduxSimple.Samples.TicTacToe.Selectors;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
     public sealed partial class TicTacToePage : Page
     {
-        private static readonly TicTacToeStore _store = new TicTacToeStore();
+        private static readonly ReduxStoreWithHistory<TicTacToeState> _store =
+            new ReduxStoreWithHistory<TicTacToeState>(CreateReducers(), InitialState);
 
         public TicTacToePage()
         {
@@ -97,6 +100,13 @@ namespace ReduxSimple.Samples.TicTacToe
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
+
+            // Track redux actions
+            _store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    TrackReduxAction(action);
+                });
         }
     }
 }
