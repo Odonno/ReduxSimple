@@ -1,7 +1,7 @@
 ```csharp
-public class TicTacToeStore : ReduxStore<TicTacToeState>
+public static class Reducers
 {
-    private static TicTacToeState DefaultState =>
+    public static TicTacToeState InitialState =>
         new TicTacToeState
         {
             Cells = Enumerable.Range(0, 9)
@@ -10,48 +10,47 @@ public class TicTacToeStore : ReduxStore<TicTacToeState>
             Winner = Option<string>.None()
         };
 
-    public TicTacToeStore() : base(DefaultState)
+    public static IEnumerable<On<TicTacToeState>> CreateReducers()
     {
-    }
-
-    protected override TicTacToeState Reduce(TicTacToeState state, object action)
-    {
-        if (action is PlayAction playAction)
+        return new List<On<TicTacToeState>>
         {
-            // Player take cell
-            var cellsTurnPlayer = PlayerTakeCell(state.Cells, playAction);
-
-            // Check end game
-            var (gameEndedTurn1, winnerTurn1) = CheckEndGame(cellsTurnPlayer);
-
-            if (gameEndedTurn1)
-            {
-                return state.With(new
+            On<PlayAction, TicTacToeState>(
+                (state, action) =>
                 {
-                    Cells = cellsTurnPlayer,
-                    GameEnded = gameEndedTurn1,
-                    Winner = winnerTurn1
-                });
-            }
+                        // Player take cell
+                    var cellsTurnPlayer = PlayerTakeCell(state.Cells, action);
 
-            // Bot take cell
-            var cellsTurnBot = BotTakeCell(cellsTurnPlayer);
+                    // Check end game
+                    var (gameEndedTurn1, winnerTurn1) = CheckEndGame(cellsTurnPlayer);
 
-            // Check end game
-            var (gameEndedTurn2, winnerTurn2) = CheckEndGame(cellsTurnBot);
+                    if (gameEndedTurn1)
+                    {
+                        return state.With(new
+                        {
+                            Cells = cellsTurnPlayer,
+                            GameEnded = gameEndedTurn1,
+                            Winner = winnerTurn1
+                        });
+                    }
 
-            return state.With(new
-            {
-                Cells = cellsTurnBot,
-                GameEnded = gameEndedTurn2,
-                Winner = winnerTurn2
-            });
-        }
-        if (action is StartNewGameAction _)
-        {
-            return DefaultState;
-        }
-        return base.Reduce(state, action);
+                    // Bot take cell
+                    var cellsTurnBot = BotTakeCell(cellsTurnPlayer);
+
+                    // Check end game
+                    var (gameEndedTurn2, winnerTurn2) = CheckEndGame(cellsTurnBot);
+
+                    return state.With(new
+                    {
+                        Cells = cellsTurnBot,
+                        GameEnded = gameEndedTurn2,
+                        Winner = winnerTurn2
+                    });
+                }
+            ),
+            On<StartNewGameAction, TicTacToeState>(
+                _ => InitialState
+            )
+        };
     }
 
     private static ImmutableArray<Cell> PlayerTakeCell(ImmutableArray<Cell> cells, PlayAction playAction)
@@ -60,7 +59,7 @@ public class TicTacToeStore : ReduxStore<TicTacToeState>
         return cells.Replace(cellToUpdate, new Cell { Row = playAction.Row, Column = playAction.Column, Mine = true });
     }
 
-    private ImmutableArray<Cell> BotTakeCell(ImmutableArray<Cell> cells)
+    private static ImmutableArray<Cell> BotTakeCell(ImmutableArray<Cell> cells)
     {
         var random = new Random();
 
@@ -69,7 +68,7 @@ public class TicTacToeStore : ReduxStore<TicTacToeState>
         return cells.Replace(cellToUpdate, new Cell { Row = cellToUpdate.Row, Column = cellToUpdate.Column, Mine = false });
     }
 
-    private (bool gameEnded, Option<string> winner) CheckEndGame(ImmutableArray<Cell> cells)
+    private static (bool gameEnded, Option<string> winner) CheckEndGame(ImmutableArray<Cell> cells)
     {
         // Check rows
         var rowsGroups = cells.GroupBy(c => c.Row);

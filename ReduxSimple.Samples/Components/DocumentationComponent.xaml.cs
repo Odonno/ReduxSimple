@@ -45,7 +45,7 @@ namespace ReduxSimple.Samples.Components
             await LoadMarkdownComponent(IntroductionMarkdownTextBlock, $"{folder}/Introduction.md");
             await LoadMarkdownComponent(StateMarkdownTextBlock, $"{folder}/State.md");
             await LoadMarkdownComponent(ActionsMarkdownTextBlock, $"{folder}/Actions.md");
-            await LoadMarkdownComponent(StoreMarkdownTextBlock, $"{folder}/Store.md");
+            await LoadMarkdownComponent(ReducersMarkdownTextBlock, $"{folder}/Reducers.md");
             await LoadMarkdownComponent(SelectorsMarkdownTextBlock, $"{folder}/Selectors.md");
             await LoadMarkdownComponent(UserInterfaceMarkdownTextBlock, $"{folder}/UI.md");
             await LoadMarkdownComponent(CodeBehindMarkdownTextBlock, $"{folder}/CodeBehind.md");

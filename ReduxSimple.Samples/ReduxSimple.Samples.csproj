@@ -105,7 +105,7 @@
       <DependentUpon>HistoryComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Counter\Actions.cs" />
-    <Content Include="Counter\Store.md" />
+    <Content Include="Counter\Reducers.md" />
     <Content Include="Counter\UI.md" />
     <Content Include="Counter\State.md" />
     <Compile Include="Counter\CounterPage.xaml.cs">
@@ -165,7 +165,7 @@
     <Content Include="Pokedex\Introduction.md" />
     <Content Include="Pokedex\Selectors.md" />
     <Content Include="Pokedex\State.md" />
-    <Content Include="Pokedex\Store.md" />
+    <Content Include="Pokedex\Reducers.md" />
     <Content Include="Pokedex\UI.md" />
     <Content Include="TicTacToe\Actions.md" />
     <Content Include="TicTacToe\CodeBehind.md" />
@@ -173,7 +173,7 @@
     <Content Include="TicTacToe\Introduction.md" />
     <Content Include="TicTacToe\Selectors.md" />
     <Content Include="TicTacToe\State.md" />
-    <Content Include="TicTacToe\Store.md" />
+    <Content Include="TicTacToe\Reducers.md" />
     <Content Include="TicTacToe\UI.md" />
     <Content Include="TodoList\Actions.md" />
     <Content Include="TodoList\CodeBehind.md" />
@@ -181,7 +181,7 @@
     <Content Include="TodoList\Introduction.md" />
     <Content Include="TodoList\Selectors.md" />
     <Content Include="TodoList\State.md" />
-    <Content Include="TodoList\Store.md" />
+    <Content Include="TodoList\Reducers.md" />
     <Content Include="TodoList\UI.md" />
   </ItemGroup>
   <ItemGroup>
