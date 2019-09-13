@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.TicTacToe.Reducers;
 using static ReduxSimple.Samples.TicTacToe.Selectors;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
@@ -99,6 +100,13 @@ namespace ReduxSimple.Samples.TicTacToe
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
+
+            // Track redux actions
+            _store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    TrackReduxAction(action);
+                });
         }
     }
 }

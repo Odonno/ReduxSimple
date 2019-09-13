@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.Counter.Reducers;
 using static ReduxSimple.Samples.Counter.Selectors;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Counter
 {
@@ -48,6 +49,13 @@ namespace ReduxSimple.Samples.Counter
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
+
+            // Track redux actions
+            _store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    TrackReduxAction(action);
+                });
         }
     }
 }

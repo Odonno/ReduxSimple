@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Reducers;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Components
 {
@@ -228,6 +229,13 @@ namespace ReduxSimple.Samples.Components
                     {
                         _internalStore.Dispatch(new TogglePlayPauseAction());
                     }
+                });
+
+            // Track redux actions
+            _internalStore.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    TrackReduxAction(action);
                 });
         }
     }

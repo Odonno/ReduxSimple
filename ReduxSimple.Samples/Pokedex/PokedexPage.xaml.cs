@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
 using static ReduxSimple.Samples.Pokedex.Reducers;
 using static ReduxSimple.Samples.Pokedex.Selectors;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Pokedex
 {
@@ -210,6 +211,14 @@ namespace ReduxSimple.Samples.Pokedex
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
+
+            // Track redux actions
+            Store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    bool trackProperties = action.GetType().Name != nameof(GetPokemonListFullfilledAction);
+                    TrackReduxAction(action, trackProperties);
+                });
         }
     }
 }

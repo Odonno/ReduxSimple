@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.TodoList.Reducers;
 using static ReduxSimple.Samples.TodoList.Selectors;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.TodoList
 {
@@ -82,6 +83,13 @@ namespace ReduxSimple.Samples.TodoList
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
+
+            // Track redux actions
+            Store.ObserveAction(ActionOriginFilter.Normal)
+                .Subscribe(action =>
+                {
+                    TrackReduxAction(action);
+                });
         }
     }
 }
