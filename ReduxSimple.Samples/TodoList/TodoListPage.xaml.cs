@@ -5,13 +5,15 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Samples.TodoList.Reducers;
 using static ReduxSimple.Samples.TodoList.Selectors;
 
 namespace ReduxSimple.Samples.TodoList
 {
     public sealed partial class TodoListPage : Page
     {
-        public static readonly TodoListStore Store = new TodoListStore();
+        public static readonly ReduxStoreWithHistory<TodoListState> Store = 
+            new ReduxStoreWithHistory<TodoListState>(CreateReducers());
 
         public TodoListPage()
         {

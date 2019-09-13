@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -9,7 +10,7 @@ namespace ReduxSimple
     /// The base class for creating predictable state containers.
     /// </summary>
     /// <typeparam name="TState">The type of the state.</typeparam>
-    public abstract class ReduxStore<TState> where TState : class, new()
+    public class ReduxStore<TState> where TState : class, new()
     {
         private class ActionWithOrigin
         {
@@ -23,6 +24,7 @@ namespace ReduxSimple
             }
         }
 
+        private readonly IEnumerable<On<TState>> _reducers;
         private readonly TState _initialState;
         private readonly BehaviorSubject<TState> _stateSubject;
         private readonly Subject<ActionWithOrigin> _actionSubject = new Subject<ActionWithOrigin>();
@@ -37,9 +39,14 @@ namespace ReduxSimple
         /// <summary>
         /// Initializes a new instance of the <see cref="ReduxStore{TState}"/> class.
         /// </summary>
+        /// <param name="reducers">A list of reducers to update state when an action is triggered.</param>
         /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
-        protected ReduxStore(TState initialState = null)
+        public ReduxStore(
+            IEnumerable<On<TState>> reducers,
+            TState initialState = null
+        )
         {
+            _reducers = reducers;
             State = _initialState = initialState ?? new TState();
             _stateSubject = new BehaviorSubject<TState>(State);
         }
@@ -73,13 +80,19 @@ namespace ReduxSimple
 
         /// <summary>
         /// Reduces the specified state using the specified action and returns the new state. Does not mutate the current state of the store.
-        /// Implementations should override this method to provide functionality specific to their use case.
         /// </summary>
         /// <param name="state">The state to reduce.</param>
         /// <param name="action">The action to use for reducing the specified state.</param>
         /// <returns>The state that results from applying <paramref name="action"/> on <paramref name="state"/>.</returns>
-        protected virtual TState Reduce(TState state, object action)
+        private TState Reduce(TState state, object action)
         {
+            var actionName = action.GetType().FullName;
+            var reducer = _reducers.FirstOrDefault(r => r.Types.Contains(actionName));
+
+            if (reducer != null)
+            {
+                return reducer.Reduce(state, action);
+            }
             return state;
         }
 

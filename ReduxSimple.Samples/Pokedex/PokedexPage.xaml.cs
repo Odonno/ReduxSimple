@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
+using static ReduxSimple.Samples.Pokedex.Reducers;
 using static ReduxSimple.Samples.Pokedex.Selectors;
 
 namespace ReduxSimple.Samples.Pokedex
@@ -18,7 +19,8 @@ namespace ReduxSimple.Samples.Pokedex
     {
         private readonly PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
-        public static readonly PokedexStore Store = new PokedexStore();
+        public static readonly ReduxStoreWithHistory<PokedexState> Store = 
+            new ReduxStoreWithHistory<PokedexState>(CreateReducers());
 
         public PokedexPage()
         {
@@ -36,8 +38,8 @@ namespace ReduxSimple.Samples.Pokedex
                 {
                     Store.Dispatch(new GetPokemonListFullfilledAction
                     {
-                        Pokedex = response.Root[0].Pokemons
-                            .Select(p => new PokemonGeneralInfo { Id = p.Id, Name = p.Name.Capitalize() })
+                        Pokedex = response.PokemonEntries
+                            .Select(p => new PokemonGeneralInfo { Id = p.Number, Name = p.Species.Name.Capitalize() })
                             .ToList()
                     });
                 }, e =>

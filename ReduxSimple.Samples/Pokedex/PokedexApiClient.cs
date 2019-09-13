@@ -39,7 +39,7 @@ namespace ReduxSimple.Samples.Pokedex
         {
             return Observable.Create<PokedexResponse>(async observer =>
             {
-                var result = await GetAsync<PokedexResponse>("https://pokeapi.co/api/v1/pokedex");
+                var result = await GetAsync<PokedexResponse>("https://pokeapi.co/api/v1/pokedex/1");
                 observer.OnNext(result);
             })
             .WithCache(() => _cacheService.Get<PokedexResponse>("pokedex"), r => _cacheService.Set("pokedex", r));

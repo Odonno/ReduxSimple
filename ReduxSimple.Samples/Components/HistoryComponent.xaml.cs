@@ -1,13 +1,14 @@
 ﻿using Converto;
 using SuccincT.Options;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.Common.EventTracking;
+using static ReduxSimple.Reducers;
 
 namespace ReduxSimple.Samples.Components
 {
@@ -22,66 +23,64 @@ namespace ReduxSimple.Samples.Components
             public bool PlaySessionActive { get; set; } = false;
         }
 
-        private class HistoryComponentStore : ReduxStore<HistoryComponentState>
+        private static IEnumerable<On<HistoryComponentState>> CreateReducers()
         {
-            protected override HistoryComponentState Reduce(HistoryComponentState state, object action)
+            return new List<On<HistoryComponentState>>
             {
-                TrackReduxAction(action);
-
-                if (action is GoBackAction)
-                {
-                    var lastAction = state.CurrentActions.Last();
-
-                    return state.With(new
+                On<GoBackAction, HistoryComponentState>(
+                    state =>
                     {
-                        CurrentActions = state.CurrentActions.Remove(lastAction),
-                        FutureActions = state.FutureActions.Add(lastAction),
-                        CurrentPosition = state.CurrentPosition - 1
-                    });
-                }
-                if (action is GoForwardAction goForwardAction)
-                {
-                    var futureActionOption = state.FutureActions.TryLast();
+                        var lastAction = state.CurrentActions.Last();
 
-                    if (futureActionOption.HasValue && !goForwardAction.BreaksTimeline)
-                    {
-                        // Continue on existing timeline
-                        var futureAction = futureActionOption.Value;
                         return state.With(new
                         {
-                            CurrentActions = state.CurrentActions.Add(futureAction),
-                            FutureActions = state.FutureActions.Remove(futureAction),
-                            CurrentPosition = state.CurrentPosition + 1
+                            CurrentActions = state.CurrentActions.Remove(lastAction),
+                            FutureActions = state.FutureActions.Add(lastAction),
+                            CurrentPosition = state.CurrentPosition - 1
                         });
                     }
-                    else
+                ),
+                On<GoForwardAction, HistoryComponentState>(
+                    (state, action) =>
                     {
-                        // Create a new timeline
-                        return state.With(new
+                        var futureActionOption = state.FutureActions.TryLast();
+
+                        if (futureActionOption.HasValue && !action.BreaksTimeline)
                         {
-                            CurrentActions = state.CurrentActions.Add(goForwardAction.Action),
-                            FutureActions = ImmutableList<object>.Empty,
-                            MaxPosition = state.CurrentActions.Count + 1,
-                            CurrentPosition = state.CurrentPosition + 1
-                        });
+                            // Continue on existing timeline
+                            var futureAction = futureActionOption.Value;
+                            return state.With(new
+                            {
+                                CurrentActions = state.CurrentActions.Add(futureAction),
+                                FutureActions = state.FutureActions.Remove(futureAction),
+                                CurrentPosition = state.CurrentPosition + 1
+                            });
+                        }
+                        else
+                        {
+                            // Create a new timeline
+                            return state.With(new
+                            {
+                                CurrentActions = state.CurrentActions.Add(action.Action),
+                                FutureActions = ImmutableList<object>.Empty,
+                                MaxPosition = state.CurrentActions.Count + 1,
+                                CurrentPosition = state.CurrentPosition + 1
+                            });
+                        }
                     }
-                }
-                if (action is ResetAction)
-                {
-                    return state.With(new
-                    {
+                ),
+                On<ResetAction, HistoryComponentState>(
+                    state => state.With(new {
                         CurrentActions = ImmutableList<object>.Empty,
                         FutureActions = ImmutableList<object>.Empty,
                         MaxPosition = 0,
                         CurrentPosition = 0
-                    });
-                }
-                if (action is TogglePlayPauseAction)
-                {
-                    return state.With(new { PlaySessionActive = !state.PlaySessionActive });
-                }
-                return base.Reduce(state, action);
-            }
+                    })
+                ),
+                On<TogglePlayPauseAction, HistoryComponentState>(
+                    state => state.With(new { PlaySessionActive = !state.PlaySessionActive })
+                )
+            };
         }
 
         private class GoBackAction { }
@@ -97,7 +96,8 @@ namespace ReduxSimple.Samples.Components
         }
         private class TogglePlayPauseAction { }
 
-        private HistoryComponentStore _internalStore = new HistoryComponentStore();
+        private readonly ReduxStore<HistoryComponentState> _internalStore = 
+            new ReduxStore<HistoryComponentState>(CreateReducers());
 
         public HistoryComponent()
         {
@@ -140,6 +140,7 @@ namespace ReduxSimple.Samples.Components
                 store.ObserveCanRedo(),
                 (value1, value2, value3, value4, value5) => Tuple.Create(value1, value2, value3, value4, value5)
             )
+                .ObserveOnDispatcher()
                 .Subscribe(x =>
                 {
                     var (currentPosition, playSessionActive, maxPosition, canUndo, canRedo) = x;

@@ -5,16 +5,23 @@ namespace ReduxSimple.Samples.Pokedex
 {
     public class PokedexResponse
     {
-        [JsonProperty("objects")]
-        public List<PokedexObjectsResponse> Root { get; set; }
+        [JsonProperty("pokemon_entries")]
+        public List<PokemonEntryResponse> PokemonEntries { get; set; }
     }
 
-    public class PokedexObjectsResponse
+    public class PokemonEntryResponse
+    {
+        [JsonProperty("entry_number")]
+        public int Number { get; set; }
+
+        [JsonProperty("pokemon_species")]
+        public PokemonSpeciesResponse Species { get; set; }
+    }
+
+    public class PokemonSpeciesResponse
     {
         public string Name { get; set; }
-
-        [JsonProperty("pokemon")]
-        public List<PokemonInfoResponse> Pokemons { get; set; }
+        public string Url { get; set; }
     }
 
     public class PokemonInfoResponse

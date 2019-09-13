@@ -11,7 +11,7 @@ namespace ReduxSimple
     /// </summary>
     /// <typeparam name="TState">The type of the state.</typeparam>
     /// <seealso cref="ReduxSimple.ReduxStore{TState}" />
-    public abstract class ReduxStoreWithHistory<TState> : ReduxStore<TState>
+    public class ReduxStoreWithHistory<TState> : ReduxStore<TState>
         where TState : class, new()
     {
         private class ReduxStoreMemento
@@ -42,8 +42,12 @@ namespace ReduxSimple
         /// <summary>
         /// Initializes a new instance of the <see cref="ReduxStoreWithHistory{TState}"/> class.
         /// </summary>
+        /// <param name="reducers">A list of reducers to update state when an action is triggered.</param>
         /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
-        protected ReduxStoreWithHistory(TState initialState = null) : base(initialState)
+        public ReduxStoreWithHistory(
+            IEnumerable<On<TState>> reducers, 
+            TState initialState = null
+        ) : base(reducers, initialState)
         { }
 
         /// <summary>
