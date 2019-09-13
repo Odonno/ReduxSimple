@@ -492,33 +492,6 @@ namespace ReduxSimple
 
         #endregion
 
-        #region ObserveState methods
-
-        /// <summary>
-        /// Observes the state of the store.
-        /// </summary>
-        /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about state changes.</returns>
-        [Obsolete("You should now use the Select method.")]
-        public IObservable<TState> ObserveState()
-        {
-            return _stateSubject.DistinctUntilChanged(_fullStateComparer);
-        }
-        /// <summary>
-        /// Observes a value derived from the state of the store.
-        /// </summary>
-        /// <typeparam name="TSelectorResult">The type of the partial state to be observed.</typeparam>
-        /// <param name="selector">
-        /// The mapping function that can be applied to get the desired partial state of type <typeparamref name="TSelectorResult"/> from an instance of <typeparamref name="TState"/>.
-        /// </param>
-        /// <returns></returns>
-        [Obsolete("You should now use the Select method.")]
-        public IObservable<TSelectorResult> ObserveState<TSelectorResult>(Func<TState, TSelectorResult> selector)
-        {
-            return _stateSubject.Select(selector).DistinctUntilChanged();
-        }
-
-        #endregion
-
         /// <summary>
         /// Observes actions being performed on the store.
         /// </summary>
