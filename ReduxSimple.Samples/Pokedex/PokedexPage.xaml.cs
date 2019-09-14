@@ -20,8 +20,8 @@ namespace ReduxSimple.Samples.Pokedex
     {
         private readonly PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
-        public static readonly ReduxStoreWithHistory<PokedexState> Store = 
-            new ReduxStoreWithHistory<PokedexState>(CreateReducers());
+        public static readonly ReduxStore<PokedexState> Store = 
+            new ReduxStore<PokedexState>(CreateReducers(), true);
 
         public PokedexPage()
         {

@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 using static ReduxSimple.UnitTests.Setup.TodoListStore.Functions;
-using TodoListStore = ReduxSimple.ReduxStoreWithHistory<ReduxSimple.UnitTests.Setup.TodoListStore.TodoListState>;
+using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.UnitTests.Setup.TodoListStore.TodoListState>;
 
 namespace ReduxSimple.UnitTests
 {
@@ -15,7 +15,8 @@ namespace ReduxSimple.UnitTests
             var initialState = CreateInitialTodoListState();
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState
+                initialState,
+                true
             );
 
             // Act
@@ -53,7 +54,8 @@ namespace ReduxSimple.UnitTests
             var initialState = CreateInitialTodoListState();
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState
+                initialState,
+                true
             );
 
             // Act
@@ -95,7 +97,8 @@ namespace ReduxSimple.UnitTests
             var initialState = CreateInitialTodoListState();
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState
+                initialState,
+                true
             );
 
             // Act

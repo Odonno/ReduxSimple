@@ -14,8 +14,8 @@ namespace ReduxSimple.Samples.TicTacToe
 {
     public sealed partial class TicTacToePage : Page
     {
-        private static readonly ReduxStoreWithHistory<TicTacToeState> _store =
-            new ReduxStoreWithHistory<TicTacToeState>(CreateReducers(), InitialState);
+        private static readonly ReduxStore<TicTacToeState> _store =
+            new ReduxStore<TicTacToeState>(CreateReducers(), InitialState, true);
 
         public TicTacToePage()
         {

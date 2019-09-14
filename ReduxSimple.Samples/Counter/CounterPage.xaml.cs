@@ -13,8 +13,8 @@ namespace ReduxSimple.Samples.Counter
 {
     public sealed partial class CounterPage : Page
     {
-        private static readonly ReduxStoreWithHistory<CounterState> _store = 
-            new ReduxStoreWithHistory<CounterState>(CreateReducers());
+        private static readonly ReduxStore<CounterState> _store = 
+            new ReduxStore<CounterState>(CreateReducers(), true);
 
         public CounterPage()
         {

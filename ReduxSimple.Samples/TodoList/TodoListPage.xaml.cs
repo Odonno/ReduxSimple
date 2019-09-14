@@ -13,8 +13,8 @@ namespace ReduxSimple.Samples.TodoList
 {
     public sealed partial class TodoListPage : Page
     {
-        public static readonly ReduxStoreWithHistory<TodoListState> Store = 
-            new ReduxStoreWithHistory<TodoListState>(CreateReducers());
+        public static readonly ReduxStore<TodoListState> Store = 
+            new ReduxStore<TodoListState>(CreateReducers(), true);
 
         public TodoListPage()
         {

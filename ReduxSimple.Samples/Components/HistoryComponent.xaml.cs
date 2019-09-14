@@ -105,8 +105,13 @@ namespace ReduxSimple.Samples.Components
             InitializeComponent();
         }
 
-        public void Initialize<TState>(ReduxStoreWithHistory<TState> store) where TState : class, new()
+        public void Initialize<TState>(ReduxStore<TState> store) where TState : class, new()
         {
+            if (store.TimeTravelEnabled)
+            {
+                // TODO : Cannot activate History component
+            }
+
             // Observe UI events
             UndoButton.Events().Click
                 .Subscribe(_ => store.Undo());
