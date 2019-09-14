@@ -1,7 +1,8 @@
 ```csharp
 public sealed partial class TicTacToePage : Page
 {
-    private static TicTacToeStore _store = new TicTacToeStore();
+    private static readonly ReduxStore<TicTacToeState> _store =
+        new ReduxStore<TicTacToeState>(CreateReducers(), InitialState, true);
 
     public TicTacToePage()
     {

@@ -3,7 +3,8 @@ public sealed partial class PokedexPage : Page
 {
     private readonly PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
-    public PokedexStore Store = new PokedexStore();
+    public static readonly ReduxStore<PokedexState> Store = 
+        new ReduxStore<PokedexState>(CreateReducers(), true);
 
     public PokedexPage()
     {
@@ -12,14 +13,14 @@ public sealed partial class PokedexPage : Page
         // Observe changes on state
 
         // Load pokemon list from API
-        Store.ObserveAction<GetPokemonListAction>()
+        Store.ObserveAction<GetPokemonListAction>(ActionOriginFilter.Normal)
             .SelectMany(_ => _pokedexApiClient.GetPokedex())
             .Subscribe(response =>
             {
                 Store.Dispatch(new GetPokemonListFullfilledAction
                 {
-                    Pokedex = response.Root[0].Pokemons
-                        .Select(p => new PokemonGeneralInfo { Id = p.Id, Name = p.Name.Capitalize() })
+                    Pokedex = response.PokemonEntries
+                        .Select(p => new PokemonGeneralInfo { Id = p.Number, Name = p.Species.Name.Capitalize() })
                         .ToList()
                 });
             }, e =>
@@ -31,7 +32,7 @@ public sealed partial class PokedexPage : Page
             });
 
         // Load pokemon by id from API
-        Store.ObserveAction<GetPokemonByIdAction>()
+        Store.ObserveAction<GetPokemonByIdAction>(ActionOriginFilter.Normal)
             .SelectMany(action =>
             {
                 return _pokedexApiClient.GetPokemonById(action.Id)

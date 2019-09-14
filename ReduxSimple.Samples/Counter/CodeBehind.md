@@ -1,7 +1,8 @@
 ﻿```csharp
 public sealed partial class CounterPage : Page
 {
-    private static CounterStore _store = new CounterStore();
+    private static readonly ReduxStore<CounterState> _store = 
+		new ReduxStore<CounterState>(CreateReducers(), true);
 
     public CounterPage()
     {

@@ -5,7 +5,8 @@ This example contains 2 elements.
 ```csharp
 public sealed partial class TodoListPage : Page
 {
-    public static TodoListStore Store = new TodoListStore();
+    public static readonly ReduxStore<TodoListState> Store = 
+        new ReduxStore<TodoListState>(CreateReducers(), true);
 
     public TodoListPage()
     {
