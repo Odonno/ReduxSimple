@@ -16,12 +16,12 @@ namespace ReduxSimple
     public enum ActionOriginFilter
     {
         /// <summary>
-        /// Only actions normally dispatched from <see cref="ReduxStoreWithHistory.Dispatch(object)"/> method
+        /// Only actions normally dispatched from <see cref="ReduxStore.Dispatch(object)"/> method
         /// </summary>
         Normal = ActionOrigin.Normal,
 
         /// <summary>
-        /// Only redone actions dispatched from <see cref="ReduxStoreWithHistory.Redo"/> method
+        /// Only redone actions dispatched from <see cref="ReduxStore.Redo"/> method
         /// </summary>
         Redone = ActionOrigin.Redone,
 
