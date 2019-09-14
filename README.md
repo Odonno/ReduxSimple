@@ -33,7 +33,7 @@ You will need to follow the following steps to create your own Redux Store:
 1. Create `State` definition
 
 ```csharp
-public class AppState
+public class RootState
 {
     public string CurrentPage { get; set; } = string.Empty;
     public ImmutableArray<string> Pages { get; set; } = ImmutableArray<string>.Empty;
@@ -60,14 +60,14 @@ public class ResetAction { }
 ```csharp
 public static class Reducers
 {
-    public static IEnumerable<On<AppState>> CreateReducers()
+    public static IEnumerable<On<RootState>> CreateReducers()
     {
-        return new List<On<AppState>>
+        return new List<On<RootState>>
         {
-            On<NavigateAction, AppState>(
+            On<NavigateAction, RootState>(
                 (state, action) => state.With(new { Pages = state.Pages.Add(action.PageName) })
             ),
-            On<GoBackAction, AppState>(
+            On<GoBackAction, RootState>(
                 state => 
                 {
                     var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
@@ -77,7 +77,7 @@ public static class Reducers
                     });
                 }
             ),
-            On<ResetAction, AppState>(
+            On<ResetAction, RootState>(
                 state => state.With(new { 
                     CurrentPage = string.Empty,
                     Pages = ImmutableArray<string>.Empty
@@ -93,11 +93,11 @@ public static class Reducers
 ```csharp
 sealed partial class App
 {
-    public static readonly ReduxStore<AppState> Store;
+    public static readonly ReduxStore<RootState> Store;
 
     static App()
     {
-        Store = new ReduxStore<AppState>(CreateReducers());
+        Store = new ReduxStore<RootState>(CreateReducers());
     }
 }
 ```
@@ -163,8 +163,8 @@ Store.Select(state => state.CurrentPage)
 It can be inline functions or static functions.
 
 ```csharp
-public static Func<AppState, string> SelectCurrentPage = state => state.CurrentPage;
-public static Func<AppState, ImmutableArray<string>> SelectPages = state => state.Pages;
+public static Func<RootState, string> SelectCurrentPage = state => state.CurrentPage;
+public static Func<RootState, ImmutableArray<string>> SelectPages = state => state.Pages;
 
 Store.Select(SelectCurrentPage)
     .Subscribe(currentPage =>
@@ -180,7 +180,7 @@ The benefits of static functions is that they can be reused in multiple componen
 Memoized selectors are a kind of selectors that combine multiple selectors to create a new one.
 
 ```csharp
-public static MemoizedSelectorWithProps<AppState, ImmutableArray<string>, bool> SelectHasPreviousPage = CreateSelector(
+public static MemoizedSelectorWithProps<RootState, ImmutableArray<string>, bool> SelectHasPreviousPage = CreateSelector(
     SelectPages,
     (ImmutableArray<string> pages) => pages.Count() > 1
 );
@@ -191,7 +191,7 @@ public static MemoizedSelectorWithProps<AppState, ImmutableArray<string>, bool> 
 Same as memoized selectors, but you can now use variables out of the store to create a new selector.   
 
 ```csharp
-public static MemoizedSelectorWithProps<AppState, string, string, bool> SelectIsPageSelected = CreateSelector(
+public static MemoizedSelectorWithProps<RootState, string, string, bool> SelectIsPageSelected = CreateSelector(
     SelectCurrentPage,
     (string currentPage, string selectedPage) => currentPage == selectedPage
 );
@@ -236,11 +236,11 @@ You can however set `enableTimeTravel` to `true` in order to debug your applicat
 ```csharp
 sealed partial class App
 {
-    public static readonly ReduxStore<AppState> Store;
+    public static readonly ReduxStore<RootState> Store;
 
     static App()
     {
-        Store = new ReduxStore<AppState>(CreateReducers(), true);
+        Store = new ReduxStore<RootState>(CreateReducers(), true);
     }
 }
 ```
