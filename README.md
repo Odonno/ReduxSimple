@@ -226,14 +226,28 @@ public class GetTodosFailedAction
 Store.Dispatch(new GetTodosAction());
 ```
 
-### Time travel / History
+### Time travel
 
-The simpliest version of a Redux Store is by using the `ReduxStore` class. 
-You can however use the `ReduxStoreWithHistory` class to implement a Store with time travel feature : handling `Undo` and `Redo` actions.
+By default, `ReduxStore` only support the default behavior which is a forward-only state.
+You can however set `enableTimeTravel` to `true` in order to debug your application with some interesting features: handling `Undo` and `Redo` actions.
+
+#### Enable time travel
+
+```csharp
+sealed partial class App
+{
+    public static readonly ReduxStore<AppState> Store;
+
+    static App()
+    {
+        Store = new ReduxStore<AppState>(CreateReducers(), true);
+    }
+}
+```
 
 #### Go back in time...
 
-When you there are stored actions (ie. actions of the past), you can go back in time.
+When the Store contains stored actions (ie. actions of the past), you can go back in time.
 
 ```csharp
 if (Store.CanUndo)
