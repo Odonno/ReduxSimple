@@ -7,13 +7,13 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.Counter.Reducers;
 using static ReduxSimple.Samples.Counter.Selectors;
-using static ReduxSimple.Samples.Common.EventTracking;
+using static ReduxSimple.Samples.Counter.Effects;
 
 namespace ReduxSimple.Samples.Counter
 {
     public sealed partial class CounterPage : Page
     {
-        private static readonly ReduxStore<CounterState> _store = 
+        public static readonly ReduxStore<CounterState> Store = 
             new ReduxStore<CounterState>(CreateReducers(), true);
 
         public CounterPage()
@@ -21,10 +21,10 @@ namespace ReduxSimple.Samples.Counter
             InitializeComponent();
 
             // Reset Store (due to HistoryComponent lifecycle)
-            _store.Reset();
+            Store.Reset();
 
             // Observe changes on state
-            _store.Select(SelectCount)
+            Store.Select(SelectCount)
                 .Subscribe(count =>
                 {
                     CounterValueTextBlock.Text = count.ToString();
@@ -32,13 +32,18 @@ namespace ReduxSimple.Samples.Counter
 
             // Observe UI events
             IncrementButton.Events().Click
-                .Subscribe(_ => _store.Dispatch(new IncrementAction()));
+                .Subscribe(_ => Store.Dispatch(new IncrementAction()));
 
             DecrementButton.Events().Click
-                .Subscribe(_ => _store.Dispatch(new DecrementAction()));
+                .Subscribe(_ => Store.Dispatch(new DecrementAction()));
+
+            // Register Effects
+            Store.RegisterEffects(
+                TrackAction
+            );
 
             // Initialize Components
-            HistoryComponent.Initialize(_store);
+            HistoryComponent.Initialize(Store);
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Counter");
@@ -49,13 +54,6 @@ namespace ReduxSimple.Samples.Counter
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
-
-            // Track redux actions
-            _store.ObserveAction()
-                .Subscribe(action =>
-                {
-                    TrackReduxAction(action);
-                });
         }
     }
 }

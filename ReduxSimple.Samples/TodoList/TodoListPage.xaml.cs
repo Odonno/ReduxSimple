@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.TodoList.Reducers;
 using static ReduxSimple.Samples.TodoList.Selectors;
-using static ReduxSimple.Samples.Common.EventTracking;
+using static ReduxSimple.Samples.TodoList.Effects;
 
 namespace ReduxSimple.Samples.TodoList
 {
@@ -71,6 +71,11 @@ namespace ReduxSimple.Samples.TodoList
             AddNewItemButton.Events().Click
                .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
 
+            // Register Effects
+            Store.RegisterEffects(
+                TrackAction
+            );
+
             // Initialize Components
             HistoryComponent.Initialize(Store);
 
@@ -83,13 +88,6 @@ namespace ReduxSimple.Samples.TodoList
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
-
-            // Track redux actions
-            Store.ObserveAction()
-                .Subscribe(action =>
-                {
-                    TrackReduxAction(action);
-                });
         }
     }
 }

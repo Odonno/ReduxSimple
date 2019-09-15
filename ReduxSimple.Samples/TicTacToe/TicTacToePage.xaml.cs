@@ -8,13 +8,13 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Samples.TicTacToe.Reducers;
 using static ReduxSimple.Samples.TicTacToe.Selectors;
-using static ReduxSimple.Samples.Common.EventTracking;
+using static ReduxSimple.Samples.TicTacToe.Effects;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
     public sealed partial class TicTacToePage : Page
     {
-        private static readonly ReduxStore<TicTacToeState> _store =
+        public static readonly ReduxStore<TicTacToeState> Store =
             new ReduxStore<TicTacToeState>(CreateReducers(), InitialState, true);
 
         public TicTacToePage()
@@ -22,15 +22,15 @@ namespace ReduxSimple.Samples.TicTacToe
             InitializeComponent();
 
             // Reset Store (due to HistoryComponent lifecycle)
-            _store.Reset();
+            Store.Reset();
 
             // Get UI Elements
             var cellsGrids = CellsRootGrid.Children;
 
             // Observe changes on state
             Observable.CombineLatest(
-                _store.Select(SelectGameEnded),
-                _store.Select(SelectWinner),
+                Store.Select(SelectGameEnded),
+                Store.Select(SelectWinner),
                 Tuple.Create
             )
                 .Subscribe(x =>
@@ -50,7 +50,7 @@ namespace ReduxSimple.Samples.TicTacToe
                     }
                 });
 
-            _store.Select(SelectCells)
+            Store.Select(SelectCells)
                 .Subscribe(cells =>
                 {
                     for (int i = 0; i < cells.Length; i++)
@@ -76,20 +76,25 @@ namespace ReduxSimple.Samples.TicTacToe
                     })
                     .Where(x =>
                     {
-                        var cell = _store.State.Cells.First(c => c.Row == x.Row && c.Column == x.Column);
-                        return !_store.State.GameEnded && !cell.Mine.HasValue;
+                        var cell = Store.State.Cells.First(c => c.Row == x.Row && c.Column == x.Column);
+                        return !Store.State.GameEnded && !cell.Mine.HasValue;
                     })
                     .Subscribe(x =>
                     {
-                        _store.Dispatch(new PlayAction { Row = x.Row, Column = x.Column });
+                        Store.Dispatch(new PlayAction { Row = x.Row, Column = x.Column });
                     });
             }
 
             StartNewGameButton.Events().Click
-                .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
+                .Subscribe(_ => Store.Dispatch(new StartNewGameAction()));
+
+            // Register Effects
+            Store.RegisterEffects(
+                TrackAction
+            );
 
             // Initialize Components
-            HistoryComponent.Initialize(_store);
+            HistoryComponent.Initialize(Store);
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TicTacToe");
@@ -100,13 +105,6 @@ namespace ReduxSimple.Samples.TicTacToe
                 .Subscribe(_ => ContentGrid.Blur(5).Start());
             DocumentationComponent.ObserveOnCollapsed()
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
-
-            // Track redux actions
-            _store.ObserveAction()
-                .Subscribe(action =>
-                {
-                    TrackReduxAction(action);
-                });
         }
     }
 }

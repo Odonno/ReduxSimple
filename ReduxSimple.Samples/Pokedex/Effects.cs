@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using static ReduxSimple.Effects;
 using static ReduxSimple.Samples.Pokedex.Selectors;
 using static ReduxSimple.Samples.Pokedex.PokedexPage;
+using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Pokedex
 {
@@ -113,6 +114,16 @@ namespace ReduxSimple.Samples.Pokedex
                     return new ResetPokemonAction() as object;
                 }),
             true
+        );
+
+        public static Effect<PokedexState> TrackAction = CreateEffect<PokedexState>(
+            () => Store.ObserveAction()
+                .Do(action =>
+                {
+                    bool trackProperties = action.GetType().Name != nameof(GetPokemonListFullfilledAction);
+                    TrackReduxAction(action, trackProperties);
+                }),
+            false
         );
     }
 }
