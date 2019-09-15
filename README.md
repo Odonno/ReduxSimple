@@ -197,23 +197,25 @@ public static MemoizedSelectorWithProps<RootState, string, string, bool> SelectI
 );
 ```
 
-### Asynchronous Actions
+### Effect - Asynchronous Actions
+
+Side effects are functions that runs outside of the predictable State -> UI cycle. Effects does not interfere with the UI directly and can dispatch a new action in the `ReduxStore` when necessary.
+
+#### The 3-actions pattern
 
 When you work with asynchronous tasks (side effects), you can follow the following rule:
 
-* Create 3 actions - a normal/start action, a `fulfilled` action and a `failed` action
+* Create 3 actions - a start action, a `fulfilled` action and a `failed` action
 * Reduce/Handle response on `fulfilled` action
 * Reduce/Handle error on `failed` action
 
 Here is a concrete example.
 
-#### List of actions
-
 ```csharp
 public class GetTodosAction { }
 public class GetTodosFulfilledAction
 {
-    public ImmutableArray<Todo> Todos { get; set; }
+    public ImmutableList<Todo> Todos { get; set; }
 }
 public class GetTodosFailedAction
 {
@@ -224,6 +226,44 @@ public class GetTodosFailedAction
 
 ```csharp
 Store.Dispatch(new GetTodosAction());
+```
+
+#### Create and register effect
+
+You now need to observe this action and execute an HTTP call that will then dispatch the result to the store.
+
+```csharp
+public static Effect<RootState> GetTodos = CreateEffect<RootState>(
+    () => Store.ObserveAction<GetTodosAction>()
+        .Select(_ => _todoApi.GetTodos())
+        .Switch()
+        .Select(todos => 
+        {
+            return new GetTodosFulfilledAction
+            {
+                Todos = todos.ToImmutableList()
+            };
+        })
+        .Catch(e => 
+        {
+            return Observable.Return(
+                new GetTodosFailedAction
+                {
+                    StatusCode = e.StatusCode,
+                    Reason = e.Reason
+                }
+            );
+        }),
+    true // indicates if the ouput of the effect should be dispatched to the store
+);
+```
+
+And remember to always register your effect to the store.
+
+```csharp
+Store.RegisterEffects(
+    GetTodos
+);
 ```
 
 ### Time travel
