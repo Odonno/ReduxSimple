@@ -24,6 +24,10 @@ namespace ReduxSimple
                 {
                     effect.Run().Subscribe(Dispatch);
                 }
+                else
+                {
+                    effect.Run().Subscribe();
+                }
 
                 _effects.Add(effect);
             }
