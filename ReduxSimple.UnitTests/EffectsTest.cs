@@ -1,9 +1,9 @@
 ﻿using Xunit;
+using ReduxSimple.UnitTests.Setup.TodoListStore;
+using System.Reactive.Linq;
 using static ReduxSimple.UnitTests.Setup.TodoListStore.Functions;
 using static ReduxSimple.Effects;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.UnitTests.Setup.TodoListStore.TodoListState>;
-using ReduxSimple.UnitTests.Setup.TodoListStore;
-using System.Reactive.Linq;
 
 namespace ReduxSimple.UnitTests
 {
