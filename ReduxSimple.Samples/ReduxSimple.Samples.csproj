@@ -122,6 +122,7 @@
     <Compile Include="Pokedex\Actions.cs" />
     <Compile Include="Pokedex\CacheService.cs" />
     <Compile Include="Pokedex\Data.cs" />
+    <Compile Include="Pokedex\Effects.cs" />
     <Compile Include="Pokedex\PokedexApiClient.cs" />
     <Compile Include="Pokedex\PokedexPage.xaml.cs">
       <DependentUpon>PokedexPage.xaml</DependentUpon>

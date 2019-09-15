@@ -78,7 +78,7 @@ namespace ReduxSimple
         /// </summary>
         /// <param name="filter">Filter action by origin.</param>
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about actions performed on the store.</returns>
-        public IObservable<object> ObserveAction(ActionOriginFilter filter = ActionOriginFilter.All)
+        public IObservable<object> ObserveAction(ActionOriginFilter filter = ActionOriginFilter.Normal)
         {
             return _actionSubject
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
@@ -92,7 +92,7 @@ namespace ReduxSimple
         /// <returns>
         /// An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever an action of <typeparamref name="T"/> is performed on the store.
         /// </returns>
-        public IObservable<T> ObserveAction<T>(ActionOriginFilter filter = ActionOriginFilter.All)
+        public IObservable<T> ObserveAction<T>(ActionOriginFilter filter = ActionOriginFilter.Normal)
         {
             return _actionSubject
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))

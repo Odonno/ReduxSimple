@@ -2,7 +2,6 @@
 using ReduxSimple.Samples.Extensions;
 using SuccincT.Options;
 using System;
-using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
@@ -12,14 +11,13 @@ using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
 using static ReduxSimple.Samples.Pokedex.Reducers;
 using static ReduxSimple.Samples.Pokedex.Selectors;
+using static ReduxSimple.Samples.Pokedex.Effects;
 using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Pokedex
 {
     public sealed partial class PokedexPage : Page
     {
-        private readonly PokedexApiClient _pokedexApiClient = new PokedexApiClient();
-
         public static readonly ReduxStore<PokedexState> Store = 
             new ReduxStore<PokedexState>(CreateReducers(), true);
 
@@ -31,56 +29,6 @@ namespace ReduxSimple.Samples.Pokedex
             Store.Reset();
 
             // Observe changes on state
-
-            // Load pokemon list from API
-            Store.ObserveAction<GetPokemonListAction>(ActionOriginFilter.Normal)
-                .SelectMany(_ => _pokedexApiClient.GetPokedex())
-                .Subscribe(response =>
-                {
-                    Store.Dispatch(new GetPokemonListFullfilledAction
-                    {
-                        Pokedex = response.PokemonEntries
-                            .Select(p => new PokemonGeneralInfo { Id = p.Number, Name = p.Species.Name.Capitalize() })
-                            .ToList()
-                    });
-                }, e =>
-                {
-                    Store.Dispatch(new GetPokemonListFailedAction
-                    {
-                        Exception = e
-                    });
-                });
-
-            // Load pokemon by id from API
-            Store.ObserveAction<GetPokemonByIdAction>(ActionOriginFilter.Normal)
-                .SelectMany(action =>
-                {
-                    return _pokedexApiClient.GetPokemonById(action.Id)
-                        .TakeUntil(Store.ObserveAction<GetPokemonByIdAction>());
-                })
-                .Subscribe(response =>
-                {
-                    Store.Dispatch(new GetPokemonByIdFullfilledAction
-                    {
-                        Pokemon = new Pokemon
-                        {
-                            Id = response.Id,
-                            Name = response.Name.Capitalize(),
-                            Image = response.Sprites.Image,
-                            Types = response.Types
-                                .OrderBy(t => t.Slot)
-                                .Select(t => new PokemonType { Name = t.Type.Name })
-                                .ToList()
-                        }
-                    });
-                }, e =>
-                {
-                    Store.Dispatch(new GetPokemonByIdFailedAction
-                    {
-                        Exception = e
-                    });
-                });
-
             Observable.CombineLatest(
                 Store.Select(SelectLoading),
                 Store.Select(SelectIsPokedexEmpty),
@@ -101,42 +49,7 @@ namespace ReduxSimple.Samples.Pokedex
                     });
                 });
 
-            Store.Select(SelectSearch)
-                .ObserveOn(Scheduler.Default)
-                .Subscribe(search =>
-                {
-                    if (Store.State.Pokedex.IsEmpty)
-                        return;
-
-                    if (!string.IsNullOrWhiteSpace(search))
-                    {
-                        if (search.StartsWith("#"))
-                        {
-                            // Search Pokemon by Id
-                            if (int.TryParse(search.Substring(1), out int searchedId))
-                            {
-                                if (Store.State.Pokedex.Any(p => p.Id == searchedId))
-                                    Store.Dispatch(new GetPokemonByIdAction { Id = searchedId });
-                                else
-                                    Store.Dispatch(new ResetPokemonAction());
-                            }
-                        }
-                        else
-                        {
-                            // Search Pokemon by both Id and Name
-                            if (Store.State.Suggestions.Any())
-                                Store.Dispatch(new GetPokemonByIdAction { Id = Store.State.Suggestions.First().Id });
-                            else
-                                Store.Dispatch(new ResetPokemonAction());
-                        }
-                    }
-                    else
-                    {
-                        Store.Dispatch(new ResetPokemonAction());
-                    }
-                });
-
-            Store.Select(SelectSuggestions)
+            Store.Select(SelectSuggestions, 5)
                 .ObserveOn(Scheduler.Default)
                 .Subscribe(suggestions =>
                 {
@@ -198,6 +111,13 @@ namespace ReduxSimple.Samples.Pokedex
                         }
                     });
                 });
+
+            // Register Effects
+            Store.RegisterEffects(
+                LoadPokemonList,
+                LoadPokemonById,
+                SearchPokemon
+            );
             
             // Initialize Components
             HistoryComponent.Initialize(Store);
@@ -213,7 +133,7 @@ namespace ReduxSimple.Samples.Pokedex
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
 
             // Track redux actions
-            Store.ObserveAction(ActionOriginFilter.Normal)
+            Store.ObserveAction()
                 .Subscribe(action =>
                 {
                     bool trackProperties = action.GetType().Name != nameof(GetPokemonListFullfilledAction);

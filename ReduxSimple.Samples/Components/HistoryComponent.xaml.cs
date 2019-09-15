@@ -197,7 +197,7 @@ namespace ReduxSimple.Samples.Components
                 });
 
             // Observe changes on listened state
-            var goForwardNormalActionOrigin = store.ObserveAction(ActionOriginFilter.Normal)
+            var goForwardNormalActionOrigin = store.ObserveAction()
                 .Select(action => new { Action = action, BreaksTimeline = true });
             var goForwardRedoneActionOrigin = store.ObserveAction(ActionOriginFilter.Redone)
                 .Select(action => new { Action = action, BreaksTimeline = false });
@@ -237,7 +237,7 @@ namespace ReduxSimple.Samples.Components
                 });
 
             // Track redux actions
-            _internalStore.ObserveAction(ActionOriginFilter.Normal)
+            _internalStore.ObserveAction()
                 .Subscribe(action =>
                 {
                     TrackReduxAction(action);

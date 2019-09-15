@@ -78,7 +78,7 @@ namespace ReduxSimple.UnitTests
             // Act
             int observeCount = 0;
 
-            store.ObserveAction(ActionOriginFilter.Normal)
+            store.ObserveAction()
                 .Subscribe(_ =>
                 {
                     observeCount++;

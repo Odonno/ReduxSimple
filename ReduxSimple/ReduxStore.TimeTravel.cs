@@ -72,7 +72,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about CanUndo property.</returns>
         public IObservable<bool> ObserveCanUndo()
         {
-            return Observable.Merge(ObserveAction(), ObserveReset(), ObserveUndoneAction())
+            return Observable.Merge(ObserveAction(ActionOriginFilter.All), ObserveReset(), ObserveUndoneAction())
                 .Select(_ => CanUndo)
                 .StartWith(CanUndo)
                 .DistinctUntilChanged();
@@ -105,7 +105,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about CanRedo property.</returns>
         public IObservable<bool> ObserveCanRedo()
         {
-            return Observable.Merge(ObserveAction(), ObserveReset(), ObserveUndoneAction())
+            return Observable.Merge(ObserveAction(ActionOriginFilter.All), ObserveReset(), ObserveUndoneAction())
                 .Select(_ => CanRedo)
                 .StartWith(CanRedo)
                 .DistinctUntilChanged();

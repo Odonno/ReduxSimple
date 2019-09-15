@@ -26,13 +26,10 @@ namespace ReduxSimple
         public ReduxStore(
             IEnumerable<On<TState>> reducers,
             bool enableTimeTravel = false
-        )
+        ) : this(reducers, null, enableTimeTravel)
         {
-            _reducers = reducers;
-            State = _initialState = new TState();
-            _stateSubject = new BehaviorSubject<TState>(State);
-            TimeTravelEnabled = enableTimeTravel;
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReduxStore{TState}"/> class.
         /// </summary>

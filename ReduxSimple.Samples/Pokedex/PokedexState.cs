@@ -27,7 +27,6 @@ namespace ReduxSimple.Samples.Pokedex
     {
         public ImmutableList<PokemonGeneralInfo> Pokedex { get; set; } = ImmutableList<PokemonGeneralInfo>.Empty;
         public string Search { get; set; } = string.Empty;
-        public ImmutableList<PokemonGeneralInfo> Suggestions { get; set; } = ImmutableList<PokemonGeneralInfo>.Empty;
         public Option<Pokemon> Pokemon { get; set; } = Option<Pokemon>.None();
         public bool Loading { get; set; }
         public ImmutableList<string> Errors { get; set; } = ImmutableList<string>.Empty;

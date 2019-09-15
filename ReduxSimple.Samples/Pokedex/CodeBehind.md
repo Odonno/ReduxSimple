@@ -13,7 +13,7 @@ public sealed partial class PokedexPage : Page
         // Observe changes on state
 
         // Load pokemon list from API
-        Store.ObserveAction<GetPokemonListAction>(ActionOriginFilter.Normal)
+        Store.ObserveAction<GetPokemonListAction>()
             .SelectMany(_ => _pokedexApiClient.GetPokedex())
             .Subscribe(response =>
             {
@@ -32,7 +32,7 @@ public sealed partial class PokedexPage : Page
             });
 
         // Load pokemon by id from API
-        Store.ObserveAction<GetPokemonByIdAction>(ActionOriginFilter.Normal)
+        Store.ObserveAction<GetPokemonByIdAction>()
             .SelectMany(action =>
             {
                 return _pokedexApiClient.GetPokemonById(action.Id)

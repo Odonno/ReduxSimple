@@ -102,7 +102,7 @@ namespace ReduxSimple.Samples.TicTacToe
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
 
             // Track redux actions
-            _store.ObserveAction(ActionOriginFilter.Normal)
+            _store.ObserveAction()
                 .Subscribe(action =>
                 {
                     TrackReduxAction(action);

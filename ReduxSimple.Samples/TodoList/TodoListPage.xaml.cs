@@ -85,7 +85,7 @@ namespace ReduxSimple.Samples.TodoList
                 .Subscribe(_ => ContentGrid.Blur(0).Start());
 
             // Track redux actions
-            Store.ObserveAction(ActionOriginFilter.Normal)
+            Store.ObserveAction()
                 .Subscribe(action =>
                 {
                     TrackReduxAction(action);
