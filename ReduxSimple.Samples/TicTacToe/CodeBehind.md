@@ -1,7 +1,7 @@
 ```csharp
 public sealed partial class TicTacToePage : Page
 {
-    private static readonly ReduxStore<TicTacToeState> _store =
+    public static readonly ReduxStore<TicTacToeState> Store =
         new ReduxStore<TicTacToeState>(CreateReducers(), InitialState, true);
 
     public TicTacToePage()
@@ -71,6 +71,11 @@ public sealed partial class TicTacToePage : Page
 
         StartNewGameButton.Events().Click
             .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
+
+        // Register Effects
+        Store.RegisterEffects(
+            TrackAction
+        );
     }
 }
 ```

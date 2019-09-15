@@ -19,7 +19,7 @@
                 Documentation
             </controls:Expander.Header>
 
-            <Grid MaxWidth="570" Margin="0 20 0 0">
+            <Grid MaxWidth="620" Margin="0 20 0 0">
                 <Pivot Margin="0 0 4 0">
                     <PivotItem Header="Introduction">
                         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
@@ -54,6 +54,11 @@
                     <PivotItem Header="Code Behind">
                         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
                             <controls:MarkdownTextBlock x:Name="CodeBehindMarkdownTextBlock" FontSize="11" />
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="Effects">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                            <controls:MarkdownTextBlock x:Name="EffectsMarkdownTextBlock" FontSize="11" />
                         </ScrollViewer>
                     </PivotItem>
                     <PivotItem Header="Dependencies">

@@ -316,6 +316,18 @@
       <Name>ReduxSimple</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Counter\Effects.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pokedex\Effects.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TicTacToe\Effects.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TodoList\Effects.md" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

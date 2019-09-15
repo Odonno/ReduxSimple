@@ -1,8 +1,6 @@
 ```csharp
 public sealed partial class PokedexPage : Page
 {
-    private readonly PokedexApiClient _pokedexApiClient = new PokedexApiClient();
-
     public static readonly ReduxStore<PokedexState> Store = 
         new ReduxStore<PokedexState>(CreateReducers(), true);
 
@@ -11,56 +9,6 @@ public sealed partial class PokedexPage : Page
         InitializeComponent();
 
         // Observe changes on state
-
-        // Load pokemon list from API
-        Store.ObserveAction<GetPokemonListAction>()
-            .SelectMany(_ => _pokedexApiClient.GetPokedex())
-            .Subscribe(response =>
-            {
-                Store.Dispatch(new GetPokemonListFullfilledAction
-                {
-                    Pokedex = response.PokemonEntries
-                        .Select(p => new PokemonGeneralInfo { Id = p.Number, Name = p.Species.Name.Capitalize() })
-                        .ToList()
-                });
-            }, e =>
-            {
-                Store.Dispatch(new GetPokemonListFailedAction
-                {
-                    Exception = e
-                });
-            });
-
-        // Load pokemon by id from API
-        Store.ObserveAction<GetPokemonByIdAction>()
-            .SelectMany(action =>
-            {
-                return _pokedexApiClient.GetPokemonById(action.Id)
-                    .TakeUntil(Store.ObserveAction<GetPokemonByIdAction>());
-            })
-            .Subscribe(response =>
-            {
-                Store.Dispatch(new GetPokemonByIdFullfilledAction
-                {
-                    Pokemon = new Pokemon
-                    {
-                        Id = response.Id,
-                        Name = response.Name.Capitalize(),
-                        Image = response.Sprites.Image,
-                        Types = response.Types
-                            .OrderBy(t => t.Slot)
-                            .Select(t => new PokemonType { Name = t.Type.Name })
-                            .ToList()
-                    }
-                });
-            }, e =>
-            {
-                Store.Dispatch(new GetPokemonByIdFailedAction
-                {
-                    Exception = e
-                });
-            });
-
         Observable.CombineLatest(
             Store.Select(SelectLoading),
             Store.Select(SelectIsPokedexEmpty),
@@ -80,43 +28,8 @@ public sealed partial class PokedexPage : Page
                     RootStackPanel.ShowIf(!isPokedexEmpty);
                 });
             });
-
-        Store.Select(SelectSearch)
-            .ObserveOn(Scheduler.Default)
-            .Subscribe(search =>
-            {
-                if (Store.State.Pokedex.IsEmpty)
-                    return;
-
-                if (!string.IsNullOrWhiteSpace(search))
-                {
-                    if (search.StartsWith("#"))
-                    {
-                        // Search Pokemon by Id
-                        if (int.TryParse(search.Substring(1), out int searchedId))
-                        {
-                            if (Store.State.Pokedex.Any(p => p.Id == searchedId))
-                                Store.Dispatch(new GetPokemonByIdAction { Id = searchedId });
-                            else
-                                Store.Dispatch(new ResetPokemonAction());
-                        }
-                    }
-                    else
-                    {
-                        // Search Pokemon by both Id and Name
-                        if (Store.State.Suggestions.Any())
-                            Store.Dispatch(new GetPokemonByIdAction { Id = Store.State.Suggestions.First().Id });
-                        else
-                            Store.Dispatch(new ResetPokemonAction());
-                    }
-                }
-                else
-                {
-                    Store.Dispatch(new ResetPokemonAction());
-                }
-            });
-
-        Store.Select(SelectSuggestions)
+			
+        Store.Select(SelectSuggestions, 5)
             .ObserveOn(Scheduler.Default)
             .Subscribe(suggestions =>
             {
@@ -178,6 +91,14 @@ public sealed partial class PokedexPage : Page
                     }
                 });
             });
+
+        // Register Effects
+        Store.RegisterEffects(
+            LoadPokemonList,
+            LoadPokemonById,
+            SearchPokemon,
+            TrackAction
+        );
     }
 }
 ```

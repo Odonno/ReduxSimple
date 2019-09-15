@@ -1,8 +1,8 @@
 ﻿```csharp
 public sealed partial class CounterPage : Page
 {
-    private static readonly ReduxStore<CounterState> _store = 
-		new ReduxStore<CounterState>(CreateReducers(), true);
+    public static readonly ReduxStore<CounterState> Store = 
+        new ReduxStore<CounterState>(CreateReducers(), true);
 
     public CounterPage()
     {
@@ -21,6 +21,11 @@ public sealed partial class CounterPage : Page
 
         DecrementButton.Events().Click
             .Subscribe(_ => _store.Dispatch(new DecrementAction()));
+
+        // Register Effects
+        Store.RegisterEffects(
+            TrackAction
+        );
     }
 }
 ```

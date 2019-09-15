@@ -59,6 +59,11 @@ public sealed partial class TodoListPage : Page
 
         AddNewItemButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
+
+        // Register Effects
+        Store.RegisterEffects(
+            TrackAction
+        );
     }
 }
 ```
