@@ -1,4 +1,5 @@
 ﻿using Converto;
+using Newtonsoft.Json;
 using SuccincT.Options;
 using System;
 using System.Collections.Immutable;
@@ -12,6 +13,12 @@ namespace ReduxSimple.Samples.Components
 {
     public sealed partial class DevToolsComponent : Page
     {
+        private class ReduxActionInfo
+        {
+            public Type Type { get; set; }
+            public object Data { get; set; }
+        }
+
         private class HistoryComponentState
         {
             public ImmutableList<object> CurrentActions { get; set; } = ImmutableList<object>.Empty;
@@ -19,6 +26,7 @@ namespace ReduxSimple.Samples.Components
             public int MaxPosition { get; set; } = 0;
             public int CurrentPosition { get; set; } = 0;
             public bool PlaySessionActive { get; set; } = false;
+            public Option<ReduxActionInfo> SelectedReduxActionInfo { get; set; } = Option<ReduxActionInfo>.None();
         }
 
         private class HistoryComponentStore : ReduxStore<HistoryComponentState>
@@ -77,6 +85,13 @@ namespace ReduxSimple.Samples.Components
                 {
                     return state.With(new { PlaySessionActive = !state.PlaySessionActive });
                 }
+                if (action is SelectReduxActionInfoAction selectReduxActionInfoAction)
+                {
+                    return state.With(new
+                    {
+                        SelectedReduxActionInfo = Option<ReduxActionInfo>.Some(selectReduxActionInfoAction.ActionInfo)
+                    });
+                }
                 return base.Reduce(state, action);
             }
         }
@@ -93,6 +108,11 @@ namespace ReduxSimple.Samples.Components
             public int Position { get; set; }
         }
         private class TogglePlayPauseAction { }
+
+        private class SelectReduxActionInfoAction
+        {
+            public ReduxActionInfo ActionInfo { get; set; }
+        }
 
         private readonly HistoryComponentStore _internalStore = new HistoryComponentStore();
 
@@ -186,6 +206,47 @@ namespace ReduxSimple.Samples.Components
                     }
                 });
 
+            _internalStore.Select(state => state.CurrentActions)
+                .Subscribe(actions =>
+                {
+                    ReduxActionInfosListView.ItemsSource = actions.Select(action =>
+                    {
+                        return new ReduxActionInfo
+                        {
+                            Type = action.GetType(),
+                            Data  = action
+                        };
+                    });
+                });
+
+            _internalStore.Select(state => state.SelectedReduxActionInfo)
+                .Subscribe(reduxActionOption =>
+                {
+                    reduxActionOption.Match()
+                        .Some().Do(reduxAction =>
+                        {
+                            SelectedReduxActionTypeTextBlock.Text = reduxAction.Type.Name;
+                            SelectedReduxActionDataTextBlock.Text = JsonConvert.SerializeObject(reduxAction.Data);
+                        })
+                        .None().Do(() =>
+                        {
+                            SelectedReduxActionTypeTextBlock.Text = string.Empty;
+                            SelectedReduxActionDataTextBlock.Text = string.Empty;
+                        })
+                    .Exec();
+                });
+
+            // Observe UI events
+            ReduxActionInfosListView.Events().ItemClick
+                .Subscribe(@event =>
+                {
+                    var reduxActionInfo = @event.ClickedItem as ReduxActionInfo;
+                    _internalStore.Dispatch(new SelectReduxActionInfoAction
+                    {
+                        ActionInfo = reduxActionInfo
+                    });
+                });
+
             // Observe changes on listened state
             var goForwardNormalActionOrigin = store.ObserveAction(ActionOriginFilter.Normal)
                 .Select(action => new { Action = action, BreaksTimeline = true });
@@ -211,6 +272,7 @@ namespace ReduxSimple.Samples.Components
                 .ObserveOnDispatcher()
                 .Subscribe(_ => _internalStore.Dispatch(new ResetAction()));
 
+            // TODO : Effect
             _internalStore.Select(state => state.PlaySessionActive)
                 .Select(playSessionActive =>
                     playSessionActive ? Observable.Interval(TimeSpan.FromSeconds(1)) : Observable.Empty<long>()
