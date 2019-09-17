@@ -43,6 +43,8 @@ namespace ReduxSimple
         {
             State = _initialState = initialState ?? new TState();
             _stateSubject = new BehaviorSubject<TState>(State);
+
+            Dispatch(new InitializeStoreAction());
         }
 
         /// <summary>
