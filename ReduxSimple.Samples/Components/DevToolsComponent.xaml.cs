@@ -227,11 +227,15 @@ namespace ReduxSimple.Samples.Components
                         {
                             SelectedReduxActionTypeTextBlock.Text = reduxAction.Type.Name;
                             SelectedReduxActionDataTextBlock.Text = JsonConvert.SerializeObject(reduxAction.Data);
+                            
+                            var state = store.FindStateFromAction(reduxAction.Data);
+                            SelectedStateTextBlock.Text = JsonConvert.SerializeObject(state);
                         })
                         .None().Do(() =>
                         {
                             SelectedReduxActionTypeTextBlock.Text = string.Empty;
                             SelectedReduxActionDataTextBlock.Text = string.Empty;
+                            SelectedStateTextBlock.Text = string.Empty;
                         })
                     .Exec();
                 });

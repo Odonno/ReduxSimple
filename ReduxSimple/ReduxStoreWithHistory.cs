@@ -155,5 +155,17 @@ namespace ReduxSimple
             _futureActions.Clear();
             ResetState();
         }
+
+        /// <summary>
+        /// Find the state that was reduced using the specified action.
+        /// </summary>
+        /// <param name="action">Action dispatched in the store at a given time.</param>
+        /// <returns>A state</returns>
+        public TState FindStateFromAction(object action)
+        {
+            return _pastMementos
+                .Single(m => m.Action == action)
+                .State;
+        }
     }
 }
