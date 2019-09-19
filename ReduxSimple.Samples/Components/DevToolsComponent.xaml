@@ -9,25 +9,27 @@
 
     <Grid Background="{ThemeResource SystemControlChromeMediumAcrylicWindowMediumBrush}">
 
-        <controls:DropShadowPanel BlurRadius="15"
-                                  ShadowOpacity="0.6"
-                                  Color="Black"
-                                  Margin="20 40 20 20">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+        <Grid Margin="10 40 10 10">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0"
-                      Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <controls:DropShadowPanel Grid.Column="0" 
+                                          Margin="-10 0 10 0"
+                                          BlurRadius="15"
+                                          ShadowOpacity="0.6"
+                                          Color="Black">
                     <ListView x:Name="ReduxActionInfosListView"
-                              Grid.Column="0"
+                              Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                              MinWidth="220"
+                              MaxWidth="300"
                               IsItemClickEnabled="True">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -35,8 +37,14 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                </controls:DropShadowPanel>
 
-                    <Pivot Grid.Column="1">
+                <controls:DropShadowPanel Grid.Column="1" 
+                                          Margin="10 0 -10 0"
+                                          BlurRadius="15"
+                                          ShadowOpacity="0.6"
+                                          Color="Black">
+                    <Pivot Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                         <PivotItem Header="Action">
                             <StackPanel>
                                 <TextBlock x:Name="SelectedReduxActionTypeTextBlock" />
@@ -47,14 +55,20 @@
                             <TextBlock x:Name="SelectedStateTextBlock" />
                         </PivotItem>
                         <PivotItem Header="Diff">
+                            <TextBlock x:Name="SelectedDiffStateTextBlock" />
                         </PivotItem>
                     </Pivot>
-                </Grid>
-                
-                <Grid Grid.Row="1" 
-                      Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
-                      Margin="0 10 0 0"
-                      VerticalAlignment="Center">
+                </controls:DropShadowPanel>
+            </Grid>
+
+            <controls:DropShadowPanel Grid.Row="1" 
+                                      Margin="0 20 0 0"
+                                      BlurRadius="15"
+                                      ShadowOpacity="0.6"
+                                      Color="Black"
+                                      HorizontalContentAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch">
+                <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -63,42 +77,48 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="UndoButton" Grid.Column="0"
-                        FontFamily="Segoe MDL2 Assets"
-                        Padding="10"
-                        Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="UndoButton" 
+                            Grid.Column="0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Padding="10"
+                            Style="{StaticResource ButtonRevealStyle}">
                         &#xE892;
                     </Button>
 
-                    <Button x:Name="PlayPauseButton" Grid.Column="1"
-                        FontFamily="Segoe MDL2 Assets"
-                        Padding="10"
-                        Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="PlayPauseButton" 
+                            Grid.Column="1"
+                            FontFamily="Segoe MDL2 Assets"
+                            Padding="10"
+                            Style="{StaticResource ButtonRevealStyle}">
                         &#xE768;
                     </Button>
 
-                    <Slider x:Name="Slider" Grid.Column="2"
-                        Minimum="0" Maximum="0"
-                        IsEnabled="False"
-                        Margin="15 0 20 0"
-                        VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+                    <Slider x:Name="Slider" 
+                            Grid.Column="2"
+                            Minimum="0" Maximum="0"
+                            IsEnabled="False"
+                            Margin="15 0 20 0"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Stretch" />
 
-                    <Button x:Name="ResetButton" Grid.Column="3"
-                        FontFamily="Segoe MDL2 Assets"
-                        Padding="10"
-                        Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="ResetButton" 
+                            Grid.Column="3"
+                            FontFamily="Segoe MDL2 Assets"
+                            Padding="10"
+                            Style="{StaticResource ButtonRevealStyle}">
                         &#xE894;
                     </Button>
 
-                    <Button x:Name="RedoButton" Grid.Column="4"
-                        FontFamily="Segoe MDL2 Assets"
-                        Padding="10"
-                        Style="{StaticResource ButtonRevealStyle}">
+                    <Button x:Name="RedoButton"
+                            Grid.Column="4"
+                            FontFamily="Segoe MDL2 Assets"
+                            Padding="10"
+                            Style="{StaticResource ButtonRevealStyle}">
                         &#xE893;
                     </Button>
                 </Grid>
-            </Grid>
-        </controls:DropShadowPanel>       
-        
+            </controls:DropShadowPanel>
+        </Grid>
+
     </Grid>
 </Page>

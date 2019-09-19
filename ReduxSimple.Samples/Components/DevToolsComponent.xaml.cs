@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SuccincT.Options;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reactive.Linq;
@@ -214,7 +215,7 @@ namespace ReduxSimple.Samples.Components
                         return new ReduxActionInfo
                         {
                             Type = action.GetType(),
-                            Data  = action
+                            Data = action
                         };
                     });
                 });
@@ -226,16 +227,30 @@ namespace ReduxSimple.Samples.Components
                         .Some().Do(reduxAction =>
                         {
                             SelectedReduxActionTypeTextBlock.Text = reduxAction.Type.Name;
-                            SelectedReduxActionDataTextBlock.Text = JsonConvert.SerializeObject(reduxAction.Data);
-                            
+                            SelectedReduxActionDataTextBlock.Text = JsonConvert.SerializeObject(reduxAction.Data, Formatting.Indented);
+
                             var state = store.FindStateFromAction(reduxAction.Data);
-                            SelectedStateTextBlock.Text = JsonConvert.SerializeObject(state);
+                            var jsonState = JsonConvert.SerializeObject(state, Formatting.Indented);
+
+                            SelectedStateTextBlock.Text = jsonState;
+
+                            var previousState = store.FindPreviousState(state);
+
+                            // Find diffs between selected state and previous state
+                            // TODO : use new/replace/removed pattern (green/red updates)
+                            SelectedDiffStateTextBlock.Text = previousState == null
+                                ? jsonState
+                                : JsonConvert.SerializeObject(
+                                    FindDiffs(previousState, state),
+                                    Formatting.Indented
+                                );
                         })
                         .None().Do(() =>
                         {
                             SelectedReduxActionTypeTextBlock.Text = string.Empty;
                             SelectedReduxActionDataTextBlock.Text = string.Empty;
                             SelectedStateTextBlock.Text = string.Empty;
+                            SelectedDiffStateTextBlock.Text = string.Empty;
                         })
                     .Exec();
                 });
@@ -291,6 +306,13 @@ namespace ReduxSimple.Samples.Components
                         _internalStore.Dispatch(new TogglePlayPauseAction());
                     }
                 });
+        }
+
+        private static Dictionary<string, object> FindDiffs<TState>(TState state1, TState state2)
+            where TState : class, new()
+        {
+            // TODO
+            return new Dictionary<string, object>();
         }
     }
 }

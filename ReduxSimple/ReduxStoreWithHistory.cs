@@ -163,9 +163,33 @@ namespace ReduxSimple
         /// <returns>A state</returns>
         public TState FindStateFromAction(object action)
         {
+            // TODO : internal
             return _pastMementos
                 .Single(m => m.Action == action)
                 .State;
+        }
+
+        /// <summary>
+        /// Find the previous state related to the specified state.
+        /// </summary>
+        /// <param name="state">The state as a reference to find the previous one.</param>
+        /// <returns>A possible state.</returns>
+        public TState FindPreviousState(TState state)
+        {
+            // TODO : internal
+            var pastMementosArray = _pastMementos.ToArray();
+
+            var selectedMemento = _pastMementos.Single(m => m.State == state);
+            var selectedIndex = Array.IndexOf(pastMementosArray, selectedMemento);
+
+            int previousStateIndex = selectedIndex + 1;
+            if (previousStateIndex >= _pastMementos.Count)
+            {
+                return null;
+            }
+
+            var previousMemento = pastMementosArray.ElementAt(previousStateIndex);
+            return previousMemento.State;
         }
     }
 }
