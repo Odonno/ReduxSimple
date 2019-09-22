@@ -9,7 +9,6 @@ namespace ReduxSimple
     /// <typeparam name="TState">The type of the state.</typeparam>
     public sealed partial class ReduxStore<TState> where TState : class, new()
     {
-        private readonly IEnumerable<On<TState>> _reducers;
         private readonly TState _initialState;
         private readonly BehaviorSubject<TState> _stateSubject;
                
@@ -42,7 +41,7 @@ namespace ReduxSimple
             bool enableTimeTravel = false
         )
         {
-            _reducers = reducers;
+            _reducers = new List<On<TState>>(reducers);
             State = _initialState = initialState ?? new TState();
             _stateSubject = new BehaviorSubject<TState>(State);
             TimeTravelEnabled = enableTimeTravel;

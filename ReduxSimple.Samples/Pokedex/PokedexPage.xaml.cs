@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
-using static ReduxSimple.Samples.Pokedex.Reducers;
+using static ReduxSimple.Samples.App;
 using static ReduxSimple.Samples.Pokedex.Selectors;
 using static ReduxSimple.Samples.Pokedex.Effects;
 
@@ -17,15 +17,9 @@ namespace ReduxSimple.Samples.Pokedex
 {
     public sealed partial class PokedexPage : Page
     {
-        public static readonly ReduxStore<PokedexState> Store = 
-            new ReduxStore<PokedexState>(CreateReducers(), true);
-
         public PokedexPage()
         {
             InitializeComponent();
-
-            // Reset Store (due to HistoryComponent lifecycle)
-            Store.Reset();
 
             // Observe changes on state
             Observable.CombineLatest(
@@ -115,8 +109,7 @@ namespace ReduxSimple.Samples.Pokedex
             Store.RegisterEffects(
                 LoadPokemonList,
                 LoadPokemonById,
-                SearchPokemon,
-                TrackAction
+                SearchPokemon
             );
             
             // Initialize Components

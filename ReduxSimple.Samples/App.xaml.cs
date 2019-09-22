@@ -1,5 +1,6 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
+using ReduxSimple.Samples.Router;
 using SuccincT.Options;
 using System;
 using Windows.ApplicationModel;
@@ -7,11 +8,16 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using static ReduxSimple.Samples.Reducers;
+using static ReduxSimple.Samples.Effects;
 
 namespace ReduxSimple.Samples
 {
     public sealed partial class App : Application
     {
+        public static readonly ReduxStore<RootState> Store =
+            new ReduxStore<RootState>(CreateReducers(), true);
+
         public App()
         {
             InitializeComponent();
@@ -33,6 +39,14 @@ namespace ReduxSimple.Samples
                 })
                 .Some().Do(f => f)
                 .Result();
+
+            // Enable router store feature
+            Store.EnableRouterFeature(rootFrame);
+
+            // Register Effects
+            Store.RegisterEffects(
+                TrackAction
+            );
 
             if (!e.PrelaunchActivated)
             {

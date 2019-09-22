@@ -150,22 +150,22 @@ namespace ReduxSimple
         /// </summary>
         /// <typeparam name="TState">State to consume.</typeparam>
         /// <typeparam name="TProps">Properties to pass to every selector.</typeparam>
-        /// <typeparam name="TSelectorResult1">Result of the first previous selector.</typeparam>
-        /// <typeparam name="TSelectorResult2">Result of the second previous selector.</typeparam>
+        /// <typeparam name="TSelector1Result">Result of the first previous selector.</typeparam>
+        /// <typeparam name="TSelector2Result">Result of the second previous selector.</typeparam>
         /// <typeparam name="TFinalResult">Result of the final selector.</typeparam>
         /// <param name="selector1">First selector.</param>
         /// <param name="selector2">Second selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelectorWithProps<TState, TProps, TSelectorResult1, TSelectorResult2, TFinalResult> CreateSelector<TState, TProps, TSelectorResult1, TSelectorResult2, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
-            Func<TState, TSelectorResult2> selector2,
-            Func<TSelectorResult1, TSelectorResult2, TProps, TFinalResult> projectorFunction
+        public static MemoizedSelectorWithProps<TState, TProps, TSelector1Result, TSelector2Result, TFinalResult> CreateSelector<TState, TProps, TSelector1Part1, TSelector1Result, TSelector2Part1, TSelector2Result, TFinalResult>(
+            MemoizedSelector<TState, TSelector1Part1, TSelector1Result> selector1,
+            MemoizedSelector<TState, TSelector2Part1, TSelector2Result> selector2,
+            Func<TSelector1Result, TSelector2Result, TProps, TFinalResult> projectorFunction
         )
         {
-            return new MemoizedSelectorWithProps<TState, TProps, TSelectorResult1, TSelectorResult2, TFinalResult>(
-                (state, props) => selector1(state),
-                (state, props) => selector2(state),
+            return new MemoizedSelectorWithProps<TState, TProps, TSelector1Result, TSelector2Result, TFinalResult>(
+                (state, props) => selector1.ProjectorFunction(selector1.Selector(state)),
+                (state, props) => selector2.ProjectorFunction(selector2.Selector(state)),
                 projectorFunction
             );
         }

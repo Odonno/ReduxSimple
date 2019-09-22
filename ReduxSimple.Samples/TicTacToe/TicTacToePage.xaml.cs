@@ -6,23 +6,16 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.TicTacToe.Reducers;
+using static ReduxSimple.Samples.App;
 using static ReduxSimple.Samples.TicTacToe.Selectors;
-using static ReduxSimple.Samples.TicTacToe.Effects;
 
 namespace ReduxSimple.Samples.TicTacToe
 {
     public sealed partial class TicTacToePage : Page
     {
-        public static readonly ReduxStore<TicTacToeState> Store =
-            new ReduxStore<TicTacToeState>(CreateReducers(), InitialState, true);
-
         public TicTacToePage()
         {
             InitializeComponent();
-
-            // Reset Store (due to HistoryComponent lifecycle)
-            Store.Reset();
 
             // Get UI Elements
             var cellsGrids = CellsRootGrid.Children;
@@ -76,8 +69,8 @@ namespace ReduxSimple.Samples.TicTacToe
                     })
                     .Where(x =>
                     {
-                        var cell = Store.State.Cells.First(c => c.Row == x.Row && c.Column == x.Column);
-                        return !Store.State.GameEnded && !cell.Mine.HasValue;
+                        var cell = Store.State.TicTacToe.Cells.First(c => c.Row == x.Row && c.Column == x.Column);
+                        return !Store.State.TicTacToe.GameEnded && !cell.Mine.HasValue;
                     })
                     .Subscribe(x =>
                     {
@@ -87,11 +80,6 @@ namespace ReduxSimple.Samples.TicTacToe
 
             StartNewGameButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new StartNewGameAction()));
-
-            // Register Effects
-            Store.RegisterEffects(
-                TrackAction
-            );
 
             // Initialize Components
             HistoryComponent.Initialize(Store);

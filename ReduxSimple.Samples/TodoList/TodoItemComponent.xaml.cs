@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.TodoList.TodoListPage;
+using static ReduxSimple.Samples.App;
 
 namespace ReduxSimple.Samples.TodoList
 {

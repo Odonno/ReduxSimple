@@ -27,6 +27,23 @@ namespace ReduxSimple
         /// Create a new selector based on the previous ones.
         /// </summary>
         /// <typeparam name="TState">State to consume.</typeparam>
+        /// <typeparam name="TSelectorResult1">Result of the previous selector.</typeparam>
+        /// <typeparam name="TFinalResult">Result of the final selector.</typeparam>
+        /// <param name="selector1">First selector.</param>
+        /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
+        /// <returns>A new selector using the previous ones.</returns>
+        public static MemoizedSelector<TState, TSelectorResult1, TFinalResult> CreateSelector<TState, TSelector1Part1, TSelectorResult1, TFinalResult>(
+            MemoizedSelector<TState, TSelector1Part1, TSelectorResult1> selector1,
+            Func<TSelectorResult1, TFinalResult> projectorFunction
+        )
+        {
+            return MemoizedSelector<TState, TSelectorResult1, TFinalResult>.Create(selector1, projectorFunction);
+        }
+
+        /// <summary>
+        /// Create a new selector based on the previous ones.
+        /// </summary>
+        /// <typeparam name="TState">State to consume.</typeparam>
         /// <typeparam name="TSelectorResult1">Result of the first previous selector.</typeparam>
         /// <typeparam name="TSelectorResult2">Result of the second previous selector.</typeparam>
         /// <typeparam name="TFinalResult">Result of the final selector.</typeparam>

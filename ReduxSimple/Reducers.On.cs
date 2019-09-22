@@ -2,7 +2,7 @@
 
 namespace ReduxSimple
 {
-    public static class Reducers
+    public static partial class Reducers
     {
         /// <summary>
         /// Function used to filter reducer based on action type.

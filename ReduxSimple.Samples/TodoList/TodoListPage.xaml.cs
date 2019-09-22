@@ -5,23 +5,16 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.TodoList.Reducers;
+using static ReduxSimple.Samples.App;
 using static ReduxSimple.Samples.TodoList.Selectors;
-using static ReduxSimple.Samples.TodoList.Effects;
 
 namespace ReduxSimple.Samples.TodoList
 {
     public sealed partial class TodoListPage : Page
     {
-        public static readonly ReduxStore<TodoListState> Store = 
-            new ReduxStore<TodoListState>(CreateReducers(), true);
-
         public TodoListPage()
         {
             InitializeComponent();
-
-            // Reset Store (due to HistoryComponent lifecycle)
-            Store.Reset();
 
             // Create backend properties
             var advancedCollectionView = new AdvancedCollectionView();
@@ -70,11 +63,6 @@ namespace ReduxSimple.Samples.TodoList
 
             AddNewItemButton.Events().Click
                .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
-
-            // Register Effects
-            Store.RegisterEffects(
-                TrackAction
-            );
 
             // Initialize Components
             HistoryComponent.Initialize(Store);

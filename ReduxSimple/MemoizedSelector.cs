@@ -27,6 +27,17 @@ namespace ReduxSimple
             Selector = selector;
             ProjectorFunction = projectorFunction;
         }
+
+        public static MemoizedSelector<TState, TSelectorResult, TResult> Create<TMemoSelector1Result>(
+            MemoizedSelector<TState, TMemoSelector1Result, TSelectorResult> selector,
+            Func<TSelectorResult, TResult> projectorFunction
+        )
+        {
+            return new MemoizedSelector<TState, TSelectorResult, TResult>(
+                state => selector.ProjectorFunction(selector.Selector(state)),
+                projectorFunction
+            );
+        }
     }
     /// <summary>
     /// Memoized selector that decompose the selector functions and the projector function

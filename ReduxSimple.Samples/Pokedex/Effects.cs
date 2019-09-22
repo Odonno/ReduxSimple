@@ -3,9 +3,8 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using static ReduxSimple.Effects;
+using static ReduxSimple.Samples.App;
 using static ReduxSimple.Samples.Pokedex.Selectors;
-using static ReduxSimple.Samples.Pokedex.PokedexPage;
-using static ReduxSimple.Samples.Common.EventTracking;
 
 namespace ReduxSimple.Samples.Pokedex
 {
@@ -13,7 +12,7 @@ namespace ReduxSimple.Samples.Pokedex
     {
         private readonly static PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
-        public static Effect<PokedexState> LoadPokemonList = CreateEffect<PokedexState>(
+        public static Effect<RootState> LoadPokemonList = CreateEffect<RootState>(
             () => Store.ObserveAction<GetPokemonListAction>()
                 .Select(_ => _pokedexApiClient.GetPokedex())
                 .Switch()
@@ -38,7 +37,7 @@ namespace ReduxSimple.Samples.Pokedex
             true
         );
 
-        public static Effect<PokedexState> LoadPokemonById = CreateEffect<PokedexState>(
+        public static Effect<RootState> LoadPokemonById = CreateEffect<RootState>(
             () => Store.ObserveAction<GetPokemonByIdAction>()
                 .Select(action => _pokedexApiClient.GetPokemonById(action.Id))
                 .Switch()
@@ -70,7 +69,7 @@ namespace ReduxSimple.Samples.Pokedex
             true
         );
 
-        public static Effect<PokedexState> SearchPokemon = CreateEffect<PokedexState>(
+        public static Effect<RootState> SearchPokemon = CreateEffect<RootState>(
             () => Store.Select(SelectSearch)
                 .Select(search =>
                 {
@@ -114,16 +113,6 @@ namespace ReduxSimple.Samples.Pokedex
                     return new ResetPokemonAction() as object;
                 }),
             true
-        );
-
-        public static Effect<PokedexState> TrackAction = CreateEffect<PokedexState>(
-            () => Store.ObserveAction()
-                .Do(action =>
-                {
-                    bool trackProperties = action.GetType().Name != nameof(GetPokemonListFullfilledAction);
-                    TrackReduxAction(action, trackProperties);
-                }),
-            false
         );
     }
 }
