@@ -160,11 +160,17 @@ Store.Select(state => state.CurrentPage)
     });
 ```
 
-It can be inline functions or static functions.
+### Simple selectors
+
+Simple selectors are like functions but the main benefits are that they can be reused in multiple components and they can be reused to create other selectors. 
 
 ```csharp
-public static Func<RootState, string> SelectCurrentPage = state => state.CurrentPage;
-public static Func<RootState, ImmutableArray<string>> SelectPages = state => state.Pages;
+public static ISelectorWithoutProps<RootState, string> SelectCurrentPage = CreateSelector(
+    (RootState state) => state.CurrentPage
+);
+public static ISelectorWithoutProps<RootState, ImmutableArray<string>> SelectPages = CreateSelector(
+    (RootState state) => state.Pages
+);
 
 Store.Select(SelectCurrentPage)
     .Subscribe(currentPage =>
@@ -173,14 +179,12 @@ Store.Select(SelectCurrentPage)
     });
 ```
 
-The benefits of static functions is that they can be reused in multiple components and they can be reused to create other selectors. 
-
 ### Memoized selectors
 
 Memoized selectors are a kind of selectors that combine multiple selectors to create a new one.
 
 ```csharp
-public static MemoizedSelectorWithProps<RootState, ImmutableArray<string>, bool> SelectHasPreviousPage = CreateSelector(
+public static ISelectorWithoutProps<RootState, bool> SelectHasPreviousPage = CreateSelector(
     SelectPages,
     (ImmutableArray<string> pages) => pages.Count() > 1
 );
@@ -191,7 +195,7 @@ public static MemoizedSelectorWithProps<RootState, ImmutableArray<string>, bool>
 Same as memoized selectors, but you can now use variables out of the store to create a new selector.   
 
 ```csharp
-public static MemoizedSelectorWithProps<RootState, string, string, bool> SelectIsPageSelected = CreateSelector(
+public static ISelectorWithProps<RootState, string, bool> SelectIsPageSelected = CreateSelector(
     SelectCurrentPage,
     (string currentPage, string selectedPage) => currentPage == selectedPage
 );
