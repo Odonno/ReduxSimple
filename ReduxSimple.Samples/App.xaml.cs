@@ -1,6 +1,5 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
-using ReduxSimple.Samples.Router;
 using SuccincT.Options;
 using System;
 using Windows.ApplicationModel;
@@ -10,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using static ReduxSimple.Samples.Reducers;
 using static ReduxSimple.Samples.Effects;
+using ReduxSimple.Uwp.RouterStore;
 
 namespace ReduxSimple.Samples
 {

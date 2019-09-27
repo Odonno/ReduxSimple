@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Navigation;
 
-namespace ReduxSimple.Samples.Router
+namespace ReduxSimple.Uwp.RouterStore
 {
     public class RouterNavigating
     {

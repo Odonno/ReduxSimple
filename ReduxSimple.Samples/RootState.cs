@@ -1,8 +1,8 @@
 ﻿using ReduxSimple.Samples.Counter;
 using ReduxSimple.Samples.Pokedex;
-using ReduxSimple.Samples.Router;
 using ReduxSimple.Samples.TicTacToe;
 using ReduxSimple.Samples.TodoList;
+using ReduxSimple.Uwp.RouterStore;
 
 namespace ReduxSimple.Samples
 {

@@ -7,8 +7,8 @@
     <ProjectGuid>{20B1A919-7FE0-4997-B9D7-69A25895E893}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReduxSimple.Samples</RootNamespace>
-    <AssemblyName>ReduxSimple.Samples</AssemblyName>
+    <RootNamespace>ReduxSimple.Uwp.Samples</RootNamespace>
+    <AssemblyName>ReduxSimple.Uwp.Samples</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
@@ -135,11 +135,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Reducers.cs" />
     <Compile Include="RootState.cs" />
-    <Compile Include="Router\Actions.cs" />
-    <Compile Include="Router\IBaseRouterState.cs" />
-    <Compile Include="Router\RouterState.cs" />
-    <Compile Include="Router\RouterStoreExtensions.cs" />
-    <Compile Include="Router\Selectors.cs" />
     <Compile Include="TicTacToe\Actions.cs" />
     <Compile Include="TicTacToe\Reducers.cs" />
     <Compile Include="TicTacToe\Selectors.cs" />
@@ -319,6 +314,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReduxSimple.Uwp.RouterStore\ReduxSimple.Uwp.RouterStore.csproj">
+      <Project>{1a224f30-719c-411c-9876-5c9bd99ea3c6}</Project>
+      <Name>ReduxSimple.Uwp.RouterStore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReduxSimple\ReduxSimple.csproj">
       <Project>{bd02f8db-a1e4-409c-9d69-3dfb2e84e786}</Project>
       <Name>ReduxSimple</Name>

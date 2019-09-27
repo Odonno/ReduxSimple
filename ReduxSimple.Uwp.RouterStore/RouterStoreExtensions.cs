@@ -4,9 +4,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Effects;
 using static ReduxSimple.Reducers;
-using static ReduxSimple.Samples.Router.Selectors;
+using static ReduxSimple.Uwp.RouterStore.Selectors;
 
-namespace ReduxSimple.Samples.Router
+namespace ReduxSimple.Uwp.RouterStore
 {
     public static class RouterStoreExtensions
     {

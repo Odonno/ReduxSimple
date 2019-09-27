@@ -1,4 +1,4 @@
-﻿namespace ReduxSimple.Samples.Router
+﻿namespace ReduxSimple.Uwp.RouterStore
 {
     public class RouterState
     {

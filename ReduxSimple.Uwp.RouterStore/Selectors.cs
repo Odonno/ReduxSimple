@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReduxSimple.Samples.Router
+namespace ReduxSimple.Uwp.RouterStore
 {
     public static class Selectors
     {
