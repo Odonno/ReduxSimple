@@ -1,7 +1,17 @@
 ```csharp
 public static class Selectors
 {
-    public static Func<TodoListState, TodoFilter> SelectFilter = state => state.Filter;
-    public static Func<TodoListState, ImmutableList<TodoItem>> SelectItems = state => state.Items;
+    public static ISelectorWithoutProps<RootState, TodoListState> SelectTodoListState = CreateSelector(
+        (RootState state) => state.TodoList
+    );
+
+    public static ISelectorWithoutProps<RootState, TodoFilter> SelectFilter = CreateSelector(
+        SelectTodoListState,
+        state => state.Filter
+    );
+    public static ISelectorWithoutProps<RootState, ImmutableList<TodoItem>> SelectItems = CreateSelector(
+        SelectTodoListState,
+        state => state.Items
+    );
 }
 ```

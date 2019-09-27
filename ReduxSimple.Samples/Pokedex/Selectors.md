@@ -1,21 +1,40 @@
 ```csharp
 public static class Selectors
 {
-    public static Func<PokedexState, ImmutableList<PokemonGeneralInfo>> SelectPokedex = state => state.Pokedex;
-    public static MemoizedSelector<PokedexState, ImmutableList<PokemonGeneralInfo>, bool> SelectIsPokedexEmpty = CreateSelector(
+    public static ISelectorWithoutProps<RootState, PokedexState> SelectPokedexState = CreateSelector(
+        (RootState state) => state.Pokedex
+    );
+
+    public static ISelectorWithoutProps<RootState, ImmutableList<PokemonGeneralInfo>> SelectPokedex = CreateSelector(
+        SelectPokedexState,
+        state => state.Pokedex
+    );
+    public static ISelectorWithoutProps<RootState, bool> SelectIsPokedexEmpty = CreateSelector(
         SelectPokedex,
         pokedex => pokedex.IsEmpty
     );
 
-    public static Func<PokedexState, bool> SelectLoading = state => state.Loading;
-    public static Func<PokedexState, string> SelectSearch = state => state.Search;
-    public static Func<PokedexState, Option<Pokemon>> SelectPokemon = state => state.Pokemon;
-    public static Func<PokedexState, ImmutableList<string>> SelectErrors = state => state.Errors;
+    public static ISelectorWithoutProps<RootState, bool> SelectLoading = CreateSelector(
+        SelectPokedexState,
+        state => state.Loading
+    );
+    public static ISelectorWithoutProps<RootState, string> SelectSearch = CreateSelector(
+        SelectPokedexState,
+        state => state.Search
+    );
+    public static ISelectorWithoutProps<RootState, Option<Pokemon>> SelectPokemon = CreateSelector(
+        SelectPokedexState,
+        state => state.Pokemon
+    );
+    public static ISelectorWithoutProps<RootState, ImmutableList<string>> SelectErrors = CreateSelector(
+        SelectPokedexState,
+        state => state.Errors
+    );
 
-    public static MemoizedSelectorWithProps<PokedexState, int, string, ImmutableList<PokemonGeneralInfo>, ImmutableList<PokemonGeneralInfo>> SelectSuggestions = CreateSelector<PokedexState, int, string, ImmutableList<PokemonGeneralInfo>, ImmutableList<PokemonGeneralInfo>>(
+    public static ISelectorWithProps<RootState, int, ImmutableList<PokemonGeneralInfo>> SelectSuggestions = CreateSelector(
         SelectSearch,
         SelectPokedex,
-        (search, pokedex, maximumOfSuggestions) =>
+        (string search, ImmutableList<PokemonGeneralInfo> pokedex, int maximumOfSuggestions) =>
         {
             if (!string.IsNullOrWhiteSpace(search))
             {

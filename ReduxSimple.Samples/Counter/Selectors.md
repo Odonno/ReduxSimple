@@ -1,6 +1,13 @@
 ﻿```csharp
 public static class Selectors
 {
-    public static Func<CounterState, int> SelectCount = state => state.Count;
+    public static ISelectorWithoutProps<RootState, CounterState> SelectCounterState = CreateSelector(
+        (RootState state) => state.Counter
+    );
+
+    public static ISelectorWithoutProps<RootState, int> SelectCount = CreateSelector(
+        SelectCounterState,
+        state => state.Count
+    );
 }
 ```

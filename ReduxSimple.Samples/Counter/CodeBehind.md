@@ -1,15 +1,12 @@
 ﻿```csharp
 public sealed partial class CounterPage : Page
 {
-    public static readonly ReduxStore<CounterState> Store = 
-        new ReduxStore<CounterState>(CreateReducers(), true);
-
     public CounterPage()
     {
         InitializeComponent();
 
         // Observe changes on state
-        _store.Select(SelectCount)
+        Store.Select(SelectCount)
             .Subscribe(state =>
             {
                 CounterValueTextBlock.Text = state.Count.ToString();
@@ -17,15 +14,10 @@ public sealed partial class CounterPage : Page
 
         // Observe UI events
         IncrementButton.Events().Click
-            .Subscribe(_ => _store.Dispatch(new IncrementAction()));
+            .Subscribe(_ => Store.Dispatch(new IncrementAction()));
 
         DecrementButton.Events().Click
-            .Subscribe(_ => _store.Dispatch(new DecrementAction()));
-
-        // Register Effects
-        Store.RegisterEffects(
-            TrackAction
-        );
+            .Subscribe(_ => Store.Dispatch(new DecrementAction()));
     }
 }
 ```

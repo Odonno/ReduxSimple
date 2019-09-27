@@ -5,9 +5,6 @@ This example contains 2 elements.
 ```csharp
 public sealed partial class TodoListPage : Page
 {
-    public static readonly ReduxStore<TodoListState> Store = 
-        new ReduxStore<TodoListState>(CreateReducers(), true);
-
     public TodoListPage()
     {
         InitializeComponent();
@@ -59,11 +56,6 @@ public sealed partial class TodoListPage : Page
 
         AddNewItemButton.Events().Click
             .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
-
-        // Register Effects
-        Store.RegisterEffects(
-            TrackAction
-        );
     }
 }
 ```

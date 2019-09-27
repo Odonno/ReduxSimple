@@ -1,8 +1,21 @@
 ```csharp
 public static class Selectors
 {
-    public static Func<TicTacToeState, ImmutableArray<Cell>> SelectCells = state => state.Cells;
-    public static Func<TicTacToeState, bool> SelectGameEnded = state => state.GameEnded;
-    public static Func<TicTacToeState, Option<string>> SelectWinner = state => state.Winner;
+    public static ISelectorWithoutProps<RootState, TicTacToeState> SelectTicTacToeState = CreateSelector(
+        (RootState state) => state.TicTacToe
+    );
+
+    public static ISelectorWithoutProps<RootState, ImmutableArray<Cell>> SelectCells = CreateSelector(
+        SelectTicTacToeState,
+        state => state.Cells
+    );
+    public static ISelectorWithoutProps<RootState, bool> SelectGameEnded = CreateSelector(
+        SelectTicTacToeState,
+        state => state.GameEnded
+    );
+    public static ISelectorWithoutProps<RootState, Option<string>> SelectWinner = CreateSelector(
+        SelectTicTacToeState,
+        state => state.Winner
+    );
 }
 ```

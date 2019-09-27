@@ -1,9 +1,6 @@
 ```csharp
 public sealed partial class PokedexPage : Page
 {
-    public static readonly ReduxStore<PokedexState> Store = 
-        new ReduxStore<PokedexState>(CreateReducers(), true);
-
     public PokedexPage()
     {
         InitializeComponent();
@@ -96,8 +93,7 @@ public sealed partial class PokedexPage : Page
         Store.RegisterEffects(
             LoadPokemonList,
             LoadPokemonById,
-            SearchPokemon,
-            TrackAction
+            SearchPokemon
         );
     }
 }

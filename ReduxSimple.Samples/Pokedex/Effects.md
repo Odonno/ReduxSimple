@@ -3,7 +3,7 @@ public static class Effects
 {
     private readonly static PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
-    public static Effect<PokedexState> LoadPokemonList = CreateEffect<PokedexState>(
+    public static Effect<RootState> LoadPokemonList = CreateEffect<RootState>(
         () => Store.ObserveAction<GetPokemonListAction>()
             .Select(_ => _pokedexApiClient.GetPokedex())
             .Switch()
@@ -28,7 +28,7 @@ public static class Effects
         true
     );
 
-    public static Effect<PokedexState> LoadPokemonById = CreateEffect<PokedexState>(
+    public static Effect<RootState> LoadPokemonById = CreateEffect<RootState>(
         () => Store.ObserveAction<GetPokemonByIdAction>()
             .Select(action => _pokedexApiClient.GetPokemonById(action.Id))
             .Switch()
@@ -60,7 +60,7 @@ public static class Effects
         true
     );
 
-    public static Effect<PokedexState> SearchPokemon = CreateEffect<PokedexState>(
+    public static Effect<RootState> SearchPokemon = CreateEffect<RootState>(
         () => Store.Select(SelectSearch)
             .Select(search =>
             {
@@ -104,16 +104,6 @@ public static class Effects
                 return new ResetPokemonAction() as object;
             }),
         true
-    );
-
-    public static Effect<PokedexState> TrackAction = CreateEffect<PokedexState>(
-        () => Store.ObserveAction()
-            .Do(action =>
-            {
-                bool trackProperties = action.GetType().Name != nameof(GetPokemonListFullfilledAction);
-                TrackReduxAction(action, trackProperties);
-            }),
-        false
     );
 }
 ```

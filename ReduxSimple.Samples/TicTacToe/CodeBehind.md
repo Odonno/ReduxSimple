@@ -1,9 +1,6 @@
 ```csharp
 public sealed partial class TicTacToePage : Page
 {
-    public static readonly ReduxStore<TicTacToeState> Store =
-        new ReduxStore<TicTacToeState>(CreateReducers(), InitialState, true);
-
     public TicTacToePage()
     {
         InitializeComponent();
@@ -13,8 +10,8 @@ public sealed partial class TicTacToePage : Page
 
         // Observe changes on state
 		Observable.CombineLatest(
-            _store.Select(SelectGameEnded),
-            _store.Select(SelectWinner),
+            Store.Select(SelectGameEnded),
+            Store.Select(SelectWinner),
             Tuple.Create
         )
             .Subscribe(x =>
@@ -34,7 +31,7 @@ public sealed partial class TicTacToePage : Page
                 }
             });
 
-        _store.Select(SelectCells)
+        Store.Select(SelectCells)
             .Subscribe(cells =>
             {
                 for (int i = 0; i < cells.Length; i++)
@@ -60,22 +57,17 @@ public sealed partial class TicTacToePage : Page
                 })
                 .Where(x =>
                 {
-                    var cell = _store.State.Cells.First(c => c.Row == x.Row && c.Column == x.Column);
-                    return !_store.State.GameEnded && !cell.Mine.HasValue;
+                    var cell = Store.State.TicTacToe.Cells.First(c => c.Row == x.Row && c.Column == x.Column);
+                    return !Store.State.TicTacToe.GameEnded && !cell.Mine.HasValue;
                 })
                 .Subscribe(x =>
                 {
-                    _store.Dispatch(new PlayAction { Row = x.Row, Column = x.Column });
+                    Store.Dispatch(new PlayAction { Row = x.Row, Column = x.Column });
                 });
         }
 
         StartNewGameButton.Events().Click
-            .Subscribe(_ => _store.Dispatch(new StartNewGameAction()));
-
-        // Register Effects
-        Store.RegisterEffects(
-            TrackAction
-        );
+            .Subscribe(_ => Store.Dispatch(new StartNewGameAction()));
     }
 }
 ```
