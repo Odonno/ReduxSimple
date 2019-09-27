@@ -1,5 +1,4 @@
 ﻿using SuccincT.Options;
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 using static ReduxSimple.Selectors;
@@ -8,38 +7,40 @@ namespace ReduxSimple.Samples.Pokedex
 {
     public static class Selectors
     {
-        public static Func<RootState, PokedexState> SelectPokedexState = state => state.Pokedex;
+        public static ISelectorWithoutProps<RootState, PokedexState> SelectPokedexState = CreateSelector(
+            (RootState state) => state.Pokedex
+        );
 
-        public static MemoizedSelector<RootState, PokedexState, ImmutableList<PokemonGeneralInfo>> SelectPokedex = CreateSelector(
+        public static ISelectorWithoutProps<RootState, ImmutableList<PokemonGeneralInfo>> SelectPokedex = CreateSelector(
             SelectPokedexState,
             state => state.Pokedex
         );
-        public static MemoizedSelector<RootState, ImmutableList<PokemonGeneralInfo>, bool> SelectIsPokedexEmpty = CreateSelector(
+        public static ISelectorWithoutProps<RootState, bool> SelectIsPokedexEmpty = CreateSelector(
             SelectPokedex,
             pokedex => pokedex.IsEmpty
         );
 
-        public static MemoizedSelector<RootState, PokedexState, bool> SelectLoading = CreateSelector(
+        public static ISelectorWithoutProps<RootState, bool> SelectLoading = CreateSelector(
             SelectPokedexState,
             state => state.Loading
         );
-        public static MemoizedSelector<RootState, PokedexState, string> SelectSearch = CreateSelector(
+        public static ISelectorWithoutProps<RootState, string> SelectSearch = CreateSelector(
             SelectPokedexState,
             state => state.Search
         );
-        public static MemoizedSelector<RootState, PokedexState, Option<Pokemon>> SelectPokemon = CreateSelector(
+        public static ISelectorWithoutProps<RootState, Option<Pokemon>> SelectPokemon = CreateSelector(
             SelectPokedexState,
             state => state.Pokemon
         );
-        public static MemoizedSelector<RootState, PokedexState, ImmutableList<string>> SelectErrors = CreateSelector(
+        public static ISelectorWithoutProps<RootState, ImmutableList<string>> SelectErrors = CreateSelector(
             SelectPokedexState,
             state => state.Errors
         );
 
-        public static MemoizedSelectorWithProps<RootState, int, string, ImmutableList<PokemonGeneralInfo>, ImmutableList<PokemonGeneralInfo>> SelectSuggestions = CreateSelector<RootState, int, PokedexState, string, PokedexState, ImmutableList<PokemonGeneralInfo>, ImmutableList<PokemonGeneralInfo>>(
+        public static ISelectorWithProps<RootState, int, ImmutableList<PokemonGeneralInfo>> SelectSuggestions = CreateSelector(
             SelectSearch,
             SelectPokedex,
-            (search, pokedex, maximumOfSuggestions) =>
+            (string search, ImmutableList<PokemonGeneralInfo> pokedex, int maximumOfSuggestions) =>
             {
                 if (!string.IsNullOrWhiteSpace(search))
                 {

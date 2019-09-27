@@ -1,13 +1,14 @@
-﻿using System;
-using static ReduxSimple.Selectors;
+﻿using static ReduxSimple.Selectors;
 
 namespace ReduxSimple.Samples.Counter
 {
     public static class Selectors
     {
-        public static Func<RootState, CounterState> SelectCounterState = state => state.Counter;
+        public static ISelectorWithoutProps<RootState, CounterState> SelectCounterState = CreateSelector(
+            (RootState state) => state.Counter
+        );
 
-        public static MemoizedSelector<RootState, CounterState, int> SelectCount = CreateSelector(
+        public static ISelectorWithoutProps<RootState, int> SelectCount = CreateSelector(
             SelectCounterState,
             state => state.Count
         );

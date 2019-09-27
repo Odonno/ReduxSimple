@@ -13,8 +13,8 @@ namespace ReduxSimple
         /// <param name="selector1">First selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TFinalResult> CreateSelector<TState, TSelectorResult1, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
+        public static ISelectorWithoutProps<TState, TFinalResult> CreateSelector<TState, TSelectorResult1, TFinalResult>(
+            ISelectorWithoutProps<TState, TSelectorResult1> selector1,
             Func<TSelectorResult1, TFinalResult> projectorFunction
         )
         {
@@ -27,23 +27,6 @@ namespace ReduxSimple
         /// Create a new selector based on the previous ones.
         /// </summary>
         /// <typeparam name="TState">State to consume.</typeparam>
-        /// <typeparam name="TSelectorResult1">Result of the previous selector.</typeparam>
-        /// <typeparam name="TFinalResult">Result of the final selector.</typeparam>
-        /// <param name="selector1">First selector.</param>
-        /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
-        /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TFinalResult> CreateSelector<TState, TSelector1Part1, TSelectorResult1, TFinalResult>(
-            MemoizedSelector<TState, TSelector1Part1, TSelectorResult1> selector1,
-            Func<TSelectorResult1, TFinalResult> projectorFunction
-        )
-        {
-            return MemoizedSelector<TState, TSelectorResult1, TFinalResult>.Create(selector1, projectorFunction);
-        }
-
-        /// <summary>
-        /// Create a new selector based on the previous ones.
-        /// </summary>
-        /// <typeparam name="TState">State to consume.</typeparam>
         /// <typeparam name="TSelectorResult1">Result of the first previous selector.</typeparam>
         /// <typeparam name="TSelectorResult2">Result of the second previous selector.</typeparam>
         /// <typeparam name="TFinalResult">Result of the final selector.</typeparam>
@@ -51,9 +34,9 @@ namespace ReduxSimple
         /// <param name="selector2">Second selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
-            Func<TState, TSelectorResult2> selector2,
+        public static ISelectorWithoutProps<TState, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TFinalResult>(
+            ISelectorWithoutProps<TState, TSelectorResult1> selector1,
+            ISelectorWithoutProps<TState, TSelectorResult2> selector2,
             Func<TSelectorResult1, TSelectorResult2, TFinalResult> projectorFunction
         )
         {
@@ -76,10 +59,10 @@ namespace ReduxSimple
         /// <param name="selector3">Third selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
-            Func<TState, TSelectorResult2> selector2,
-            Func<TState, TSelectorResult3> selector3,
+        public static ISelectorWithoutProps<TState, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TFinalResult>(
+            ISelectorWithoutProps<TState, TSelectorResult1> selector1,
+            ISelectorWithoutProps<TState, TSelectorResult2> selector2,
+            ISelectorWithoutProps<TState, TSelectorResult3> selector3,
             Func<TSelectorResult1, TSelectorResult2, TSelectorResult3, TFinalResult> projectorFunction
         )
         {
@@ -105,11 +88,11 @@ namespace ReduxSimple
         /// <param name="selector4">Fourth selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
-            Func<TState, TSelectorResult2> selector2,
-            Func<TState, TSelectorResult3> selector3,
-            Func<TState, TSelectorResult4> selector4,
+        public static ISelectorWithoutProps<TState, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TFinalResult>(
+            ISelectorWithoutProps<TState, TSelectorResult1> selector1,
+            ISelectorWithoutProps<TState, TSelectorResult2> selector2,
+            ISelectorWithoutProps<TState, TSelectorResult3> selector3,
+            ISelectorWithoutProps<TState, TSelectorResult4> selector4,
             Func<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TFinalResult> projectorFunction
         )
         {
@@ -138,12 +121,12 @@ namespace ReduxSimple
         /// <param name="selector5">Fifth selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
-            Func<TState, TSelectorResult2> selector2,
-            Func<TState, TSelectorResult3> selector3,
-            Func<TState, TSelectorResult4> selector4,
-            Func<TState, TSelectorResult5> selector5,
+        public static ISelectorWithoutProps<TState, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TFinalResult>(
+            ISelectorWithoutProps<TState, TSelectorResult1> selector1,
+            ISelectorWithoutProps<TState, TSelectorResult2> selector2,
+            ISelectorWithoutProps<TState, TSelectorResult3> selector3,
+            ISelectorWithoutProps<TState, TSelectorResult4> selector4,
+            ISelectorWithoutProps<TState, TSelectorResult5> selector5,
             Func<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TFinalResult> projectorFunction
         )
         {
@@ -175,13 +158,13 @@ namespace ReduxSimple
         /// <param name="selector6">Sixth selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
-            Func<TState, TSelectorResult2> selector2,
-            Func<TState, TSelectorResult3> selector3,
-            Func<TState, TSelectorResult4> selector4,
-            Func<TState, TSelectorResult5> selector5,
-            Func<TState, TSelectorResult6> selector6,
+        public static ISelectorWithoutProps<TState, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TFinalResult>(
+            ISelectorWithoutProps<TState, TSelectorResult1> selector1,
+            ISelectorWithoutProps<TState, TSelectorResult2> selector2,
+            ISelectorWithoutProps<TState, TSelectorResult3> selector3,
+            ISelectorWithoutProps<TState, TSelectorResult4> selector4,
+            ISelectorWithoutProps<TState, TSelectorResult5> selector5,
+            ISelectorWithoutProps<TState, TSelectorResult6> selector6,
             Func<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TFinalResult> projectorFunction
         )
         {
@@ -216,14 +199,14 @@ namespace ReduxSimple
         /// <param name="selector7">Seventh selector.</param>
         /// <param name="projectorFunction">Selector that combines all values from the previous selectors.</param>
         /// <returns>A new selector using the previous ones.</returns>
-        public static MemoizedSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7, TFinalResult>(
-            Func<TState, TSelectorResult1> selector1,
-            Func<TState, TSelectorResult2> selector2,
-            Func<TState, TSelectorResult3> selector3,
-            Func<TState, TSelectorResult4> selector4,
-            Func<TState, TSelectorResult5> selector5,
-            Func<TState, TSelectorResult6> selector6,
-            Func<TState, TSelectorResult7> selector7,
+        public static ISelectorWithoutProps<TState, TFinalResult> CreateSelector<TState, TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7, TFinalResult>(
+            ISelectorWithoutProps<TState, TSelectorResult1> selector1,
+            ISelectorWithoutProps<TState, TSelectorResult2> selector2,
+            ISelectorWithoutProps<TState, TSelectorResult3> selector3,
+            ISelectorWithoutProps<TState, TSelectorResult4> selector4,
+            ISelectorWithoutProps<TState, TSelectorResult5> selector5,
+            ISelectorWithoutProps<TState, TSelectorResult6> selector6,
+            ISelectorWithoutProps<TState, TSelectorResult7> selector7,
             Func<TSelectorResult1, TSelectorResult2, TSelectorResult3, TSelectorResult4, TSelectorResult5, TSelectorResult6, TSelectorResult7, TFinalResult> projectorFunction
         )
         {
