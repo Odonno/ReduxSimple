@@ -5,10 +5,10 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.App;
-using static ReduxSimple.Samples.TodoList.Selectors;
+using static ReduxSimple.Uwp.Samples.App;
+using static ReduxSimple.Uwp.Samples.TodoList.Selectors;
 
-namespace ReduxSimple.Samples.TodoList
+namespace ReduxSimple.Uwp.Samples.TodoList
 {
     public sealed partial class TodoListPage : Page
     {

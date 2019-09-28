@@ -9,9 +9,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using static ReduxSimple.Reducers;
-using static ReduxSimple.Samples.Common.EventTracking;
+using static ReduxSimple.Uwp.Samples.Common.EventTracking;
 
-namespace ReduxSimple.Samples.Components
+namespace ReduxSimple.Uwp.Samples.Components
 {
     public sealed partial class HistoryComponent : UserControl
     {

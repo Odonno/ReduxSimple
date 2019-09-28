@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace ReduxSimple.Samples.Pokedex
+namespace ReduxSimple.Uwp.Samples.Pokedex
 {
     public class PokedexResponse
     {

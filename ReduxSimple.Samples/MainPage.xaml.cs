@@ -1,7 +1,7 @@
-﻿using ReduxSimple.Samples.Counter;
-using ReduxSimple.Samples.Pokedex;
-using ReduxSimple.Samples.TicTacToe;
-using ReduxSimple.Samples.TodoList;
+﻿using ReduxSimple.Uwp.Samples.Counter;
+using ReduxSimple.Uwp.Samples.Pokedex;
+using ReduxSimple.Uwp.Samples.TicTacToe;
+using ReduxSimple.Uwp.Samples.TodoList;
 using System;
 using System.Reactive.Linq;
 using Windows.UI;
@@ -11,9 +11,9 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
 using static Windows.UI.Core.AppViewBackButtonVisibility;
-using static ReduxSimple.Samples.Common.EventTracking;
+using static ReduxSimple.Uwp.Samples.Common.EventTracking;
 
-namespace ReduxSimple.Samples
+namespace ReduxSimple.Uwp.Samples
 {
     public sealed partial class MainPage : Page
     {

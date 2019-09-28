@@ -1,4 +1,4 @@
-﻿namespace ReduxSimple.Samples.Counter
+﻿namespace ReduxSimple.Uwp.Samples.Counter
 {
     public class IncrementAction { }
 

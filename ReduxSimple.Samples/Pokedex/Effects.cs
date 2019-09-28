@@ -1,12 +1,12 @@
-﻿using ReduxSimple.Samples.Extensions;
+﻿using ReduxSimple.Uwp.Samples.Extensions;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
 using static ReduxSimple.Effects;
-using static ReduxSimple.Samples.App;
-using static ReduxSimple.Samples.Pokedex.Selectors;
+using static ReduxSimple.Uwp.Samples.App;
+using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
 
-namespace ReduxSimple.Samples.Pokedex
+namespace ReduxSimple.Uwp.Samples.Pokedex
 {
     public static class Effects
     {

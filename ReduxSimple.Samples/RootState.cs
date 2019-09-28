@@ -1,10 +1,10 @@
-﻿using ReduxSimple.Samples.Counter;
-using ReduxSimple.Samples.Pokedex;
-using ReduxSimple.Samples.TicTacToe;
-using ReduxSimple.Samples.TodoList;
+﻿using ReduxSimple.Uwp.Samples.Counter;
+using ReduxSimple.Uwp.Samples.Pokedex;
+using ReduxSimple.Uwp.Samples.TicTacToe;
+using ReduxSimple.Uwp.Samples.TodoList;
 using ReduxSimple.Uwp.RouterStore;
 
-namespace ReduxSimple.Samples
+namespace ReduxSimple.Uwp.Samples
 {
     public class RootState : IBaseRouterState
     {

@@ -1,4 +1,4 @@
-﻿namespace ReduxSimple.Samples.TicTacToe
+﻿namespace ReduxSimple.Uwp.Samples.TicTacToe
 {
     public class PlayAction
     {

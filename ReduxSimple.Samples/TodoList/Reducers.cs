@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static ReduxSimple.Reducers;
 
-namespace ReduxSimple.Samples.TodoList
+namespace ReduxSimple.Uwp.Samples.TodoList
 {
     public static class Reducers
     {

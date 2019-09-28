@@ -1,5 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-using ReduxSimple.Samples.Extensions;
+using ReduxSimple.Uwp.Samples.Extensions;
 using SuccincT.Options;
 using System;
 using System.Reactive.Concurrency;
@@ -9,11 +9,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
 using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
-using static ReduxSimple.Samples.App;
-using static ReduxSimple.Samples.Pokedex.Selectors;
-using static ReduxSimple.Samples.Pokedex.Effects;
+using static ReduxSimple.Uwp.Samples.App;
+using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
+using static ReduxSimple.Uwp.Samples.Pokedex.Effects;
 
-namespace ReduxSimple.Samples.Pokedex
+namespace ReduxSimple.Uwp.Samples.Pokedex
 {
     public sealed partial class PokedexPage : Page
     {

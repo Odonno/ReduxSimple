@@ -1,14 +1,14 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-using ReduxSimple.Samples.Components;
+using ReduxSimple.Uwp.Samples.Components;
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.App;
-using static ReduxSimple.Samples.Counter.Selectors;
+using static ReduxSimple.Uwp.Samples.App;
+using static ReduxSimple.Uwp.Samples.Counter.Selectors;
 
-namespace ReduxSimple.Samples.Counter
+namespace ReduxSimple.Uwp.Samples.Counter
 {
     public sealed partial class CounterPage : Page
     {

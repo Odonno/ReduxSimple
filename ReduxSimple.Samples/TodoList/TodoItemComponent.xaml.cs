@@ -1,12 +1,12 @@
-﻿using ReduxSimple.Samples.Extensions;
+﻿using ReduxSimple.Uwp.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using static ReduxSimple.Samples.App;
+using static ReduxSimple.Uwp.Samples.App;
 
-namespace ReduxSimple.Samples.TodoList
+namespace ReduxSimple.Uwp.Samples.TodoList
 {
     public sealed partial class TodoItemComponent : UserControl
     {

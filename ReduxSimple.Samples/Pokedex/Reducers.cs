@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using static ReduxSimple.Reducers;
 
-namespace ReduxSimple.Samples.Pokedex
+namespace ReduxSimple.Uwp.Samples.Pokedex
 {
     public static class Reducers
     {

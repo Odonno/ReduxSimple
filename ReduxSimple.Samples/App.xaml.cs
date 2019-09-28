@@ -7,11 +7,11 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using static ReduxSimple.Samples.Reducers;
-using static ReduxSimple.Samples.Effects;
+using static ReduxSimple.Uwp.Samples.Reducers;
+using static ReduxSimple.Uwp.Samples.Effects;
 using ReduxSimple.Uwp.RouterStore;
 
-namespace ReduxSimple.Samples
+namespace ReduxSimple.Uwp.Samples
 {
     public sealed partial class App : Application
     {

@@ -1,13 +1,13 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using ReduxSimple.Samples.Common;
+using ReduxSimple.Uwp.Samples.Common;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
-using static ReduxSimple.Samples.Extensions.FileExtensions;
+using static ReduxSimple.Uwp.Samples.Extensions.FileExtensions;
 
-namespace ReduxSimple.Samples.Components
+namespace ReduxSimple.Uwp.Samples.Components
 {
     public sealed partial class DocumentationComponent : UserControl
     {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace ReduxSimple.Samples.Extensions
+namespace ReduxSimple.Uwp.Samples.Extensions
 {
     public static class FileExtensions
     {

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using static ReduxSimple.Reducers;
-using static ReduxSimple.Samples.Counter.Selectors;
-using static ReduxSimple.Samples.TicTacToe.Selectors;
-using static ReduxSimple.Samples.TodoList.Selectors;
-using static ReduxSimple.Samples.Pokedex.Selectors;
+using static ReduxSimple.Uwp.Samples.Counter.Selectors;
+using static ReduxSimple.Uwp.Samples.TicTacToe.Selectors;
+using static ReduxSimple.Uwp.Samples.TodoList.Selectors;
+using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
 
-namespace ReduxSimple.Samples
+namespace ReduxSimple.Uwp.Samples
 {
     public static class Reducers
     {

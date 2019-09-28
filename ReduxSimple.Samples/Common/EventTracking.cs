@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ReduxSimple.Samples.Common
+namespace ReduxSimple.Uwp.Samples.Common
 {
     public static class EventTracking
     {

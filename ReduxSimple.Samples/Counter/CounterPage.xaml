@@ -1,10 +1,10 @@
 ﻿<Page
-    x:Class="ReduxSimple.Samples.Counter.CounterPage"
+    x:Class="ReduxSimple.Uwp.Samples.Counter.CounterPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:components="using:ReduxSimple.Samples.Components"
+    xmlns:components="using:ReduxSimple.Uwp.Samples.Components"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">

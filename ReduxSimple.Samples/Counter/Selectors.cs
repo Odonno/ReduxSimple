@@ -1,6 +1,6 @@
 ﻿using static ReduxSimple.Selectors;
 
-namespace ReduxSimple.Samples.Counter
+namespace ReduxSimple.Uwp.Samples.Counter
 {
     public static class Selectors
     {

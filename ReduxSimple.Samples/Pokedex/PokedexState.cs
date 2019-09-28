@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace ReduxSimple.Samples.Pokedex
+namespace ReduxSimple.Uwp.Samples.Pokedex
 {
     public class PokemonGeneralInfo
     {

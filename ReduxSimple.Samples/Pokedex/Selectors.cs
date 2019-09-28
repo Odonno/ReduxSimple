@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using static ReduxSimple.Selectors;
 
-namespace ReduxSimple.Samples.Pokedex
+namespace ReduxSimple.Uwp.Samples.Pokedex
 {
     public static class Selectors
     {

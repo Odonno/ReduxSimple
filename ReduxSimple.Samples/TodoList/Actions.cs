@@ -1,4 +1,4 @@
-﻿namespace ReduxSimple.Samples.TodoList
+﻿namespace ReduxSimple.Uwp.Samples.TodoList
 {
     public class SetFilterAction
     {

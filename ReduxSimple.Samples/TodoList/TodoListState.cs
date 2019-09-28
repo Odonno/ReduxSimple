@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace ReduxSimple.Samples.TodoList
+namespace ReduxSimple.Uwp.Samples.TodoList
 {
     public class TodoItem
     {

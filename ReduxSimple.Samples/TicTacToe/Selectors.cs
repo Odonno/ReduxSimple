@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using static ReduxSimple.Selectors;
 
-namespace ReduxSimple.Samples.TicTacToe
+namespace ReduxSimple.Uwp.Samples.TicTacToe
 {
     public static class Selectors
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using static ReduxSimple.Reducers;
 
-namespace ReduxSimple.Samples.Counter
+namespace ReduxSimple.Uwp.Samples.Counter
 {
     public static class Reducers
     {

@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using ReduxSimple.Samples.Extensions;
+using ReduxSimple.Uwp.Samples.Extensions;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace ReduxSimple.Samples.Pokedex
+namespace ReduxSimple.Uwp.Samples.Pokedex
 {
     public class PokedexApiClient
     {

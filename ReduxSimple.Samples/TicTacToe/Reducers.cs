@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using static ReduxSimple.Reducers;
 
-namespace ReduxSimple.Samples.TicTacToe
+namespace ReduxSimple.Uwp.Samples.TicTacToe
 {
     public static class Reducers
     {

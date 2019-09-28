@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace ReduxSimple.Samples.Common
+namespace ReduxSimple.Uwp.Samples.Common
 {
     /// <summary>
     /// A Rendering Superclass for the Markdown Renderer, allowing custom styling of Elements in Markdown.

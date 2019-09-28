@@ -1,4 +1,4 @@
-﻿namespace ReduxSimple.Samples.Extensions
+﻿namespace ReduxSimple.Uwp.Samples.Extensions
 {
     public static class StringExtensions
     {

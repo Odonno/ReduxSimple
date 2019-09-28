@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using static ReduxSimple.Selectors;
 
-namespace ReduxSimple.Samples.TodoList
+namespace ReduxSimple.Uwp.Samples.TodoList
 {
     public static class Selectors
     {
