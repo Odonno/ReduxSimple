@@ -2,13 +2,11 @@
 using ReduxSimple.Uwp.Samples.Extensions;
 using SuccincT.Options;
 using System;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
-using static Microsoft.Toolkit.Uwp.Helpers.DispatcherHelper;
 using static ReduxSimple.Uwp.Samples.App;
 using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
 using static ReduxSimple.Uwp.Samples.Pokedex.Effects;
@@ -23,86 +21,68 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
 
             // Observe changes on state
             Observable.CombineLatest(
-                Store.Select(SelectLoading),
-                Store.Select(SelectIsPokedexEmpty),
-                Tuple.Create
-            )
-                .ObserveOn(Scheduler.Default)
-                .Subscribe(x =>
-                {
-                    var (loading, isPokedexEmpty) = x;
+               Store.Select(SelectLoading),
+               Store.Select(SelectIsPokedexEmpty),
+               Tuple.Create
+           )
+               .ObserveOnDispatcher()
+               .Subscribe(x =>
+               {
+                   var (loading, isPokedexEmpty) = x;
 
-                    ExecuteOnUIThreadAsync(() =>
-                    {
-                        OpenPokedexButton.ShowIf(!loading && isPokedexEmpty);
+                   OpenPokedexButton.ShowIf(!loading && isPokedexEmpty);
 
-                        GlobalLoadingProgressRing.IsActive = loading && isPokedexEmpty;
-                        GlobalLoadingProgressRing.ShowIf(loading && isPokedexEmpty);
-                        RootStackPanel.ShowIf(!isPokedexEmpty);
-                    });
-                });
+                   GlobalLoadingProgressRing.IsActive = loading && isPokedexEmpty;
+                   GlobalLoadingProgressRing.ShowIf(loading && isPokedexEmpty);
+                   RootStackPanel.ShowIf(!isPokedexEmpty);
+               });
 
             Store.Select(SelectSuggestions, 5)
-                .ObserveOn(Scheduler.Default)
+                .ObserveOnDispatcher()
                 .Subscribe(suggestions =>
                 {
-                    ExecuteOnUIThreadAsync(() =>
-                    {
-                        AutoSuggestBox.ItemsSource = suggestions;
-                    });
+                    AutoSuggestBox.ItemsSource = suggestions;
                 });
 
             Store.Select(SelectPokemon)
-                .ObserveOn(Scheduler.Default)
+                .ObserveOnDispatcher()
                 .Subscribe(pokemon =>
                 {
-                    ExecuteOnUIThreadAsync(() =>
-                    {
-                        PokemonPanel.ShowIf(pokemon.HasValue);
-                        PokemonIdTextBlock.Text = pokemon.HasValue ? $"#{pokemon.Value.Id}" : string.Empty;
-                        PokemonNameTextBlock.Text = pokemon.HasValue ? pokemon.Value.Name : string.Empty;
-                        PokemonImage.Source = pokemon.HasValue ? new BitmapImage(new Uri(pokemon.Value.Image)) : null;
-                    });
+                    PokemonPanel.ShowIf(pokemon.HasValue);
+                    PokemonIdTextBlock.Text = pokemon.HasValue ? $"#{pokemon.Value.Id}" : string.Empty;
+                    PokemonNameTextBlock.Text = pokemon.HasValue ? pokemon.Value.Name : string.Empty;
+                    PokemonImage.Source = pokemon.HasValue ? new BitmapImage(new Uri(pokemon.Value.Image)) : null;
                 });
 
             Store.Select(SelectErrors)
-                .ObserveOn(Scheduler.Default)
+                .ObserveOnDispatcher()
                 .Subscribe(errors =>
                 {
-                    ExecuteOnUIThreadAsync(() =>
-                    {
-                        ErrorsListView.ItemsSource = errors;
-                    });
+                    ErrorsListView.ItemsSource = errors;
                 });
 
             // Observe UI events
             OpenPokedexButton.Events().Click
-               .ObserveOn(Scheduler.Default)
+               .ObserveOnDispatcher()
                .Subscribe(_ => Store.Dispatch(new GetPokemonListAction()));
 
             AutoSuggestBox.Events().TextChanged
-               .ObserveOn(Scheduler.Default)
+               .ObserveOnDispatcher()
                .Subscribe(_ =>
                {
-                   ExecuteOnUIThreadAsync(() =>
-                   {
-                       Store.Dispatch(new UpdateSearchStringAction { Search = AutoSuggestBox.Text });
-                   });
+                    Store.Dispatch(new UpdateSearchStringAction { Search = AutoSuggestBox.Text });
                });
 
             AutoSuggestBox.Events().SuggestionChosen
-                .ObserveOn(Scheduler.Default)
+                .ObserveOnDispatcher()
                 .Subscribe(e =>
                 {
-                    ExecuteOnUIThreadAsync(() =>
+                    var selectedPokemonOption = (e.SelectedItem as PokemonGeneralInfo).ToOption();
+                    if (selectedPokemonOption.HasValue)
                     {
-                        var selectedPokemonOption = (e.SelectedItem as PokemonGeneralInfo).ToOption();
-                        if (selectedPokemonOption.HasValue)
-                        {
-                            AutoSuggestBox.Text = selectedPokemonOption.Value.Name; // Avoid the automatic change of the Text property of SuggestBox
-                            Store.Dispatch(new UpdateSearchStringAction { Search = selectedPokemonOption.Value.Name });
-                        }
-                    });
+                        AutoSuggestBox.Text = selectedPokemonOption.Value.Name; // Avoid the automatic change of the Text property of SuggestBox
+                        Store.Dispatch(new UpdateSearchStringAction { Search = selectedPokemonOption.Value.Name });
+                    }
                 });
 
             // Register Effects
