@@ -1,9 +1,11 @@
-﻿using System;
+﻿using static ReduxSimple.Selectors;
 
 namespace ReduxSimple.Uwp.RouterStore
 {
     public static class Selectors
     {
-        public static Func<IBaseRouterState, RouterState> SelectRouter = state => state.Router;
+        public static ISelectorWithoutProps<IBaseRouterState, RouterState> SelectRouter = CreateSelector(
+            (IBaseRouterState state) => state.Router
+        );
     }
 }

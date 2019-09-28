@@ -15,6 +15,12 @@ namespace ReduxSimple
     public interface ISelectorWithoutProps<in TInput, out TOutput> : ISelector<TInput, TOutput>
     {
         /// <summary>
+        /// Apply the selector to the input.
+        /// </summary>
+        /// <param name="input">Input of the selector.</param>
+        /// <returns></returns>
+        TOutput Apply(TInput input);
+        /// <summary>
         /// Apply the selector on an observable.
         /// </summary>
         /// <param name="input">Observable of values as input.</param>
@@ -27,6 +33,13 @@ namespace ReduxSimple
     /// </summary>
     public interface ISelectorWithProps<in TInput, in TProps, out TOutput> : ISelector<TInput, TOutput>
     {
+        /// <summary>
+        /// Apply the selector to the input.
+        /// </summary>
+        /// <param name="input">Input of the selector.</param>
+        /// <param name="props">Properties used in the selector.</param>
+        /// <returns></returns>
+        TOutput Apply(TInput input, TProps props);
         /// <summary>
         /// Apply the selector on an observable.
         /// </summary>

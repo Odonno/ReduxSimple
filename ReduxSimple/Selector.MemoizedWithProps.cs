@@ -30,6 +30,19 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input, TProps props)
+        {
+            var selectorWithoutProps = Selector as ISelectorWithoutProps<TInput, TSelectorResult>;
+            var selectorWithProps = Selector as ISelectorWithProps<TInput, TProps, TSelectorResult>;
+            var selectorResult = selectorWithoutProps != null
+                ? selectorWithoutProps.Apply(input)
+                : (selectorWithProps != null
+                    ? selectorWithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            return ProjectorFunction(selectorResult, props);
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input, TProps props)
         {
             var selectorWithoutProps = Selector as ISelectorWithoutProps<TInput, TSelectorResult>;
@@ -77,6 +90,32 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input, TProps props)
+        {
+            var selector1WithoutProps = Selector1 as ISelectorWithoutProps<TInput, TSelectorResult1>;
+            var selector1WithProps = Selector1 as ISelectorWithProps<TInput, TProps, TSelectorResult1>;
+            var selector1Result = selector1WithoutProps != null
+                ? selector1WithoutProps.Apply(input)
+                : (selector1WithProps != null
+                    ? selector1WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            var selector2WithoutProps = Selector2 as ISelectorWithoutProps<TInput, TSelectorResult2>;
+            var selector2WithProps = Selector2 as ISelectorWithProps<TInput, TProps, TSelectorResult2>;
+            var selector2Result = selector2WithoutProps != null
+                ? selector2WithoutProps.Apply(input)
+                : (selector2WithProps != null
+                    ? selector2WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                props
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input, TProps props)
         {
             var selector1WithoutProps = Selector1 as ISelectorWithoutProps<TInput, TSelectorResult1>;
@@ -147,6 +186,42 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input, TProps props)
+        {
+            var selector1WithoutProps = Selector1 as ISelectorWithoutProps<TInput, TSelectorResult1>;
+            var selector1WithProps = Selector1 as ISelectorWithProps<TInput, TProps, TSelectorResult1>;
+            var selector1Result = selector1WithoutProps != null
+                ? selector1WithoutProps.Apply(input)
+                : (selector1WithProps != null
+                    ? selector1WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            var selector2WithoutProps = Selector2 as ISelectorWithoutProps<TInput, TSelectorResult2>;
+            var selector2WithProps = Selector2 as ISelectorWithProps<TInput, TProps, TSelectorResult2>;
+            var selector2Result = selector2WithoutProps != null
+                ? selector2WithoutProps.Apply(input)
+                : (selector2WithProps != null
+                    ? selector2WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            var selector3WithoutProps = Selector3 as ISelectorWithoutProps<TInput, TSelectorResult3>;
+            var selector3WithProps = Selector3 as ISelectorWithProps<TInput, TProps, TSelectorResult3>;
+            var selector3Result = selector3WithoutProps != null
+                ? selector3WithoutProps.Apply(input)
+                : (selector3WithProps != null
+                    ? selector3WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                selector3Result,
+                props
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input, TProps props)
         {
             var selector1WithoutProps = Selector1 as ISelectorWithoutProps<TInput, TSelectorResult1>;
@@ -232,6 +307,52 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input, TProps props)
+        {
+            var selector1WithoutProps = Selector1 as ISelectorWithoutProps<TInput, TSelectorResult1>;
+            var selector1WithProps = Selector1 as ISelectorWithProps<TInput, TProps, TSelectorResult1>;
+            var selector1Result = selector1WithoutProps != null
+                ? selector1WithoutProps.Apply(input)
+                : (selector1WithProps != null
+                    ? selector1WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            var selector2WithoutProps = Selector2 as ISelectorWithoutProps<TInput, TSelectorResult2>;
+            var selector2WithProps = Selector2 as ISelectorWithProps<TInput, TProps, TSelectorResult2>;
+            var selector2Result = selector2WithoutProps != null
+                ? selector2WithoutProps.Apply(input)
+                : (selector2WithProps != null
+                    ? selector2WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            var selector3WithoutProps = Selector3 as ISelectorWithoutProps<TInput, TSelectorResult3>;
+            var selector3WithProps = Selector3 as ISelectorWithProps<TInput, TProps, TSelectorResult3>;
+            var selector3Result = selector3WithoutProps != null
+                ? selector3WithoutProps.Apply(input)
+                : (selector3WithProps != null
+                    ? selector3WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            var selector4WithoutProps = Selector4 as ISelectorWithoutProps<TInput, TSelectorResult4>;
+            var selector4WithProps = Selector4 as ISelectorWithProps<TInput, TProps, TSelectorResult4>;
+            var selector4Result = selector4WithoutProps != null
+                ? selector4WithoutProps.Apply(input)
+                : (selector4WithProps != null
+                    ? selector4WithProps.Apply(input, props)
+                    : throw new InvalidOperationException()
+                );
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                selector3Result,
+                selector4Result,
+                props
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input, TProps props)
         {
             var selector1WithoutProps = Selector1 as ISelectorWithoutProps<TInput, TSelectorResult1>;

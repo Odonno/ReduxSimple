@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using static ReduxSimple.Reducers;
+using static ReduxSimple.Samples.Counter.Selectors;
+using static ReduxSimple.Samples.TicTacToe.Selectors;
+using static ReduxSimple.Samples.TodoList.Selectors;
+using static ReduxSimple.Samples.Pokedex.Selectors;
 
 namespace ReduxSimple.Samples
 {
@@ -13,10 +17,10 @@ namespace ReduxSimple.Samples
             var todoListReducers = TodoList.Reducers.CreateReducers();
             var pokedexReducers = Pokedex.Reducers.CreateReducers();
 
-            return CreateSubReducers(counterReducers.ToArray(), (RootState state) => state.Counter)
-                .Concat(CreateSubReducers(ticTacToeReducers.ToArray(), (RootState state) => state.TicTacToe))
-                .Concat(CreateSubReducers(todoListReducers.ToArray(), (RootState state) => state.TodoList))
-                .Concat(CreateSubReducers(pokedexReducers.ToArray(), (RootState state) => state.Pokedex));
+            return CreateSubReducers(counterReducers.ToArray(), SelectCounterState)
+                .Concat(CreateSubReducers(ticTacToeReducers.ToArray(), SelectTicTacToeState))
+                .Concat(CreateSubReducers(todoListReducers.ToArray(), SelectTodoListState))
+                .Concat(CreateSubReducers(pokedexReducers.ToArray(), SelectPokedexState));
         }
     }
 }

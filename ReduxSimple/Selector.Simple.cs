@@ -17,6 +17,10 @@ namespace ReduxSimple
             Selector = selector;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            return Selector(input);
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return input

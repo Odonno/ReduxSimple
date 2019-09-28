@@ -29,6 +29,11 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            var selectorResult = Selector.Apply(input);
+            return ProjectorFunction(selectorResult);
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return Selector.Apply(input)
@@ -69,6 +74,16 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            var selector1Result = Selector1.Apply(input);
+            var selector2Result = Selector2.Apply(input);
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return Observable.CombineLatest(
@@ -125,6 +140,18 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            var selector1Result = Selector1.Apply(input);
+            var selector2Result = Selector2.Apply(input);
+            var selector3Result = Selector3.Apply(input);
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                selector3Result
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return Observable.CombineLatest(
@@ -190,6 +217,20 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            var selector1Result = Selector1.Apply(input);
+            var selector2Result = Selector2.Apply(input);
+            var selector3Result = Selector3.Apply(input);
+            var selector4Result = Selector4.Apply(input);
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                selector3Result,
+                selector4Result
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return Observable.CombineLatest(
@@ -264,6 +305,22 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            var selector1Result = Selector1.Apply(input);
+            var selector2Result = Selector2.Apply(input);
+            var selector3Result = Selector3.Apply(input);
+            var selector4Result = Selector4.Apply(input);
+            var selector5Result = Selector5.Apply(input);
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                selector3Result,
+                selector4Result,
+                selector5Result
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return Observable.CombineLatest(
@@ -347,6 +404,24 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            var selector1Result = Selector1.Apply(input);
+            var selector2Result = Selector2.Apply(input);
+            var selector3Result = Selector3.Apply(input);
+            var selector4Result = Selector4.Apply(input);
+            var selector5Result = Selector5.Apply(input);
+            var selector6Result = Selector6.Apply(input);
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                selector3Result,
+                selector4Result,
+                selector5Result,
+                selector6Result
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return Observable.CombineLatest(
@@ -439,6 +514,26 @@ namespace ReduxSimple
             ProjectorFunction = projectorFunction;
         }
 
+        public TOutput Apply(TInput input)
+        {
+            var selector1Result = Selector1.Apply(input);
+            var selector2Result = Selector2.Apply(input);
+            var selector3Result = Selector3.Apply(input);
+            var selector4Result = Selector4.Apply(input);
+            var selector5Result = Selector5.Apply(input);
+            var selector6Result = Selector6.Apply(input);
+            var selector7Result = Selector7.Apply(input);
+
+            return ProjectorFunction(
+                selector1Result,
+                selector2Result,
+                selector3Result,
+                selector4Result,
+                selector5Result,
+                selector6Result,
+                selector7Result
+            );
+        }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
             return Observable.CombineLatest(
