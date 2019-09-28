@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Navigation;
 using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
 using static Windows.UI.Core.AppViewBackButtonVisibility;
 using static ReduxSimple.Uwp.Samples.Common.EventTracking;
+using Windows.System;
 
 namespace ReduxSimple.Uwp.Samples
 {
@@ -47,6 +48,13 @@ namespace ReduxSimple.Uwp.Samples
                 {
                     TrackNavigation(nameof(MainPage), nameof(PokedexPage));
                     Frame.Navigate(typeof(PokedexPage));
+                });
+
+            GoToGitHubButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    var uri = new Uri("https://github.com/Odonno/ReduxSimple");
+                    await Launcher.LaunchUriAsync(uri);
                 });
 
             // Extend view into title bar

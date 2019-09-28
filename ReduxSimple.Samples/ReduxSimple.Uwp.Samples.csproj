@@ -105,6 +105,7 @@
       <DependentUpon>HistoryComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Counter\Actions.cs" />
+    <Content Include="Assets\GitHub.png" />
     <Content Include="Counter\Reducers.md" />
     <Content Include="Counter\UI.md" />
     <Content Include="Counter\State.md" />
