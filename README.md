@@ -134,6 +134,60 @@ Store.Select(state => state.CurrentPage)
     });
 ```
 
+## Reducers
+
+Reducers are pure functions used to create a new `state` once an `action` is triggered. 
+
+### Reducers on action
+
+You can define a list of `On` functions where at least one action can be triggered.
+
+```csharp
+return new List<On<RootState>>
+{
+    On<NavigateAction, RootState>(
+        (state, action) => state.With(new { Pages = state.Pages.Add(action.PageName) })
+    ),
+    On<GoBackAction, RootState>(
+        state => 
+        {
+            var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
+            return state.With(new { 
+                CurrentPage = newPages.LastOrDefault(),
+                Pages = newPages
+            });
+        }
+    ),
+    On<ResetAction, RootState>(
+        state => state.With(new { 
+            CurrentPage = string.Empty,
+            Pages = ImmutableArray<string>.Empty
+        })
+    )
+};
+```
+
+### Sub-reducers aka feature reducers
+
+Sub-reducers also known as feature reducers are nested reducers that are used to update a part of the state. They are mainly used in larger applications to split state and reducer logic in multiple parts.
+
+The `CreateSubReducers` function takes a list of sub-reducers and the select feature function that returns the state property to use to save the state.
+
+```csharp
+public static IEnumerable<On<RootState>> CreateReducers()
+{
+    var counterReducers = Counter.Reducers.CreateReducers();
+    var ticTacToeReducers = TicTacToe.Reducers.CreateReducers();
+    var todoListReducers = TodoList.Reducers.CreateReducers();
+    var pokedexReducers = Pokedex.Reducers.CreateReducers();
+
+    return CreateSubReducers(counterReducers.ToArray(), SelectCounterState)
+        .Concat(CreateSubReducers(ticTacToeReducers.ToArray(), SelectTicTacToeState))
+        .Concat(CreateSubReducers(todoListReducers.ToArray(), SelectTodoListState))
+        .Concat(CreateSubReducers(pokedexReducers.ToArray(), SelectPokedexState));
+}
+```
+
 ## Selectors
 
 Based on what you need, you can observe the entire state or just a part of it.
