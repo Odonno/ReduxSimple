@@ -24,10 +24,6 @@ In your app, you can:
 * `Dispatch` new `Action` to change the `State` 
 * and listen to events/changes using the `Subscribe` method
 
-We will go through using an example.
-
-### A simple Store
-
 You will need to follow the following steps to create your own Redux Store:
 
 1. Create `State` definition
@@ -104,7 +100,11 @@ sealed partial class App
 
 5. And be ready to use your store inside your entire application...
 
-### Dispatch & Subscribe
+## Features
+
+<details>
+<summary>Dispatch & Subscribe</summary>
+<br>
 
 You can now dispatch new actions using your globally accessible `Store`.
 
@@ -134,7 +134,11 @@ Store.Select(state => state.CurrentPage)
     });
 ```
 
-## Reducers
+</details>
+
+<details>
+<summary>Reducers</summary>
+<br>
 
 Reducers are pure functions used to create a new `state` once an `action` is triggered. 
 
@@ -188,7 +192,11 @@ public static IEnumerable<On<RootState>> CreateReducers()
 }
 ```
 
-## Selectors
+</details>
+
+<details>
+<summary>Selectors</summary>
+<br>
 
 Based on what you need, you can observe the entire state or just a part of it.
 
@@ -255,11 +263,15 @@ public static ISelectorWithProps<RootState, string, bool> SelectIsPageSelected =
 );
 ```
 
-### Effect - Asynchronous Actions
+</details>
+
+<details>
+<summary>Effects - Asynchronous Actions</summary>
+<br>
 
 Side effects are functions that runs outside of the predictable State -> UI cycle. Effects does not interfere with the UI directly and can dispatch a new action in the `ReduxStore` when necessary.
 
-#### The 3-actions pattern
+### The 3-actions pattern
 
 When you work with asynchronous tasks (side effects), you can follow the following rule:
 
@@ -286,7 +298,7 @@ public class GetTodosFailedAction
 Store.Dispatch(new GetTodosAction());
 ```
 
-#### Create and register effect
+### Create and register effect
 
 You now need to observe this action and execute an HTTP call that will then dispatch the result to the store.
 
@@ -324,12 +336,16 @@ Store.RegisterEffects(
 );
 ```
 
-### Time travel
+</details>
+
+<details>
+<summary>Time travel</summary>
+<br>
 
 By default, `ReduxStore` only support the default behavior which is a forward-only state.
 You can however set `enableTimeTravel` to `true` in order to debug your application with some interesting features: handling `Undo` and `Redo` actions.
 
-#### Enable time travel
+### Enable time travel
 
 ```csharp
 sealed partial class App
@@ -343,7 +359,7 @@ sealed partial class App
 }
 ```
 
-#### Go back in time...
+### Go back in time...
 
 When the Store contains stored actions (ie. actions of the past), you can go back in time.
 
@@ -372,14 +388,14 @@ Store.ObserveUndoneAction()
     });
 ```
 
-#### ...And then rewrite history
+### ...And then rewrite history
 
 Once you got back in time, you have two choices:
 
 1. Start a new timeline
 2. Stay on the same timeline of events
 
-##### Start a new timeline
+#### Start a new timeline
 
 Once you dispatched a new action, the new `State` is updated and the previous timeline is erased from history: all previous actions are gone.
 
@@ -398,7 +414,7 @@ if (Store.CanUndo)
 Store.Dispatch(new NavigateAction { PageName = "Page3" });
 ```
 
-##### Stay on the same timeline of events
+#### Stay on the same timeline of events
 
 You can stay o nthe same timeline by dispatching the same set of actions you did previously.
 
@@ -420,7 +436,11 @@ if (Store.CanRedo)
 }
 ```
 
-### Reset
+</details>
+
+<details>
+<summary>Reset state</summary>
+<br>
 
 You can also reset the entire `Store` (reset current state and list of actions) by using the following method.
 
@@ -438,6 +458,8 @@ Store.ObserveReset()
         // (example: flush navigation history and restart from login page)
     });
 ```
+
+</details>
 
 ## Contributors
 
