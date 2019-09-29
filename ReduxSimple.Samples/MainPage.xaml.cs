@@ -25,28 +25,24 @@ namespace ReduxSimple.Uwp.Samples
             GoToCounterButton.Events().Click
                 .Subscribe(_ =>
                 {
-                    TrackNavigation(nameof(MainPage), nameof(CounterPage));
                     Frame.Navigate(typeof(CounterPage));
                 });
 
             GoToTicTacToeButton.Events().Click
                 .Subscribe(_ =>
                 {
-                    TrackNavigation(nameof(MainPage), nameof(TicTacToePage));
                     Frame.Navigate(typeof(TicTacToePage));
                 });
 
             GoToTodoListButton.Events().Click
                 .Subscribe(_ =>
                 {
-                    TrackNavigation(nameof(MainPage), nameof(TodoListPage));
                     Frame.Navigate(typeof(TodoListPage));
                 });
 
             GoToPokedexButton.Events().Click
                 .Subscribe(_ =>
                 {
-                    TrackNavigation(nameof(MainPage), nameof(PokedexPage));
                     Frame.Navigate(typeof(PokedexPage));
                 });
 
@@ -86,7 +82,6 @@ namespace ReduxSimple.Uwp.Samples
                     .Where(_ => Frame.CanGoBack)
                     .Subscribe(_ =>
                     {
-                        TrackNavigation(Frame.Content.GetType().Name, nameof(MainPage));
                         Frame.GoBack();
                     });
 
