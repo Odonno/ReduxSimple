@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
+using static ReduxSimple.Selectors;
 using static ReduxSimple.Uwp.Samples.App;
 using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
 using static ReduxSimple.Uwp.Samples.Pokedex.Effects;
@@ -20,11 +21,9 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
             InitializeComponent();
 
             // Observe changes on state
-            Observable.CombineLatest(
-               Store.Select(SelectLoading),
-               Store.Select(SelectIsPokedexEmpty),
-               Tuple.Create
-           )
+            Store.Select(
+                CombineSelectors(SelectLoading, SelectIsPokedexEmpty)
+            )
                .ObserveOnDispatcher()
                .Subscribe(x =>
                {

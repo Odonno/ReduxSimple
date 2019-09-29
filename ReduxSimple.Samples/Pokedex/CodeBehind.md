@@ -6,10 +6,8 @@ public sealed partial class PokedexPage : Page
         InitializeComponent();
 
         // Observe changes on state
-        Observable.CombineLatest(
-            Store.Select(SelectLoading),
-            Store.Select(SelectIsPokedexEmpty),
-            Tuple.Create
+		Store.Select(
+            CombineSelectors(SelectLoading, SelectIsPokedexEmpty)
         )
             .ObserveOnDispatcher()
             .Subscribe(x =>

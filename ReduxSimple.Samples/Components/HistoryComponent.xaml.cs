@@ -144,7 +144,7 @@ namespace ReduxSimple.Uwp.Samples.Components
                 _internalStore.Select(state => state.MaxPosition),
                 store.ObserveCanUndo(),
                 store.ObserveCanRedo(),
-                (value1, value2, value3, value4, value5) => Tuple.Create(value1, value2, value3, value4, value5)
+                Tuple.Create
             )
                 .ObserveOnDispatcher()
                 .Subscribe(x =>

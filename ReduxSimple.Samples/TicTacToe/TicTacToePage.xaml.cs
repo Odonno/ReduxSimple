@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using static ReduxSimple.Selectors;
 using static ReduxSimple.Uwp.Samples.App;
 using static ReduxSimple.Uwp.Samples.TicTacToe.Selectors;
 
@@ -21,10 +22,8 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
             var cellsGrids = CellsRootGrid.Children;
 
             // Observe changes on state
-            Observable.CombineLatest(
-                Store.Select(SelectGameEnded),
-                Store.Select(SelectWinner),
-                Tuple.Create
+            Store.Select(
+                CombineSelectors(SelectGameEnded, SelectWinner)
             )
                 .Subscribe(x =>
                 {

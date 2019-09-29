@@ -9,10 +9,8 @@ public sealed partial class TicTacToePage : Page
         var cellsGrids = CellsRootGrid.Children;
 
         // Observe changes on state
-		Observable.CombineLatest(
-            Store.Select(SelectGameEnded),
-            Store.Select(SelectWinner),
-            Tuple.Create
+		Store.Select(
+            CombineSelectors(SelectGameEnded, SelectWinner)
         )
             .Subscribe(x =>
             {
