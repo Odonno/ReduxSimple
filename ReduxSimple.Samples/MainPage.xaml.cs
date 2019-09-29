@@ -9,10 +9,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
-using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
-using static Windows.UI.Core.AppViewBackButtonVisibility;
-using static ReduxSimple.Uwp.Samples.Common.EventTracking;
 using Windows.System;
+using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
+using static ReduxSimple.Uwp.RouterStore.Selectors;
+using static ReduxSimple.Uwp.Samples.App;
+using static Windows.UI.Core.AppViewBackButtonVisibility;
 
 namespace ReduxSimple.Uwp.Samples
 {
@@ -86,10 +87,10 @@ namespace ReduxSimple.Uwp.Samples
                     });
 
                 // Show back button when required
-                Frame.Events().Navigated
-                   .Subscribe(_ =>
+                Store.Select(SelectCanGoBack)
+                   .Subscribe(canGoBack =>
                    {
-                       SetBackButtonVisibility(this, Frame.CanGoBack ? Visible : Collapsed);
+                       SetBackButtonVisibility(this, canGoBack ? Visible : Collapsed);
                    });
             }
         }

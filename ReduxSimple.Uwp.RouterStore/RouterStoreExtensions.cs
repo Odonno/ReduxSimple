@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Converto;
+using System.Linq;
 using System.Reactive.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,16 +20,32 @@ namespace ReduxSimple.Uwp.RouterStore
             var routerReducers = new[]
             {
                  On<RouterNavigating, RouterState>(
-                    (state, action) => state // TODO
+                    (state, action) => state.With(new
+                    {
+                        rootFrame.CanGoBack,
+                        rootFrame.CanGoForward,
+                    })
                 ),
                 On<RouterNavigated, RouterState>(
-                    (state, action) => state // TODO
+                    (state, action) => state.With(new
+                    {
+                        rootFrame.CanGoBack,
+                        rootFrame.CanGoForward,
+                    })
                 ),
                 On<RouterError, RouterState>(
-                    (state, action) => state // TODO
+                    (state, action) => state.With(new
+                    {
+                        rootFrame.CanGoBack,
+                        rootFrame.CanGoForward,
+                    })
                 ),
                 On<RouterCancel, RouterState>(
-                    (state, action) => state // TODO
+                    (state, action) => state.With(new
+                    {
+                        rootFrame.CanGoBack,
+                        rootFrame.CanGoForward,
+                    })
                 )
             };
 
