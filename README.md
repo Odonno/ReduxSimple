@@ -263,6 +263,22 @@ public static ISelectorWithProps<RootState, string, bool> SelectIsPageSelected =
 );
 ```
 
+### Combine selectors
+
+Sometimes, you need to consume multiple selectors. In some cases, you just want to combine them. This is what you can do with `CombineSelectors` function. It uses `CombineLatest` operator. Here is an example:
+
+```csharp
+Store.Select(
+    CombineSelectors(SelectGameEnded, SelectWinner)
+)
+    .Subscribe(x =>
+    {
+        var (gameEnded, winner) = x;
+
+        // TODO
+    });
+```
+
 </details>
 
 <details>
