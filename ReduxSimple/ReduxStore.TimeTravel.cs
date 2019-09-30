@@ -36,7 +36,7 @@ namespace ReduxSimple
         /// <summary>
         /// Gets a value indicating whether the undo operation can be performed.
         /// </summary>
-        public bool CanUndo => _pastMementos.Count != 0;
+        public bool CanUndo => _pastMementos.Count > 1;
         /// <summary>
         /// Gets a value indicating whether the redo operation can be performed.
         /// </summary>

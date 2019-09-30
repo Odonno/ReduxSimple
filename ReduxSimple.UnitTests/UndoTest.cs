@@ -9,6 +9,26 @@ namespace ReduxSimple.UnitTests
     public class UndoTest
     {
         [Fact]
+        public void CannotUndoIfNoActionDispatched()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState,
+                true
+            );
+
+            // Act
+            bool result = store.CanUndo;
+
+            // Assert
+            Assert.False(result);
+            Assert.Equal("David", store.State.CurrentUser);
+            Assert.Empty(store.State.TodoList);
+        }
+
+        [Fact]
         public void CanUndoAndObserveUndoneActions()
         {
             // Arrange
@@ -122,6 +142,8 @@ namespace ReduxSimple.UnitTests
 
             // Assert
             Assert.False(store.CanUndo);
+            Assert.Equal("David", store.State.CurrentUser);
+            Assert.Empty(store.State.TodoList);
         }
     }
 }

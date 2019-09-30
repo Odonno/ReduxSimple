@@ -45,6 +45,8 @@ namespace ReduxSimple
             State = _initialState = initialState ?? new TState();
             _stateSubject = new BehaviorSubject<TState>(State);
             TimeTravelEnabled = enableTimeTravel;
+
+            Dispatch(new InitializeStoreAction());
         }
     }
 }
