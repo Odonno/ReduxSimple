@@ -2,6 +2,11 @@
 
 namespace ReduxSimple.Entity
 {
+    /// <summary>
+    /// State used to simplify the storage of entities, that can be used with ab <see cref="EntityAdapter{TEntity, TKey}"/>.
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
     public abstract class EntityState<TEntity, TKey>
     {
         /// <summary>
