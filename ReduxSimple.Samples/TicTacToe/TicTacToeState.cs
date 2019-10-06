@@ -1,5 +1,6 @@
 ﻿using SuccincT.Options;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace ReduxSimple.Uwp.Samples.TicTacToe
 {
@@ -12,8 +13,18 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
 
     public class TicTacToeState
     {
-        public ImmutableArray<Cell> Cells { get; set; } = ImmutableArray<Cell>.Empty;
+        public ImmutableArray<Cell> Cells { get; set; }
         public bool GameEnded { get; set; }
-        public Option<string> Winner { get; set; } = Option<string>.None();
+        public Option<string> Winner { get; set; }
+
+        public static TicTacToeState InitialState =>
+            new TicTacToeState
+            {
+                Cells = Enumerable.Range(0, 9)
+                    .Select(i => new Cell { Row = i / 3, Column = i % 3, Mine = Option<bool>.None() })
+                    .ToImmutableArray(),
+                Winner = Option<string>.None()
+            };
+
     }
 }

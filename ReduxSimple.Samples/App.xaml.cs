@@ -16,7 +16,7 @@ namespace ReduxSimple.Uwp.Samples
     public sealed partial class App : Application
     {
         public static readonly ReduxStore<RootState> Store =
-            new ReduxStore<RootState>(CreateReducers(), true);
+            new ReduxStore<RootState>(CreateReducers(), RootState.InitialState, true);
 
         public App()
         {

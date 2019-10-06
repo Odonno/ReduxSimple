@@ -16,7 +16,14 @@
 
     public class TodoListState
     {
-        public TodoItemEntityState Items { get; set; } = new TodoItemEntityState();
+        public TodoItemEntityState Items { get; set; }
         public TodoFilter Filter { get; set; }
+
+        public static TodoListState InitialState =>
+            new TodoListState
+            {
+                Filter = TodoFilter.All,
+                Items = new TodoItemEntityState()
+            };
     }
 }

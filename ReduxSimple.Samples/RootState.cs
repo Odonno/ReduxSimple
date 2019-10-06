@@ -8,11 +8,21 @@ namespace ReduxSimple.Uwp.Samples
 {
     public class RootState : IBaseRouterState
     {
-        public RouterState Router { get; set; } = new RouterState();
+        public RouterState Router { get; set; }
 
-        public CounterState Counter { get; set; } = new CounterState();
-        public TicTacToeState TicTacToe { get; set; } = new TicTacToeState();
-        public TodoListState TodoList { get; set; } = new TodoListState();
-        public PokedexState Pokedex { get; set; } = new PokedexState();
+        public CounterState Counter { get; set; }
+        public TicTacToeState TicTacToe { get; set; }
+        public TodoListState TodoList { get; set; }
+        public PokedexState Pokedex { get; set; }
+
+        public static RootState InitialState =>
+            new RootState
+            {
+                Router = RouterState.InitialState,
+                Counter = CounterState.InitialState,
+                TicTacToe = TicTacToeState.InitialState,
+                TodoList = TodoListState.InitialState,
+                Pokedex = PokedexState.InitialState
+            };
     }
 }
