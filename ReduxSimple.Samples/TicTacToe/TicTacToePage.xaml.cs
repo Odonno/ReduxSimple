@@ -3,6 +3,7 @@ using ReduxSimple.Uwp.Samples.Extensions;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -85,6 +86,13 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TicTacToe");
+
+            GoToGitHubButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    var uri = new Uri("https://github.com/Odonno/ReduxSimple/tree/master/ReduxSimple.Samples/TicTacToe");
+                    await Launcher.LaunchUriAsync(uri);
+                });
 
             ContentGrid.Events().Tapped
                 .Subscribe(_ => DocumentationComponent.Collapse());

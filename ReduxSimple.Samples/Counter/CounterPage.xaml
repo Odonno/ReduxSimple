@@ -17,6 +17,11 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
             <!-- Header component -->
             <StackPanel Grid.Row="0" 
                         Padding="50 10 40 20">
@@ -35,6 +40,7 @@
 
             <!-- Root page component -->
             <controls:DropShadowPanel Grid.Row="1" 
+                                      Grid.ColumnSpan="2"
                                       Margin="45 10" 
                                       BlurRadius="30"
                                       ShadowOpacity="0.6"
@@ -69,7 +75,8 @@
             </controls:DropShadowPanel>
 
             <!-- History component -->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2"
+                  Grid.ColumnSpan="2">
                 <controls:DropShadowPanel BlurRadius="15"
                                           ShadowOpacity="0.6"
                                           Color="Black"
@@ -79,6 +86,28 @@
                     <components:HistoryComponent x:Name="HistoryComponent" />
                 </controls:DropShadowPanel>
             </Grid>
+
+            <!-- Go to GitHub button -->
+            <controls:DropShadowPanel Grid.Column="1" 
+                                      BlurRadius="15"
+                                      Margin="0 40 40 0"
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Right"
+                                      VerticalContentAlignment="Stretch" 
+                                      HorizontalContentAlignment="Stretch"
+                                      ShadowOpacity="0.6"
+                                      Color="Black">
+                <Button x:Name="GoToGitHubButton" 
+                        Style="{StaticResource NonTransparentButtonStyle}"
+                        Padding="4 6"
+                        Width="80"
+                        Height="50"
+                        HorizontalContentAlignment="Left"
+                        Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                        ToolTipService.ToolTip="Open project on GitHub">
+                    <Image Source="/Assets/GitHub.png" Margin="4 0 0 0" />
+                </Button>
+            </controls:DropShadowPanel>
         </Grid>
 
         <!-- Documentation component -->

@@ -2,6 +2,7 @@
 using ReduxSimple.Uwp.Samples.Components;
 using System;
 using System.Reactive.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +36,13 @@ namespace ReduxSimple.Uwp.Samples.Counter
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Counter");
+
+            GoToGitHubButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    var uri = new Uri("https://github.com/Odonno/ReduxSimple/tree/master/ReduxSimple.Samples/Counter");
+                    await Launcher.LaunchUriAsync(uri);
+                });
 
             ContentGrid.Events().Tapped
                 .Subscribe(_ => DocumentationComponent.Collapse());

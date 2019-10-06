@@ -11,6 +11,7 @@ using static ReduxSimple.Selectors;
 using static ReduxSimple.Uwp.Samples.App;
 using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
 using static ReduxSimple.Uwp.Samples.Pokedex.Effects;
+using Windows.System;
 
 namespace ReduxSimple.Uwp.Samples.Pokedex
 {
@@ -96,6 +97,13 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
 
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Pokedex");
+
+            GoToGitHubButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    var uri = new Uri("https://github.com/Odonno/ReduxSimple/tree/master/ReduxSimple.Samples/Pokedex");
+                    await Launcher.LaunchUriAsync(uri);
+                });
 
             ContentGrid.Events().Tapped
                 .Subscribe(_ => DocumentationComponent.Collapse());
