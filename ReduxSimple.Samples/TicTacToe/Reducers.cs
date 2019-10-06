@@ -17,7 +17,7 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
                 On<PlayAction, TicTacToeState>(
                     (state, action) =>
                     {
-                         // Player take cell
+                        // Player take cell
                         var cellsTurnPlayer = PlayerTakeCell(state.Cells, action);
 
                         // Check end game

@@ -20,7 +20,6 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
         );
         private static readonly EntitySelectors<RootState, PokemonGeneralInfo, int> PokedexSelectors = PokedexAdapter.GetSelectors(SelectPokedexEntityState);
 
-
         public static ISelectorWithoutProps<RootState, List<PokemonGeneralInfo>> SelectPokedex = PokedexSelectors.SelectEntities;
         public static ISelectorWithoutProps<RootState, bool> SelectIsPokedexEmpty = CreateSelector(
             PokedexSelectors.SelectCount,

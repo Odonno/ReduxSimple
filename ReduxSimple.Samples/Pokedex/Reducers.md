@@ -10,7 +10,7 @@ public static class Reducers
             ),
             On<GetPokemonListFullfilledAction, PokedexState>(
                 (state, action) => state.With(new {
-                    Pokedex = action.Pokedex.ToImmutableList(),
+                    Pokedex = PokedexAdapter.AddAll(action.Pokedex, state.Pokedex),
                     Loading = false,
                     Errors = ImmutableList<string>.Empty
                 })

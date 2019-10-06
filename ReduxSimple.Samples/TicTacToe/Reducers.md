@@ -1,15 +1,6 @@
 ```csharp
 public static class Reducers
 {
-    public static TicTacToeState InitialState =>
-        new TicTacToeState
-        {
-            Cells = Enumerable.Range(0, 9)
-                .Select(i => new Cell { Row = i / 3, Column = i % 3, Mine = Option<bool>.None() })
-                .ToImmutableArray(),
-            Winner = Option<string>.None()
-        };
-
     public static IEnumerable<On<TicTacToeState>> CreateReducers()
     {
         return new List<On<TicTacToeState>>
@@ -17,7 +8,7 @@ public static class Reducers
             On<PlayAction, TicTacToeState>(
                 (state, action) =>
                 {
-                        // Player take cell
+                    // Player take cell
                     var cellsTurnPlayer = PlayerTakeCell(state.Cells, action);
 
                     // Check end game
@@ -48,7 +39,7 @@ public static class Reducers
                 }
             ),
             On<StartNewGameAction, TicTacToeState>(
-                _ => InitialState
+                _ => TicTacToeState.InitialState
             )
         };
     }

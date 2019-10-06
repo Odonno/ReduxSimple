@@ -342,6 +342,18 @@
   <ItemGroup>
     <Content Include="TodoList\Effects.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Counter\Entities.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pokedex\Entities.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TicTacToe\Entities.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TodoList\Entities.md" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

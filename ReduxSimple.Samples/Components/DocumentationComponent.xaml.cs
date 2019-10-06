@@ -44,6 +44,7 @@ namespace ReduxSimple.Uwp.Samples.Components
         {
             await LoadMarkdownComponent(IntroductionMarkdownTextBlock, $"{folder}/Introduction.md");
             await LoadMarkdownComponent(StateMarkdownTextBlock, $"{folder}/State.md");
+            await LoadMarkdownComponent(EntitiesMarkdownTextBlock, $"{folder}/Entities.md");
             await LoadMarkdownComponent(ActionsMarkdownTextBlock, $"{folder}/Actions.md");
             await LoadMarkdownComponent(ReducersMarkdownTextBlock, $"{folder}/Reducers.md");
             await LoadMarkdownComponent(SelectorsMarkdownTextBlock, $"{folder}/Selectors.md");

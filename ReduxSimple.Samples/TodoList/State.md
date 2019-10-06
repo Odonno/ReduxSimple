@@ -15,7 +15,14 @@ public enum TodoFilter
 
 public class TodoListState
 {
-    public ImmutableList<TodoItem> Items { get; set; } = ImmutableList<TodoItem>.Empty;
+    public TodoItemEntityState Items { get; set; }
     public TodoFilter Filter { get; set; }
+
+    public static TodoListState InitialState =>
+        new TodoListState
+        {
+            Filter = TodoFilter.All,
+            Items = new TodoItemEntityState()
+        };
 }
 ```

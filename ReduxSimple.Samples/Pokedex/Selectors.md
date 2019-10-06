@@ -5,13 +5,16 @@ public static class Selectors
         (RootState state) => state.Pokedex
     );
 
-    public static ISelectorWithoutProps<RootState, ImmutableList<PokemonGeneralInfo>> SelectPokedex = CreateSelector(
+    private static readonly ISelectorWithoutProps<RootState, PokedexEntityState> SelectPokedexEntityState = CreateSelector(
         SelectPokedexState,
         state => state.Pokedex
     );
+    private static readonly EntitySelectors<RootState, PokemonGeneralInfo, int> PokedexSelectors = PokedexAdapter.GetSelectors(SelectPokedexEntityState);
+
+    public static ISelectorWithoutProps<RootState, List<PokemonGeneralInfo>> SelectPokedex = PokedexSelectors.SelectEntities;
     public static ISelectorWithoutProps<RootState, bool> SelectIsPokedexEmpty = CreateSelector(
-        SelectPokedex,
-        pokedex => pokedex.IsEmpty
+        PokedexSelectors.SelectCount,
+        count => count == 0
     );
 
     public static ISelectorWithoutProps<RootState, bool> SelectLoading = CreateSelector(
@@ -34,7 +37,7 @@ public static class Selectors
     public static ISelectorWithProps<RootState, int, ImmutableList<PokemonGeneralInfo>> SelectSuggestions = CreateSelector(
         SelectSearch,
         SelectPokedex,
-        (string search, ImmutableList<PokemonGeneralInfo> pokedex, int maximumOfSuggestions) =>
+        (string search, List<PokemonGeneralInfo> pokedex, int maximumOfSuggestions) =>
         {
             if (!string.IsNullOrWhiteSpace(search))
             {

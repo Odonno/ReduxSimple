@@ -62,7 +62,6 @@ public sealed partial class TodoListPage : Page
 
 ## The Todo Item user control
 
-
 ```csharp
 public sealed partial class TodoItemComponent : UserControl
 {

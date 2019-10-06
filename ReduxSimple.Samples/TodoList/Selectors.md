@@ -5,13 +5,16 @@ public static class Selectors
         (RootState state) => state.TodoList
     );
 
+    private static readonly ISelectorWithoutProps<RootState, TodoItemEntityState> SelectItemsEntityState = CreateSelector(
+        SelectTodoListState,
+        state => state.Items
+    );
+    private static readonly EntitySelectors<RootState, TodoItem, int> TodoItemSelectors = TodoItemAdapter.GetSelectors(SelectItemsEntityState);
+
     public static ISelectorWithoutProps<RootState, TodoFilter> SelectFilter = CreateSelector(
         SelectTodoListState,
         state => state.Filter
     );
-    public static ISelectorWithoutProps<RootState, ImmutableList<TodoItem>> SelectItems = CreateSelector(
-        SelectTodoListState,
-        state => state.Items
-    );
+    public static ISelectorWithoutProps<RootState, List<TodoItem>> SelectItems = TodoItemSelectors.SelectEntities;
 }
 ```
