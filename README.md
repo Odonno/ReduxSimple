@@ -477,6 +477,65 @@ Store.ObserveReset()
 
 </details>
 
+<details>
+<summary>Entity management</summary>
+<br>
+
+When dealing with entities, you often repeat the same process to add, update and remove entity from your collection state. With the `ReduxSimple.Entity` package, you can simplify the management of entities using the following pattern:
+
+1. Start creating an `EntityState` and an `EntityAdapter` 
+
+```csharp
+public class TodoItemEntityState : EntityState<TodoItem, int>
+{
+}
+
+public static class Entities
+{
+    public static EntityAdapter<TodoItem, int> TodoItemAdapter = EntityAdapter<TodoItem, int>.Create(item => item.Id);
+}
+```
+
+2. Use the `EntityState` in your state
+
+```csharp
+public class TodoListState
+{
+    public TodoItemEntityState Items { get; set; }
+    public TodoFilter Filter { get; set; }
+}
+```
+
+3. Then use the `EntityAdapter` in reducers
+
+```csharp
+On<CompleteTodoItemAction, TodoListState>(
+    (state, action) =>
+    {
+        return state.With(new
+        {
+            Items = TodoItemAdapter.UpsertOne(new { action.Id, Completed = true }, state.Items)
+        });
+    }
+)
+```
+
+4. And use the `EntityAdapter` in selectors
+
+```csharp
+private static readonly ISelectorWithoutProps<RootState, TodoItemEntityState> SelectItemsEntityState = CreateSelector(
+    SelectTodoListState,
+    state => state.Items
+);
+private static readonly EntitySelectors<RootState, TodoItem, int> TodoItemSelectors = TodoItemAdapter.GetSelectors(SelectItemsEntityState);
+```
+
+```csharp
+public static ISelectorWithoutProps<RootState, List<TodoItem>> SelectItems = TodoItemSelectors.SelectEntities;
+```
+
+</details>
+
 ## Contributors
 
 #### [mhusainisurge](https://github.com/mhusainisurge)
