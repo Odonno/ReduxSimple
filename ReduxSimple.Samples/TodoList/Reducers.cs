@@ -28,30 +28,27 @@ namespace ReduxSimple.Uwp.Samples.TodoList
                 On<CompleteTodoItemAction, TodoListState>(
                     (state, action) =>
                     {
-                        var itemToUpdate = state.Items.Collection[action.Id]; // TODO : Use Partial<T> upsert
                         return state.With(new
                         {
-                            Items = TodoItemAdapter.UpsertOne(itemToUpdate.With(new { Completed = true }), state.Items)
+                            Items = TodoItemAdapter.UpsertOne(new { action.Id, Completed = true }, state.Items)
                         });
                     }
                 ),
                 On<RevertCompleteTodoItemAction, TodoListState>(
                     (state, action) =>
                     {
-                        var itemToUpdate = state.Items.Collection[action.Id]; // TODO : Use Partial<T> upsert
                         return state.With(new
                         {
-                            Items = TodoItemAdapter.UpsertOne(itemToUpdate.With(new { Completed = false }), state.Items)
+                            Items = TodoItemAdapter.UpsertOne(new { action.Id, Completed = false }, state.Items)
                         });
                     }
                 ),
                 On<UpdateTodoItemAction, TodoListState>(
                     (state, action) =>
                     {
-                        var itemToUpdate = state.Items.Collection[action.Id]; // TODO : Use Partial<T> upsert
                         return state.With(new
                         {
-                            Items = TodoItemAdapter.UpsertOne(itemToUpdate.With(new { action.Content }), state.Items)
+                            Items = TodoItemAdapter.UpsertOne(new { action.Id, action.Content }, state.Items)
                         });
                     }
                 ),

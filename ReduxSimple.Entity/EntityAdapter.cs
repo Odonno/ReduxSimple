@@ -9,6 +9,7 @@ namespace ReduxSimple.Entity
     /// <typeparam name="TEntity">Type of the entity.</typeparam>
     /// <typeparam name="TKey">Primary key of the entity.</typeparam>
     public sealed class EntityAdapter<TEntity, TKey> : EntityStateAdapter<TEntity, TKey>
+        where TEntity : class
     {
         private EntityAdapter()
         {

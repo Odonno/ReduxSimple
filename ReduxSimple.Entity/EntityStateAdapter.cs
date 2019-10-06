@@ -11,6 +11,7 @@ namespace ReduxSimple.Entity
     /// <typeparam name="TEntity">Type of the entity.</typeparam>
     /// <typeparam name="TKey">Primary key of the entity.</typeparam>
     public abstract class EntityStateAdapter<TEntity, TKey>
+        where TEntity : class
     {
         /// <summary>
         /// Function used to get the primary key of the entity.
@@ -44,32 +45,54 @@ namespace ReduxSimple.Entity
         /// Upsert (add or update) an entity in the state.
         /// </summary>
         /// <typeparam name="TEntityState">Type of the Entity State.</typeparam>
+        /// <typeparam name="TPartialEntity">Type of the upserting entity.</typeparam>
         /// <param name="entity">Entity to upsert.</param>
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
-        public TEntityState UpsertOne<TEntityState>(TEntity entity, TEntityState state)
+        public TEntityState UpsertOne<TEntityState, TPartialEntity>(TPartialEntity entity, TEntityState state)
             where TEntityState : EntityState<TEntity, TKey>
+            where TPartialEntity : class
         {
             return UpsertMany(new[] { entity }, state);
         }
-        // TODO : UpsertOne with Partial<TEntity>
 
         /// <summary>
         /// Upsert (add or update) multiple entities in the state.
         /// </summary>
         /// <typeparam name="TEntityState">Type of the Entity State.</typeparam>
+        /// <typeparam name="TPartialEntity">Type of the upserting entities.</typeparam>
         /// <param name="entities">List of entities to upsert.</param>
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
-        public TEntityState UpsertMany<TEntityState>(IEnumerable<TEntity> entities, TEntityState state)
+        public TEntityState UpsertMany<TEntityState, TPartialEntity>(IEnumerable<TPartialEntity> entities, TEntityState state)
             where TEntityState : EntityState<TEntity, TKey>
+            where TPartialEntity : class
         {
-            var keys = entities.Select(SelectId);
+            var updatedEntities = entities
+                .Select(partialEntity =>
+                {
+                    var entity = partialEntity as TEntity ?? partialEntity.ConvertTo<TEntity>();
+                    var key = SelectId(entity);
+
+                    state.Collection.TryGetValue(key, out var existingEntity);
+                    if (existingEntity == null)
+                    {
+                        // Add entity
+                        return entity;
+                    }
+                    else
+                    {
+                        // Update entity
+                        return existingEntity.With(partialEntity);
+                    }
+                });
+            var keysOfUpdatedEntities = updatedEntities.Select(SelectId);
 
             var currentEntities = state.Collection.Values;
+
             var collection = currentEntities
-                .Except(currentEntities.Where(e => keys.Contains(SelectId(e))))
-                .Concat(entities)
+                .Except(currentEntities.Where(e => keysOfUpdatedEntities.Contains(SelectId(e))))
+                .Concat(updatedEntities)
                 .ToDictionary(SelectId);
 
             return state.With(new
@@ -78,7 +101,6 @@ namespace ReduxSimple.Entity
                 Collection = collection
             });
         }
-        // TODO : UpsertMany with Partial<TEntity>
 
         /// <summary>
         /// Remove one entity from the state.
