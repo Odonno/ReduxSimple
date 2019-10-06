@@ -1,7 +1,10 @@
-﻿using SuccincT.Options;
+﻿using ReduxSimple.Entity;
+using SuccincT.Options;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using static ReduxSimple.Selectors;
+using static ReduxSimple.Uwp.Samples.Pokedex.Entities;
 
 namespace ReduxSimple.Uwp.Samples.Pokedex
 {
@@ -11,13 +14,17 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
             (RootState state) => state.Pokedex
         );
 
-        public static ISelectorWithoutProps<RootState, ImmutableList<PokemonGeneralInfo>> SelectPokedex = CreateSelector(
+        private static readonly ISelectorWithoutProps<RootState, PokedexEntityState> SelectPokedexEntityState = CreateSelector(
             SelectPokedexState,
             state => state.Pokedex
         );
+        private static readonly EntitySelectors<RootState, PokemonGeneralInfo, int> PokedexSelectors = PokedexAdapter.GetSelectors(SelectPokedexEntityState);
+
+
+        public static ISelectorWithoutProps<RootState, List<PokemonGeneralInfo>> SelectPokedex = PokedexSelectors.SelectEntities;
         public static ISelectorWithoutProps<RootState, bool> SelectIsPokedexEmpty = CreateSelector(
-            SelectPokedex,
-            pokedex => pokedex.IsEmpty
+            PokedexSelectors.SelectCount,
+            count => count == 0
         );
 
         public static ISelectorWithoutProps<RootState, bool> SelectLoading = CreateSelector(
@@ -40,7 +47,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
         public static ISelectorWithProps<RootState, int, ImmutableList<PokemonGeneralInfo>> SelectSuggestions = CreateSelector(
             SelectSearch,
             SelectPokedex,
-            (string search, ImmutableList<PokemonGeneralInfo> pokedex, int maximumOfSuggestions) =>
+            (string search, List<PokemonGeneralInfo> pokedex, int maximumOfSuggestions) =>
             {
                 if (!string.IsNullOrWhiteSpace(search))
                 {

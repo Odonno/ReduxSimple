@@ -1,5 +1,7 @@
-﻿using System.Collections.Immutable;
+﻿using ReduxSimple.Entity;
+using System.Collections.Generic;
 using static ReduxSimple.Selectors;
+using static ReduxSimple.Uwp.Samples.TodoList.Entities;
 
 namespace ReduxSimple.Uwp.Samples.TodoList
 {
@@ -9,13 +11,16 @@ namespace ReduxSimple.Uwp.Samples.TodoList
             (RootState state) => state.TodoList
         );
 
+        private static readonly ISelectorWithoutProps<RootState, TodoItemEntityState> SelectItemsEntityState = CreateSelector(
+            SelectTodoListState,
+            state => state.Items
+        );
+        private static readonly EntitySelectors<RootState, TodoItem, int> TodoItemSelectors = TodoItemAdapter.GetSelectors(SelectItemsEntityState);
+
         public static ISelectorWithoutProps<RootState, TodoFilter> SelectFilter = CreateSelector(
             SelectTodoListState,
             state => state.Filter
         );
-        public static ISelectorWithoutProps<RootState, ImmutableList<TodoItem>> SelectItems = CreateSelector(
-            SelectTodoListState,
-            state => state.Items
-        );
+        public static ISelectorWithoutProps<RootState, List<TodoItem>> SelectItems = TodoItemSelectors.SelectEntities;
     }
 }

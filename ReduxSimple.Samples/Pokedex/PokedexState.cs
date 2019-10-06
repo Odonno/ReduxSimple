@@ -25,7 +25,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
 
     public class PokedexState
     {
-        public ImmutableList<PokemonGeneralInfo> Pokedex { get; set; } = ImmutableList<PokemonGeneralInfo>.Empty;
+        public PokedexEntityState Pokedex { get; set; } = new PokedexEntityState();
         public string Search { get; set; } = string.Empty;
         public Option<Pokemon> Pokemon { get; set; } = Option<Pokemon>.None();
         public bool Loading { get; set; }

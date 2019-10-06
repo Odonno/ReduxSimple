@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-
-namespace ReduxSimple.Uwp.Samples.TodoList
+﻿namespace ReduxSimple.Uwp.Samples.TodoList
 {
     public class TodoItem
     {
@@ -18,7 +16,7 @@ namespace ReduxSimple.Uwp.Samples.TodoList
 
     public class TodoListState
     {
-        public ImmutableList<TodoItem> Items { get; set; } = ImmutableList<TodoItem>.Empty;
+        public TodoItemEntityState Items { get; set; } = new TodoItemEntityState();
         public TodoFilter Filter { get; set; }
     }
 }

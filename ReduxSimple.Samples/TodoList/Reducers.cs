@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static ReduxSimple.Reducers;
+using static ReduxSimple.Uwp.Samples.TodoList.Entities;
 
 namespace ReduxSimple.Uwp.Samples.TodoList
 {
@@ -17,45 +18,51 @@ namespace ReduxSimple.Uwp.Samples.TodoList
                 On<CreateTodoItemAction, TodoListState>(
                     state =>
                     {
-                        int newId = state.Items.Any() ? state.Items.Max(i => i.Id) + 1 : 1;
+                        int newId = state.Items.Collection.Any() ? state.Items.Ids.Max() + 1 : 1;
                         return state.With(new
                         {
-                            Items = state.Items.Add(new TodoItem { Id = newId })
+                            Items = TodoItemAdapter.UpsertOne(new TodoItem { Id = newId }, state.Items)
                         });
                     }
                 ),
                 On<CompleteTodoItemAction, TodoListState>(
                     (state, action) =>
                     {
-                        var itemToUpdate = state.Items.Single(i => i.Id == action.Id && !i.Completed);
+                        var itemToUpdate = state.Items.Collection[action.Id]; // TODO : Use Partial<T> upsert
                         return state.With(new
                         {
-                            Items = state.Items.Replace(itemToUpdate, itemToUpdate.With(new { Completed = true }))
+                            Items = TodoItemAdapter.UpsertOne(itemToUpdate.With(new { Completed = true }), state.Items)
                         });
                     }
                 ),
                 On<RevertCompleteTodoItemAction, TodoListState>(
                     (state, action) =>
                     {
-                        var itemToUpdate = state.Items.Single(i => i.Id == action.Id && i.Completed);
+                        var itemToUpdate = state.Items.Collection[action.Id]; // TODO : Use Partial<T> upsert
                         return state.With(new
                         {
-                            Items = state.Items.Replace(itemToUpdate, itemToUpdate.With(new { Completed = false }))
+                            Items = TodoItemAdapter.UpsertOne(itemToUpdate.With(new { Completed = false }), state.Items)
                         });
                     }
                 ),
                 On<UpdateTodoItemAction, TodoListState>(
                     (state, action) =>
                     {
-                        var itemToUpdate = state.Items.Single(i => i.Id == action.Id);
+                        var itemToUpdate = state.Items.Collection[action.Id]; // TODO : Use Partial<T> upsert
                         return state.With(new
                         {
-                            Items = state.Items.Replace(itemToUpdate, itemToUpdate.With(new { action.Content }))
+                            Items = TodoItemAdapter.UpsertOne(itemToUpdate.With(new { action.Content }), state.Items)
                         });
                     }
                 ),
                 On<RemoveTodoItemAction, TodoListState>(
-                    (state, action) => state.With(new { Items = state.Items.RemoveAll(i => i.Id == action.Id) })
+                    (state, action) =>
+                    {
+                        return state.With(new
+                        {
+                            Items = TodoItemAdapter.RemoveOne(action.Id, state.Items)
+                        });
+                    }
                 )
             };
         }

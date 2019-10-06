@@ -11,7 +11,7 @@
     <AssemblyName>ReduxSimple.Uwp.Samples</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -125,6 +125,7 @@
     <Compile Include="Pokedex\CacheService.cs" />
     <Compile Include="Pokedex\Data.cs" />
     <Compile Include="Pokedex\Effects.cs" />
+    <Compile Include="Pokedex\Entities.cs" />
     <Compile Include="Pokedex\PokedexApiClient.cs" />
     <Compile Include="Pokedex\PokedexPage.xaml.cs">
       <DependentUpon>PokedexPage.xaml</DependentUpon>
@@ -144,6 +145,7 @@
     </Compile>
     <Compile Include="TicTacToe\TicTacToeState.cs" />
     <Compile Include="TodoList\Actions.cs" />
+    <Compile Include="TodoList\Entities.cs" />
     <Compile Include="TodoList\Reducers.cs" />
     <Compile Include="TodoList\Selectors.cs" />
     <Compile Include="TodoList\TodoItemComponent.xaml.cs">
@@ -315,6 +317,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ReduxSimple.Entity\ReduxSimple.Entity.csproj">
+      <Project>{edd642cd-e1ac-454f-855a-ac88cf62043c}</Project>
+      <Name>ReduxSimple.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReduxSimple.Uwp.RouterStore\ReduxSimple.Uwp.RouterStore.csproj">
       <Project>{1a224f30-719c-411c-9876-5c9bd99ea3c6}</Project>
       <Name>ReduxSimple.Uwp.RouterStore</Name>
