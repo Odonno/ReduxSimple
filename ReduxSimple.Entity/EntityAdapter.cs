@@ -17,6 +17,14 @@ namespace ReduxSimple.Entity
         /// <summary>
         /// Get selectors for the specified <see cref="EntityState{TEntity, TKey}"/>.
         /// </summary>
+        /// <returns>A new Entity Selectors.</returns>
+        public EntitySelectors<TEntity, TKey> GetSelectors()
+        {
+            return new EntitySelectors<TEntity, TKey>(SortComparer);
+        }
+        /// <summary>
+        /// Get selectors for the specified <see cref="EntityState{TEntity, TKey}"/>.
+        /// </summary>
         /// <typeparam name="TInput">Part of the state used to create selectors.</typeparam>
         /// <param name="selectEntityState">Function used to select <see cref="EntityState{TEntity, TKey}"/> from the <typeparamref name="TInput"/>.</param>
         /// <returns>A new Entity Selectors.</returns>
