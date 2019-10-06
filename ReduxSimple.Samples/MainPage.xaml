@@ -139,7 +139,8 @@
                         Width="80"
                         Height="50"
                         HorizontalContentAlignment="Left"
-                        Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+                        Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                        ToolTipService.ToolTip="Open GitHub repository">
                     <Image Source="Assets/GitHub.png" Margin="4 0 0 0" />
                 </Button>
             </controls:DropShadowPanel>
