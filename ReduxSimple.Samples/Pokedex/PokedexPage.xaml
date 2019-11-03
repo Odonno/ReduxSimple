@@ -14,7 +14,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -153,19 +152,6 @@
                 </Grid>
             </controls:DropShadowPanel>
 
-            <!-- History component -->
-            <Grid Grid.Row="2"
-                  Grid.ColumnSpan="2">
-                <controls:DropShadowPanel BlurRadius="15"
-                                          ShadowOpacity="0.6"
-                                          Color="Black"
-                                          Margin="20 20"
-                                          VerticalAlignment="Bottom"
-                                          HorizontalAlignment="Center">
-                    <components:HistoryComponent x:Name="HistoryComponent" />
-                </controls:DropShadowPanel>
-            </Grid>
-
             <!-- Go to GitHub button -->
             <controls:DropShadowPanel Grid.Column="1" 
                                       BlurRadius="15"
@@ -185,6 +171,28 @@
                         Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                         ToolTipService.ToolTip="Open project on GitHub">
                     <Image Source="/Assets/GitHub.png" Margin="4 0 0 0" />
+                </Button>
+            </controls:DropShadowPanel>
+
+            <!-- Open DevTools button -->
+            <controls:DropShadowPanel Grid.Column="1"
+                                      BlurRadius="15"
+                                      Margin="0 100 40 0"
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Right"
+                                      VerticalContentAlignment="Stretch" 
+                                      HorizontalContentAlignment="Stretch"
+                                      ShadowOpacity="0.6"
+                                      Color="Black">
+                <Button x:Name="OpenDevToolsButton" 
+                        Style="{StaticResource NonTransparentButtonStyle}"
+                        Padding="0 2"
+                        Width="80"
+                        Height="50"
+                        HorizontalContentAlignment="Left"
+                        Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                        ToolTipService.ToolTip="Open DevTools">
+                    <Image Source="/Assets/Logo.png" Margin="4 0 0 0" />
                 </Button>
             </controls:DropShadowPanel>
         </Grid>

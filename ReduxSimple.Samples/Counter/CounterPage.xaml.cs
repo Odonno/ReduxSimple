@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
 using ReduxSimple.Uwp.Samples.Components;
+using ReduxSimple.Uwp.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using Windows.System;
@@ -31,9 +32,6 @@ namespace ReduxSimple.Uwp.Samples.Counter
             DecrementButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new DecrementAction()));
 
-            // Initialize Components
-            HistoryComponent.Initialize(Store);
-
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Counter");
 
@@ -42,6 +40,12 @@ namespace ReduxSimple.Uwp.Samples.Counter
                 {
                     var uri = new Uri("https://github.com/Odonno/ReduxSimple/tree/master/ReduxSimple.Samples/Counter");
                     await Launcher.LaunchUriAsync(uri);
+                });
+
+            OpenDevToolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(Store);
                 });
 
             ContentGrid.Events().Tapped

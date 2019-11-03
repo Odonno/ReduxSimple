@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using ReduxSimple.Uwp.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using Windows.System;
@@ -65,9 +66,6 @@ namespace ReduxSimple.Uwp.Samples.TodoList
             AddNewItemButton.Events().Click
                .Subscribe(_ => Store.Dispatch(new CreateTodoItemAction()));
 
-            // Initialize Components
-            HistoryComponent.Initialize(Store);
-
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TodoList");
 
@@ -76,6 +74,12 @@ namespace ReduxSimple.Uwp.Samples.TodoList
                 {
                     var uri = new Uri("https://github.com/Odonno/ReduxSimple/tree/master/ReduxSimple.Samples/TodoList");
                     await Launcher.LaunchUriAsync(uri);
+                });
+
+            OpenDevToolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(Store);
                 });
 
             ContentGrid.Events().Tapped

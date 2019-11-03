@@ -92,9 +92,6 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
                 SearchPokemon
             );
             
-            // Initialize Components
-            HistoryComponent.Initialize(Store);
-
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("Pokedex");
 
@@ -103,6 +100,12 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
                 {
                     var uri = new Uri("https://github.com/Odonno/ReduxSimple/tree/master/ReduxSimple.Samples/Pokedex");
                     await Launcher.LaunchUriAsync(uri);
+                });
+
+            OpenDevToolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(Store);
                 });
 
             ContentGrid.Events().Tapped

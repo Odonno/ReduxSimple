@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using Windows.System;
+using ReduxSimple.Uwp.Samples.Extensions;
 using static Microsoft.Toolkit.Uwp.UI.Extensions.ApplicationViewExtensions;
 using static ReduxSimple.Uwp.RouterStore.Selectors;
 using static ReduxSimple.Uwp.Samples.App;
@@ -52,6 +53,12 @@ namespace ReduxSimple.Uwp.Samples
                 {
                     var uri = new Uri("https://github.com/Odonno/ReduxSimple");
                     await Launcher.LaunchUriAsync(uri);
+                });
+
+            OpenDevToolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(Store);
                 });
 
             // Extend view into title bar

@@ -81,9 +81,6 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
             StartNewGameButton.Events().Click
                 .Subscribe(_ => Store.Dispatch(new StartNewGameAction()));
 
-            // Initialize Components
-            HistoryComponent.Initialize(Store);
-
             // Initialize Documentation
             DocumentationComponent.LoadMarkdownFilesAsync("TicTacToe");
 
@@ -92,6 +89,12 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
                 {
                     var uri = new Uri("https://github.com/Odonno/ReduxSimple/tree/master/ReduxSimple.Samples/TicTacToe");
                     await Launcher.LaunchUriAsync(uri);
+                });
+
+            OpenDevToolsButton.Events().Click
+                .Subscribe(async _ =>
+                {
+                    await WindowExtensions.OpenDevToolsAsync(Store);
                 });
 
             ContentGrid.Events().Tapped
