@@ -204,10 +204,10 @@ namespace ReduxSimple.Uwp.Samples.Components
                                 Formatting = Formatting.Indented
                             };
 
-                            //SelectedReduxActionDataTextBlock.Text = JsonConvert.SerializeObject(
-                            //    reduxAction.Data, 
-                            //    serializerSettings
-                            //);
+                            SelectedReduxActionDataTextBlock.Text = JsonConvert.SerializeObject(
+                                reduxAction.Data,
+                                serializerSettings
+                            );
                             SelectedStateTextBlock.Text = JsonConvert.SerializeObject(
                                 reduxAction.NextState,
                                 serializerSettings

@@ -59,7 +59,13 @@ namespace ReduxSimple.Uwp.RouterStore
                     {
                         return new RouterNavigating
                         {
-                            Event = @event
+                            Event = new RouterNavigatingEvent
+                            {
+                                Cancel = @event.Cancel,
+                                NavigationMode = @event.NavigationMode,
+                                Parameter = @event.Parameter,
+                                SourcePageType = @event.SourcePageType
+                            }
                         };
                     }),
                 true
@@ -70,7 +76,14 @@ namespace ReduxSimple.Uwp.RouterStore
                     {
                         return new RouterNavigated
                         {
-                            Event = @event
+                            Event = new RouterNavigatedEvent
+                            {
+                                ContentType = @event.Content?.GetType(),
+                                SourcePageType = @event.SourcePageType,
+                                NavigationMode = @event.NavigationMode,
+                                Parameter = @event.Parameter,
+                                Uri = @event.Uri
+                            }
                         };
                     }),
                 true
@@ -81,7 +94,12 @@ namespace ReduxSimple.Uwp.RouterStore
                     {
                         return new RouterError
                         {
-                            Event = @event
+                            Event = new RouterErrorEvent
+                            {
+                                Exception = @event.Exception,
+                                Handled = @event.Handled,
+                                SourcePageType = @event.SourcePageType
+                            }
                         };
                     }),
                 true
@@ -92,7 +110,14 @@ namespace ReduxSimple.Uwp.RouterStore
                     {
                         return new RouterCancel
                         {
-                            Event = @event
+                            Event = new RouterCancelEvent
+                            {
+                                ContentType = @event.Content?.GetType(),
+                                SourcePageType = @event.SourcePageType,
+                                NavigationMode = @event.NavigationMode,
+                                Parameter = @event.Parameter,
+                                Uri = @event.Uri
+                            }
                         };
                     }),
                 true
