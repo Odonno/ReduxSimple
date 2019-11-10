@@ -68,7 +68,7 @@ namespace ReduxSimple
                 _futureActions.Clear();
             }
 
-            _pastMementos.Push(new ReduxStoreMemento(State, action));
+            _pastMementos.Push(new ReduxMemento<TState>(DateTime.Now, State, action));
 
             Dispatch(action, rewriteHistory ? ActionOrigin.Normal : ActionOrigin.Redone);
         }

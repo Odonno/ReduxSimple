@@ -12,20 +12,8 @@ namespace ReduxSimple
     /// <typeparam name="TState">The type of the state.</typeparam>
     public sealed partial class ReduxStore<TState> where TState : class, new()
     {
-        private class ReduxStoreMemento
-        {
-            public TState State { get; }
-            public object Action { get; }
-
-            public ReduxStoreMemento(TState state, object action)
-            {
-                State = state;
-                Action = action;
-            }
-        }
-
         private readonly Subject<object> _undoneActionSubject = new Subject<object>();
-        private readonly Stack<ReduxStoreMemento> _pastMementos = new Stack<ReduxStoreMemento>();
+        private readonly Stack<ReduxMemento<TState>> _pastMementos = new Stack<ReduxMemento<TState>>();
         private readonly Stack<object> _futureActions = new Stack<object>();
 
         /// <summary>
@@ -50,7 +38,7 @@ namespace ReduxSimple
         {
             if (!TimeTravelEnabled)
             {
-                return false;
+                throw new InvalidOperationException("Time travel feature must be enabled.");
             }
 
             if (!CanUndo)
@@ -60,7 +48,7 @@ namespace ReduxSimple
 
             var memento = _pastMementos.Pop();
             _futureActions.Push(memento.Action);
-            UpdateState(memento.State);
+            UpdateState(memento.PreviousState);
             _undoneActionSubject.OnNext(memento.Action);
 
             return true;
@@ -86,7 +74,7 @@ namespace ReduxSimple
         {
             if (!TimeTravelEnabled)
             {
-                return false;
+                throw new InvalidOperationException("Time travel feature must be enabled.");
             }
 
             if (!CanRedo)
@@ -129,6 +117,34 @@ namespace ReduxSimple
         public IObservable<T> ObserveUndoneAction<T>()
         {
             return _undoneActionSubject.OfType<T>();
+        }
+
+        public ReduxHistory<TState> GetHistory()
+        {
+            if (!TimeTravelEnabled)
+            {
+                throw new InvalidOperationException("Time travel feature must be enabled.");
+            }
+
+            return new ReduxHistory<TState>(_pastMementos.ToList(), _futureActions.ToList());
+        }
+        public IObservable<ReduxHistory<TState>> ObserveHistory()
+        {
+            if (!TimeTravelEnabled)
+            {
+                throw new InvalidOperationException("Time travel feature must be enabled.");
+            }
+
+            var forwardActionsObservable = ObserveAction(ActionOriginFilter.All);
+            var backwardActionsObservable = ObserveUndoneAction();
+
+            var allActionsObservable = Observable.Merge(
+                forwardActionsObservable,
+                backwardActionsObservable
+            );
+
+            return allActionsObservable
+                .Select(_ => GetHistory());
         }
     }
 }

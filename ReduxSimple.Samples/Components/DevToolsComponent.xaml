@@ -48,13 +48,14 @@
                                           Color="Black">
                     <Pivot Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
                         <PivotItem Header="Action">
-                            <StackPanel>
-                                <TextBlock x:Name="SelectedReduxActionTypeTextBlock" />
+                            <ScrollViewer Padding="0 0 0 20">
                                 <TextBlock x:Name="SelectedReduxActionDataTextBlock" />
-                            </StackPanel>
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="State">
-                            <TextBlock x:Name="SelectedStateTextBlock" />
+                            <ScrollViewer Padding="0 0 0 20">
+                                <TextBlock x:Name="SelectedStateTextBlock" />
+                            </ScrollViewer>
                         </PivotItem>
                         <PivotItem Header="Diff">
                             <TextBlock x:Name="SelectedDiffStateTextBlock" />
