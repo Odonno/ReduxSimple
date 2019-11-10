@@ -119,6 +119,10 @@ namespace ReduxSimple
             return _undoneActionSubject.OfType<T>();
         }
 
+        /// <summary>
+        /// Get the current state history information.
+        /// </summary>
+        /// <returns></returns>
         public ReduxHistory<TState> GetHistory()
         {
             if (!TimeTravelEnabled)
@@ -128,6 +132,11 @@ namespace ReduxSimple
 
             return new ReduxHistory<TState>(_pastMementos.ToList(), _futureActions.ToList());
         }
+        /// <summary>
+        /// Observes state history information when it changes.
+        /// When an action is dispatched, when an action is undone or when the store is reset.
+        /// </summary>
+        /// <returns></returns>
         public IObservable<ReduxHistory<TState>> ObserveHistory()
         {
             if (!TimeTravelEnabled)

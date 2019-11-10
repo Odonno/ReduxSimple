@@ -25,8 +25,7 @@ namespace ReduxSimple.Uwp.DevTools
             PageNameTextBlock.Text = "Redux DevTools - " + SystemInformation.ApplicationName;
         }
 
-        // TODO : Should be private/internal
-        public void Initialize<TState>(ReduxStore<TState> store) where TState : class, new()
+        internal void Initialize<TState>(ReduxStore<TState> store) where TState : class, new()
         {
             // Observe UI events
             UndoButton.Events().Click

@@ -1,21 +1,33 @@
 ﻿namespace ReduxSimple.Uwp.RouterStore
 {
-    public class RouterNavigating
+    /// <summary>
+    /// Action dispatched when the router has started a navigation.
+    /// </summary>
+    public class RouterNavigatingAction
     {
         public RouterNavigatingEvent Event { get; set; }
     }
 
-    public class RouterNavigated
+    /// <summary>
+    /// Action dispatched when the router has completed a navigation.
+    /// </summary>
+    public class RouterNavigatedAction
     {
         public RouterNavigatedEvent Event { get; set; }
     }
 
-    public class RouterError
+    /// <summary>
+    /// Action dispatched when an error occured during navigation.
+    /// </summary>
+    public class RouterErrorAction
     {
         public RouterErrorEvent Event { get; set; }
     }
 
-    public class RouterCancel
+    /// <summary>
+    /// Action dispatched when the navigation was canceled.
+    /// </summary>
+    public class RouterCancelAction
     {
         public RouterCancelEvent Event { get; set; }
     }

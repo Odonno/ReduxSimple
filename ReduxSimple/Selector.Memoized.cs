@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 namespace ReduxSimple
 {
     /// <summary>
-    /// Memoized selector that decompose the selector functions and the projector function
+    /// Memoized selector that decompose the selector functions and the projector function.
     /// </summary>
     /// <typeparam name="TInput">State consumed by the selectors</typeparam>
     /// <typeparam name="TSelectorResult">Result of the selector</typeparam>

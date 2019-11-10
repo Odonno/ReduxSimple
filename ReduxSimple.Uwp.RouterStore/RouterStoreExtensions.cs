@@ -11,6 +11,12 @@ namespace ReduxSimple.Uwp.RouterStore
 {
     public static class RouterStoreExtensions
     {
+        /// <summary>
+        /// Enable the router feature to the specified store.
+        /// </summary>
+        /// <typeparam name="TState">Type of the state.</typeparam>
+        /// <param name="store">Store used to store router information.</param>
+        /// <param name="rootFrame">The root frame of the UWP application.</param>
         public static void EnableRouterFeature<TState>(this ReduxStore<TState> store, Frame rootFrame)
             where TState : class, IBaseRouterState, new()
         {
@@ -19,28 +25,28 @@ namespace ReduxSimple.Uwp.RouterStore
             // Add router navigation reducers
             var routerReducers = new[]
             {
-                 On<RouterNavigating, RouterState>(
+                 On<RouterNavigatingAction, RouterState>(
                     (state, action) => state.With(new
                     {
                         rootFrame.CanGoBack,
                         rootFrame.CanGoForward,
                     })
                 ),
-                On<RouterNavigated, RouterState>(
+                On<RouterNavigatedAction, RouterState>(
                     (state, action) => state.With(new
                     {
                         rootFrame.CanGoBack,
                         rootFrame.CanGoForward,
                     })
                 ),
-                On<RouterError, RouterState>(
+                On<RouterErrorAction, RouterState>(
                     (state, action) => state.With(new
                     {
                         rootFrame.CanGoBack,
                         rootFrame.CanGoForward,
                     })
                 ),
-                On<RouterCancel, RouterState>(
+                On<RouterCancelAction, RouterState>(
                     (state, action) => state.With(new
                     {
                         rootFrame.CanGoBack,
@@ -57,7 +63,7 @@ namespace ReduxSimple.Uwp.RouterStore
                 () => rootFrame.Events().Navigating
                     .Select(@event =>
                     {
-                        return new RouterNavigating
+                        return new RouterNavigatingAction
                         {
                             Event = new RouterNavigatingEvent
                             {
@@ -74,7 +80,7 @@ namespace ReduxSimple.Uwp.RouterStore
                 () => rootFrame.Events().Navigated
                     .Select(@event =>
                     {
-                        return new RouterNavigated
+                        return new RouterNavigatedAction
                         {
                             Event = new RouterNavigatedEvent
                             {
@@ -92,7 +98,7 @@ namespace ReduxSimple.Uwp.RouterStore
                 () => rootFrame.Events().NavigationFailed
                     .Select(@event =>
                     {
-                        return new RouterError
+                        return new RouterErrorAction
                         {
                             Event = new RouterErrorEvent
                             {
@@ -108,7 +114,7 @@ namespace ReduxSimple.Uwp.RouterStore
                 () => rootFrame.Events().NavigationStopped
                     .Select(@event =>
                     {
-                        return new RouterCancel
+                        return new RouterCancelAction
                         {
                             Event = new RouterCancelEvent
                             {
