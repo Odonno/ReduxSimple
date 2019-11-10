@@ -82,6 +82,9 @@ namespace ReduxSimple.Uwp.Samples.Components
                     On<TogglePlayPauseAction, DevToolsState>(
                         state => state.With(new { PlaySessionActive = !state.PlaySessionActive })
                     ),
+                    On<SelectPositionAction, DevToolsState>(
+                        (state, action) => state.With(new { SelectedActionPosition = action.Position })
+                    ),
                     On<HistoryUpdated, DevToolsState>(
                         (state, action) =>
                         {
@@ -109,6 +112,10 @@ namespace ReduxSimple.Uwp.Samples.Components
             public ImmutableList<ReduxActionInfo> FutureActions { get; set; }
         }
         private class MoveToPositionAction
+        {
+            public int Position { get; set; }
+        }
+        private class SelectPositionAction
         {
             public int Position { get; set; }
         }
@@ -142,6 +149,13 @@ namespace ReduxSimple.Uwp.Samples.Components
                 {
                     int newPosition = (int)e.NewValue;
                     _devToolsStore.Dispatch(new MoveToPositionAction { Position = newPosition });
+                });
+
+            ReduxActionInfosListView.Events().ItemClick
+                .Subscribe(e =>
+                {
+                    int index = ReduxActionInfosListView.Items.IndexOf(e.ClickedItem);
+                    _devToolsStore.Dispatch(new SelectPositionAction { Position = index });
                 });
 
             // Observe changes on DevTools state
@@ -188,7 +202,7 @@ namespace ReduxSimple.Uwp.Samples.Components
             _devToolsStore.Select(Selectors.SelectCurrentActions)
                 .Subscribe(actions =>
                 {
-                    ReduxActionInfosListView.ItemsSource = actions.OrderBy(a => a.Date);
+                    ReduxActionInfosListView.ItemsSource = actions;
                 });
 
             _devToolsStore.Select(Selectors.SelectSelectedReduxAction)
@@ -248,21 +262,40 @@ namespace ReduxSimple.Uwp.Samples.Components
                     }
                 });
 
+            _devToolsStore.Select(Selectors.SelectPlaySessionActive)
+                .Select(playSessionActive =>
+                    playSessionActive ? Observable.Interval(TimeSpan.FromSeconds(1)) : Observable.Empty<long>()
+                )
+                .Switch()
+                .ObserveOnDispatcher()
+                .Subscribe(_ =>
+                {
+                    bool canRedo = store.Redo();
+                    if (!canRedo)
+                    {
+                        _devToolsStore.Dispatch(new TogglePlayPauseAction());
+                    }
+                });
+
             // Observe changes on listened state
             store.ObserveHistory()
                 .StartWith(store.GetHistory())
                 .Subscribe(historyInfos =>
                 {
+                    var mementosOrderedByDate = historyInfos.PreviousStates
+                        .OrderBy(reduxMemento => reduxMemento.Date)
+                        .ToList();
+
                     // Set list of current actions
                     // Set list of future (undone) actions
                     _devToolsStore.Dispatch(new HistoryUpdated
                     {
-                        CurrentActions = historyInfos.PreviousStates
+                        CurrentActions = mementosOrderedByDate
                             .Select((reduxMemento, index) =>
                             {
                                 int nextIndex = index + 1;
-                                var nextState = nextIndex < historyInfos.PreviousStates.Count
-                                    ? historyInfos.PreviousStates[nextIndex].PreviousState
+                                var nextState = nextIndex < mementosOrderedByDate.Count
+                                    ? mementosOrderedByDate[nextIndex].PreviousState
                                     : store.State;
 
                                 return new ReduxActionInfo
