@@ -145,9 +145,10 @@ namespace ReduxSimple.Uwp.Samples.Components
 
             Slider.Events().ValueChanged
                 .Where(_ => Slider.FocusState != Windows.UI.Xaml.FocusState.Unfocused)
-                .Subscribe(e =>
+                .Select(e => (int)e.NewValue)
+                .DistinctUntilChanged()
+                .Subscribe(newPosition =>
                 {
-                    int newPosition = (int)e.NewValue;
                     _devToolsStore.Dispatch(new MoveToPositionAction { Position = newPosition });
                 });
 
@@ -159,12 +160,6 @@ namespace ReduxSimple.Uwp.Samples.Components
                 });
 
             // Observe changes on DevTools state
-            _devToolsStore.Select(Selectors.SelectMaxPosition)
-                .Subscribe(maxPosition =>
-                {
-                    Slider.Maximum = maxPosition;
-                });
-
             Observable.CombineLatest(
                 _devToolsStore.Select(Selectors.SelectCurrentPosition),
                 _devToolsStore.Select(Selectors.SelectPlaySessionActive),
@@ -178,6 +173,7 @@ namespace ReduxSimple.Uwp.Samples.Components
                     var (currentPosition, playSessionActive, maxPosition, canUndo, canRedo) = x;
 
                     Slider.Value = currentPosition;
+                    Slider.Maximum = maxPosition;
 
                     if (playSessionActive)
                     {
