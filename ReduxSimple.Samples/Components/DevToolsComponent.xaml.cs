@@ -199,10 +199,15 @@ namespace ReduxSimple.Uwp.Samples.Components
                     }
                 });
 
-            _devToolsStore.Select(Selectors.SelectCurrentActions)
-                .Subscribe(actions =>
+            _devToolsStore.Select(
+                CombineSelectors(Selectors.SelectCurrentActions, Selectors.SelectSelectedActionPosition)
+            )
+                .Subscribe(x =>
                 {
+                    var (actions, selectedPosition) = x;
+
                     ReduxActionInfosListView.ItemsSource = actions;
+                    ReduxActionInfosListView.SelectedIndex = selectedPosition;
                 });
 
             _devToolsStore.Select(Selectors.SelectSelectedReduxAction)
