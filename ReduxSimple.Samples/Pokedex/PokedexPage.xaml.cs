@@ -7,11 +7,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.System;
+using ReduxSimple.Uwp.DevTools;
 using static ReduxSimple.Selectors;
 using static ReduxSimple.Uwp.Samples.App;
 using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
 using static ReduxSimple.Uwp.Samples.Pokedex.Effects;
-using Windows.System;
 
 namespace ReduxSimple.Uwp.Samples.Pokedex
 {
@@ -105,7 +106,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
             OpenDevToolsButton.Events().Click
                 .Subscribe(async _ =>
                 {
-                    await WindowExtensions.OpenDevToolsAsync(Store);
+                    await Store.OpenDevToolsAsync();
                 });
 
             ContentGrid.Events().Tapped

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
-using ReduxSimple.Uwp.Samples.Extensions;
+using ReduxSimple.Uwp.DevTools;
 using System;
 using System.Reactive.Linq;
 using Windows.System;
@@ -79,7 +79,7 @@ namespace ReduxSimple.Uwp.Samples.TodoList
             OpenDevToolsButton.Events().Click
                 .Subscribe(async _ =>
                 {
-                    await WindowExtensions.OpenDevToolsAsync(Store);
+                    await Store.OpenDevToolsAsync();
                 });
 
             ContentGrid.Events().Tapped

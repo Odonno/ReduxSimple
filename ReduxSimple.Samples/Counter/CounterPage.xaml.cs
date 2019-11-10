@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using ReduxSimple.Uwp.DevTools;
 using ReduxSimple.Uwp.Samples.Components;
 using ReduxSimple.Uwp.Samples.Extensions;
 using System;
@@ -45,7 +46,7 @@ namespace ReduxSimple.Uwp.Samples.Counter
             OpenDevToolsButton.Events().Click
                 .Subscribe(async _ =>
                 {
-                    await WindowExtensions.OpenDevToolsAsync(Store);
+                    await Store.OpenDevToolsAsync();
                 });
 
             ContentGrid.Events().Tapped

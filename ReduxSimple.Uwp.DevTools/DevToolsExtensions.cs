@@ -1,34 +1,15 @@
-﻿using ReduxSimple.Uwp.Samples.Components;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-namespace ReduxSimple.Uwp.Samples.Extensions
+namespace ReduxSimple.Uwp.DevTools
 {
-    public static class WindowExtensions
+    public static class DevToolsExtensions
     {
-        public static async Task OpenNewWindowAsync(Type pageType, object parameter = null)
-        {
-            var appWindow = await AppWindow.TryCreateAsync();
-
-            var appWindowContentFrame = new Frame();
-            appWindowContentFrame.Navigate(pageType, parameter);
-
-            ElementCompositionPreview.SetAppWindowContent(appWindow, appWindowContentFrame);
-
-            await appWindow.TryShowAsync();
-
-            appWindow.Closed += delegate
-            {
-                appWindowContentFrame.Content = null;
-                appWindow = null;
-            };
-        }
-
-        public static async Task<bool> OpenDevToolsAsync<TState>(ReduxStore<TState> store)
+        public static async Task<bool> OpenDevToolsAsync<TState>(this ReduxStore<TState> store)
             where TState : class, new()
         {
             if (store == null || !store.TimeTravelEnabled)

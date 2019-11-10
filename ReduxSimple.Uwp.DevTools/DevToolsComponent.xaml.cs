@@ -1,127 +1,22 @@
 ﻿using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System.Reactive.Linq;
-using SuccincT.Options;
-using System.Collections.Generic;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Immutable;
-using Converto;
 using System.Linq;
 using Newtonsoft.Json;
 using SuccincT.JSON;
+using ReduxSimple.DevTools;
 using static ReduxSimple.Selectors;
-using static ReduxSimple.Reducers;
+using static ReduxSimple.DevTools.Selectors;
+using static ReduxSimple.DevTools.Reducers;
 
-namespace ReduxSimple.Uwp.Samples.Components
+namespace ReduxSimple.Uwp.DevTools
 {
     public sealed partial class DevToolsComponent : Page
     {
-        private class ReduxActionInfo
-        {
-            public DateTime? Date { get; set; }
-            public Type Type { get; set; }
-            public object Data { get; set; }
-            public object PreviousState { get; set; }
-            public object NextState { get; set; }
-        }
-
-        private class DevToolsState
-        {
-            public ImmutableList<ReduxActionInfo> CurrentActions { get; set; } = ImmutableList<ReduxActionInfo>.Empty;
-            public ImmutableList<ReduxActionInfo> FutureActions { get; set; } = ImmutableList<ReduxActionInfo>.Empty;
-            public int SelectedActionPosition { get; set; } = 0;
-            public bool PlaySessionActive { get; set; } = false;
-        }
-
-        private static class Selectors
-        {
-            public static ISelectorWithoutProps<DevToolsState, ImmutableList<ReduxActionInfo>> SelectCurrentActions = CreateSelector(
-                (DevToolsState state) => state.CurrentActions
-            );
-            public static ISelectorWithoutProps<DevToolsState, ImmutableList<ReduxActionInfo>> SelectFutureActions = CreateSelector(
-                (DevToolsState state) => state.FutureActions
-            );
-            public static ISelectorWithoutProps<DevToolsState, int> SelectCurrentPosition = CreateSelector(
-                SelectCurrentActions,
-                SelectFutureActions,
-                (currentActions, futureActions) => currentActions.Count - 1
-            );
-            public static ISelectorWithoutProps<DevToolsState, int> SelectMaxPosition = CreateSelector(
-                SelectCurrentActions,
-                SelectFutureActions,
-                (currentActions, futureActions) => currentActions.Count + futureActions.Count - 1
-            );
-            public static ISelectorWithoutProps<DevToolsState, int> SelectSelectedActionPosition = CreateSelector(
-                (DevToolsState state) => state.SelectedActionPosition
-            );
-            public static ISelectorWithoutProps<DevToolsState, bool> SelectPlaySessionActive = CreateSelector(
-                (DevToolsState state) => state.PlaySessionActive
-            );
-
-            public static ISelectorWithoutProps<DevToolsState, Option<ReduxActionInfo>> SelectSelectedReduxAction = CreateSelector(
-                SelectCurrentActions,
-                SelectSelectedActionPosition,
-                (currentActions, selectedActionPosition) =>
-                {
-                    if (selectedActionPosition < 0 || selectedActionPosition >= currentActions.Count)
-                    {
-                        return Option<ReduxActionInfo>.None();
-                    }
-                    return currentActions[selectedActionPosition].ToOption();
-                }
-            );
-        }
-
-        private static class Reducers
-        {
-            public static IEnumerable<On<DevToolsState>> CreateReducers()
-            {
-                return new List<On<DevToolsState>>
-                {
-                    On<TogglePlayPauseAction, DevToolsState>(
-                        state => state.With(new { PlaySessionActive = !state.PlaySessionActive })
-                    ),
-                    On<SelectPositionAction, DevToolsState>(
-                        (state, action) => state.With(new { SelectedActionPosition = action.Position })
-                    ),
-                    On<HistoryUpdated, DevToolsState>(
-                        (state, action) =>
-                        {
-                            bool setPositionToLastAction = state.SelectedActionPosition >= state.CurrentActions.Count - 1;
-
-                            return state.With(
-                                new
-                                {
-                                    action.CurrentActions,
-                                    action.FutureActions,
-                                    SelectedActionPosition = setPositionToLastAction
-                                        ? action.CurrentActions.Count - 1
-                                        : state.SelectedActionPosition
-                                }
-                            );
-                        }
-                    )
-                };
-            }
-        }
-
-        private class HistoryUpdated
-        {
-            public ImmutableList<ReduxActionInfo> CurrentActions { get; set; }
-            public ImmutableList<ReduxActionInfo> FutureActions { get; set; }
-        }
-        private class MoveToPositionAction
-        {
-            public int Position { get; set; }
-        }
-        private class SelectPositionAction
-        {
-            public int Position { get; set; }
-        }
-        private class TogglePlayPauseAction { }
-
-        private readonly ReduxStore<DevToolsState> _devToolsStore = new ReduxStore<DevToolsState>(Reducers.CreateReducers());
+        private readonly ReduxStore<DevToolsState> _devToolsStore = new ReduxStore<DevToolsState>(CreateReducers());
 
         public DevToolsComponent()
         {
@@ -130,7 +25,8 @@ namespace ReduxSimple.Uwp.Samples.Components
             PageNameTextBlock.Text = "Redux DevTools - " + SystemInformation.ApplicationName;
         }
 
-        internal void Initialize<TState>(ReduxStore<TState> store) where TState : class, new()
+        // TODO : Should be private/internal
+        public void Initialize<TState>(ReduxStore<TState> store) where TState : class, new()
         {
             // Observe UI events
             UndoButton.Events().Click
@@ -161,9 +57,9 @@ namespace ReduxSimple.Uwp.Samples.Components
 
             // Observe changes on DevTools state
             Observable.CombineLatest(
-                _devToolsStore.Select(Selectors.SelectCurrentPosition),
-                _devToolsStore.Select(Selectors.SelectPlaySessionActive),
-                _devToolsStore.Select(Selectors.SelectMaxPosition),
+                _devToolsStore.Select(SelectCurrentPosition),
+                _devToolsStore.Select(SelectPlaySessionActive),
+                _devToolsStore.Select(SelectMaxPosition),
                 store.ObserveCanUndo(),
                 store.ObserveCanRedo(),
                 Tuple.Create
@@ -196,7 +92,7 @@ namespace ReduxSimple.Uwp.Samples.Components
                 });
 
             _devToolsStore.Select(
-                CombineSelectors(Selectors.SelectCurrentActions, Selectors.SelectSelectedActionPosition)
+                CombineSelectors(SelectCurrentActions, SelectSelectedActionPosition)
             )
                 .Subscribe(x =>
                 {
@@ -206,7 +102,7 @@ namespace ReduxSimple.Uwp.Samples.Components
                     ReduxActionInfosListView.SelectedIndex = Math.Clamp(selectedPosition, -1, actions.Count - 1);
                 });
 
-            _devToolsStore.Select(Selectors.SelectSelectedReduxAction)
+            _devToolsStore.Select(SelectSelectedReduxAction)
                 .Subscribe(reduxActionOption =>
                 {
                     reduxActionOption.Match()
@@ -240,7 +136,7 @@ namespace ReduxSimple.Uwp.Samples.Components
 
             _devToolsStore.ObserveAction<MoveToPositionAction>()
                 .WithLatestFrom(
-                    _devToolsStore.Select(Selectors.SelectCurrentPosition),
+                    _devToolsStore.Select(SelectCurrentPosition),
                     Tuple.Create
                 )
                 .Subscribe(x =>
@@ -263,7 +159,7 @@ namespace ReduxSimple.Uwp.Samples.Components
                     }
                 });
 
-            _devToolsStore.Select(Selectors.SelectPlaySessionActive)
+            _devToolsStore.Select(SelectPlaySessionActive)
                 .Select(playSessionActive =>
                     playSessionActive ? Observable.Interval(TimeSpan.FromSeconds(1)) : Observable.Empty<long>()
                 )
