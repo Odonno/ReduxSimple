@@ -95,7 +95,7 @@ namespace ReduxSimple.Uwp.Samples.Components
                                 {
                                     action.CurrentActions,
                                     action.FutureActions,
-                                    CurrentPosition = setPositionToLastAction
+                                    SelectedActionPosition = setPositionToLastAction
                                         ? action.CurrentActions.Count - 1
                                         : state.SelectedActionPosition
                                 }
@@ -207,7 +207,7 @@ namespace ReduxSimple.Uwp.Samples.Components
                     var (actions, selectedPosition) = x;
 
                     ReduxActionInfosListView.ItemsSource = actions;
-                    ReduxActionInfosListView.SelectedIndex = selectedPosition;
+                    ReduxActionInfosListView.SelectedIndex = Math.Clamp(selectedPosition, -1, actions.Count - 1);
                 });
 
             _devToolsStore.Select(Selectors.SelectSelectedReduxAction)
@@ -283,8 +283,10 @@ namespace ReduxSimple.Uwp.Samples.Components
                 });
 
             // Observe changes on listened state
+            var storeHistoryAtInitialization = store.GetHistory();
+
             store.ObserveHistory()
-                .StartWith(store.GetHistory())
+                .StartWith(storeHistoryAtInitialization)
                 .Subscribe(historyInfos =>
                 {
                     var mementosOrderedByDate = historyInfos.PreviousStates
@@ -325,6 +327,10 @@ namespace ReduxSimple.Uwp.Samples.Components
                             .ToImmutableList()
                     });
                 });
+
+            _devToolsStore.Dispatch(
+                new SelectPositionAction { Position = storeHistoryAtInitialization.PreviousStates.Count - 1 }
+            );
         }
     }
 }
