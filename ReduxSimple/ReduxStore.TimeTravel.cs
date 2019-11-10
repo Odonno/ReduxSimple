@@ -137,10 +137,12 @@ namespace ReduxSimple
 
             var forwardActionsObservable = ObserveAction(ActionOriginFilter.All);
             var backwardActionsObservable = ObserveUndoneAction();
+            var resetObservable = ObserveReset();
 
             var allActionsObservable = Observable.Merge(
                 forwardActionsObservable,
-                backwardActionsObservable
+                backwardActionsObservable,
+                resetObservable
             );
 
             return allActionsObservable

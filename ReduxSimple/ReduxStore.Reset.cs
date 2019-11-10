@@ -18,7 +18,11 @@ namespace ReduxSimple
         {
             if (TimeTravelEnabled)
             {
-                _pastMementos.Clear();
+                while (_pastMementos.Count > 1)
+                {
+                    _pastMementos.Pop();
+                }
+
                 _futureActions.Clear();
             }
 
