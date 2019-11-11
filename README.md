@@ -478,7 +478,7 @@ Store.ObserveReset()
 </details>
 
 <details>
-<summary>Entity management</summary>
+<summary>Entity management (in preview)</summary>
 <br>
 
 When dealing with entities, you often repeat the same process to add, update and remove entity from your collection state. With the `ReduxSimple.Entity` package, you can simplify the management of entities using the following pattern:
@@ -532,6 +532,69 @@ private static readonly EntitySelectors<RootState, TodoItem, int> TodoItemSelect
 
 ```csharp
 public static ISelectorWithoutProps<RootState, List<TodoItem>> SelectItems = TodoItemSelectors.SelectEntities;
+```
+
+</details>
+
+<details>
+<summary>Router (in preview)</summary>
+<br>
+
+You can observe router changes in your own state. You first need to create a State which inherits from `IBaseRouterState`.
+
+```csharp
+public class RootState : IBaseRouterState
+{
+    public RouterState Router { get; set; }
+
+    public static RootState InitialState =>
+        new RootState
+        {
+            Router = RouterState.InitialState
+        };
+}
+```
+
+#### For UWP
+
+In order to get router information, you need to enable the feature like this (in `App.xaml.cs`):
+
+```csharp
+protected override void OnLaunched(LaunchActivatedEventArgs e)
+{
+    // TODO : Initialize rootFrame
+
+    // Enable router store feature
+    Store.EnableRouterFeature(rootFrame);
+}
+```
+
+</details>
+
+<details>
+<summary>Redux DevTools (in preview)</summary>
+<br>
+
+Sometimes, it can be hard to debug your application. So there is a perfect tool called Redux DevTools which help you with that: 
+
+* list all dispatched actions
+* payload of the action and details of the new state after dispatch
+* differences between previous and next state
+* replay mechanism (time travel) 
+
+#### For UWP
+
+In order to make the Redux DevTools work, you need to enable time travel.
+
+```csharp
+public static readonly ReduxStore<RootState> Store =
+    new ReduxStore<RootState>(CreateReducers(), RootState.InitialState, true);
+```
+
+And then display the Redux DevTools view using a separate window.
+
+```csharp
+await Store.OpenDevToolsAsync();
 ```
 
 </details>
