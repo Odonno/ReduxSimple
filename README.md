@@ -3,7 +3,12 @@
 # Redux Simple
 
 [![CodeFactor](https://www.codefactor.io/repository/github/odonno/reduxsimple/badge)](https://www.codefactor.io/repository/github/odonno/reduxsimple)
-[![NuGet](https://img.shields.io/nuget/v/ReduxSimple.svg)](https://www.nuget.org/packages/ReduxSimple/)
+
+| Package | Versions |
+| ------- | -------- |
+| ReduxSimple | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.svg)](https://www.nuget.org/packages/ReduxSimple/) |
+| ReduxSimple.Uwp.RouterStore | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.RouterStore.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp.RouterStore/) |
+| ReduxSimple.Uwp.DevTools | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.DevTools.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp.DevTools/) |
 
 > Simple Stupid Redux Store using Reactive Extensions
 
