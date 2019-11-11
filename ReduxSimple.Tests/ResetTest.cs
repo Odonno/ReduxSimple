@@ -77,5 +77,38 @@ namespace ReduxSimple.Tests
             Assert.Empty(lastState.TodoList);
             Assert.Equal("David", lastState.CurrentUser);
         }
+
+        [Fact]
+        public void ObserveHistoryOnReset()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState,
+                true
+            );
+
+            // Act
+            int observeCount = 0;
+            ReduxHistory<TodoListState> lastHistory = null;
+
+            store.ObserveHistory()
+                .Subscribe(history =>
+                {
+                    observeCount++;
+                    lastHistory = history;
+                });
+
+            DispatchAllActions(store);
+
+            store.Reset();
+
+            // Assert
+            Assert.Equal(5, observeCount);
+            Assert.Single(lastHistory.PreviousStates);
+            Assert.IsType<InitializeStoreAction>(lastHistory.PreviousStates[0].Action);
+            Assert.Empty(lastHistory.FutureActions);
+        }
     }
 }

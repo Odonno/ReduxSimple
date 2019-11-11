@@ -3,6 +3,7 @@ using System;
 using System.Collections.Immutable;
 using System.Reactive.Linq;
 using Xunit;
+using static ReduxSimple.Selectors;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using static ReduxSimple.Tests.Setup.TodoListStore.Selectors;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
@@ -124,7 +125,7 @@ namespace ReduxSimple.Tests
         }
 
         [Fact]
-        public void CanSelectPartialStateWithTwoProperties()
+        public void CanCombineSelectors()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -137,10 +138,8 @@ namespace ReduxSimple.Tests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            Observable.CombineLatest(
-                store.Select(SelectTodoList),
-                store.Select(SelectCurrentUser),
-                Tuple.Create
+            store.Select(
+                CombineSelectors(SelectTodoList, SelectCurrentUser)
             )
                 .Subscribe(x =>
                 {
@@ -159,7 +158,7 @@ namespace ReduxSimple.Tests
         }
 
         [Fact]
-        public void CanSelectPartialStateWithTwoPropertiesWithUnchangedValue()
+        public void CanCombineSelectorsWithUnchangedValue()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -172,10 +171,8 @@ namespace ReduxSimple.Tests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
 
-            Observable.CombineLatest(
-                store.Select(SelectTodoList),
-                store.Select(SelectCurrentUser),
-                Tuple.Create
+            store.Select(
+                CombineSelectors(SelectTodoList, SelectCurrentUser)
             )
                 .Subscribe(x =>
                 {
@@ -197,7 +194,7 @@ namespace ReduxSimple.Tests
         }
 
         [Fact]
-        public void CanSelectPartialStateWithOneUpdatedPropertyAndOneNonUpdateProperty()
+        public void CanCombineSelectorsWithOneUpdatedPropertyAndOneNonUpdateProperty()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -210,10 +207,8 @@ namespace ReduxSimple.Tests
             int observeCount = 0;
             (IImmutableList<TodoItem> todoList, string uselessProperty) lastPartialState = (null, null);
 
-            Observable.CombineLatest(
-                store.Select(SelectTodoList),
-                store.Select(SelectUselessProperty),
-                Tuple.Create
+            store.Select(
+                CombineSelectors(SelectTodoList, SelectUselessProperty)
             )
                 .Subscribe(x =>
                 {

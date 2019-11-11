@@ -1,7 +1,7 @@
-using ReduxSimple.Tests.Setup.EmptyStore;
-using ReduxSimple.Tests.Setup.TodoListStore;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
+using EmptyStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.EmptyStore.EmptyState>;
+using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
 
 namespace ReduxSimple.Tests
 {
@@ -11,7 +11,7 @@ namespace ReduxSimple.Tests
         public void CanCreateAStoreWithEmptyState()
         {
             // Arrange
-            var store = new ReduxStore<EmptyState>(
+            var store = new EmptyStore(
                 Setup.EmptyStore.Reducers.CreateReducers()
             );
 
@@ -26,7 +26,7 @@ namespace ReduxSimple.Tests
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
-            var store = new ReduxStore<TodoListState>(
+            var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
                 initialState
             );
@@ -35,6 +35,26 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Empty(store.State.TodoList);
+        }
+
+        [Fact]
+        public void CreatingAStoreShouldDispatchInitializeAction()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState,
+                true
+            );
+
+            // Act
+            var history = store.GetHistory();
+
+            // Assert
+            Assert.Single(history.PreviousStates);
+            Assert.IsType<InitializeStoreAction>(history.PreviousStates[0].Action);
+            Assert.Empty(history.FutureActions);
         }
     }
 }
