@@ -1,10 +1,10 @@
-﻿using ReduxSimple.UnitTests.Setup.TodoListStore;
+﻿using ReduxSimple.Tests.Setup.TodoListStore;
 using System;
 using Xunit;
-using static ReduxSimple.UnitTests.Setup.TodoListStore.Functions;
-using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.UnitTests.Setup.TodoListStore.TodoListState>;
+using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
+using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
 
-namespace ReduxSimple.UnitTests
+namespace ReduxSimple.Tests
 {
     public class UndoTest
     {

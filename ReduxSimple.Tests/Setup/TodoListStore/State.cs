@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace ReduxSimple.UnitTests.Setup.TodoListStore
+namespace ReduxSimple.Tests.Setup.TodoListStore
 {
     public class TodoItem
     {

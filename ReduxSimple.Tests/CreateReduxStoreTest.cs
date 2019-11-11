@@ -1,9 +1,9 @@
-using ReduxSimple.UnitTests.Setup.EmptyStore;
-using ReduxSimple.UnitTests.Setup.TodoListStore;
+using ReduxSimple.Tests.Setup.EmptyStore;
+using ReduxSimple.Tests.Setup.TodoListStore;
 using Xunit;
-using static ReduxSimple.UnitTests.Setup.TodoListStore.Functions;
+using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 
-namespace ReduxSimple.UnitTests
+namespace ReduxSimple.Tests
 {
     public class CreateReduxStoreTest
     {

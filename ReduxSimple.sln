@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReduxSimple", "ReduxSimple\ReduxSimple.csproj", "{BD02F8DB-A1E4-409C-9D69-3DFB2E84E786}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReduxSimple.UnitTests", "ReduxSimple.UnitTests\ReduxSimple.UnitTests.csproj", "{D2F641E7-D60A-4310-808C-94C9CAD96D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReduxSimple.Tests", "ReduxSimple.Tests\ReduxSimple.Tests.csproj", "{D2F641E7-D60A-4310-808C-94C9CAD96D37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReduxSimple.Uwp.Samples", "ReduxSimple.Samples\ReduxSimple.Uwp.Samples.csproj", "{20B1A919-7FE0-4997-B9D7-69A25895E893}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReduxSimple.Uwp.Samples", "ReduxSimple.Uwp.Samples\ReduxSimple.Uwp.Samples.csproj", "{20B1A919-7FE0-4997-B9D7-69A25895E893}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{53F074A7-BF54-4EA9-92E3-1EF0CE34D5CF}"
 EndProject

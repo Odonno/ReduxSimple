@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using static ReduxSimple.Reducers;
 
-namespace ReduxSimple.UnitTests.Setup.TodoListStore
+namespace ReduxSimple.Tests.Setup.TodoListStore
 {
     public static class Reducers
     {

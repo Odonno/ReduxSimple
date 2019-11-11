@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReduxSimple.UnitTests.Setup.EmptyStore
+namespace ReduxSimple.Tests.Setup.EmptyStore
 {
     public static class Reducers
     {

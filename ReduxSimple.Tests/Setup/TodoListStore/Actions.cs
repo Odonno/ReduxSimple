@@ -1,4 +1,4 @@
-﻿namespace ReduxSimple.UnitTests.Setup.TodoListStore
+﻿namespace ReduxSimple.Tests.Setup.TodoListStore
 {
     public class AddTodoItemAction
     {

@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using static ReduxSimple.Selectors;
 
-namespace ReduxSimple.UnitTests.Setup.TodoListStore
+namespace ReduxSimple.Tests.Setup.TodoListStore
 {
     public static class Selectors
     {
