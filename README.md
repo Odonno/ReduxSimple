@@ -580,6 +580,8 @@ protected override void OnLaunched(LaunchActivatedEventArgs e)
 <summary>Redux DevTools (in preview)</summary>
 <br>
 
+![./images/devtools.png](./images/devtools.png)
+
 Sometimes, it can be hard to debug your application. So there is a perfect tool called Redux DevTools which help you with that: 
 
 * list all dispatched actions
