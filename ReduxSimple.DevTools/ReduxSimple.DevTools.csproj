@@ -6,6 +6,7 @@
     <PackageId>ReduxSimple.DevTools</PackageId>
     <Version>3.0.0-preview001</Version>
     <Authors>David Bottiau</Authors>
+    <Title>ReduxSimple DevTools</Title>
     <Description>Simple Stupid Redux Store using Reactive Extensions</Description>
     <PackageProjectUrl>https://github.com/Odonno/ReduxSimple</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Odonno/ReduxSimple</RepositoryUrl>
