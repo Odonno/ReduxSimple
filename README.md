@@ -7,6 +7,7 @@
 | Package | Versions |
 | ------- | -------- |
 | ReduxSimple | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.svg)](https://www.nuget.org/packages/ReduxSimple/) |
+| ReduxSimple.Entity | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Entity.svg)](https://www.nuget.org/packages/ReduxSimple.Entity/) |
 | ReduxSimple.Uwp.RouterStore | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.RouterStore.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp.RouterStore/) |
 | ReduxSimple.Uwp.DevTools | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.DevTools.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp.DevTools/) |
 
