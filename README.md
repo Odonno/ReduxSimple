@@ -206,6 +206,8 @@ public static IEnumerable<On<RootState>> CreateReducers()
 
 Based on what you need, you can observe the entire state or just a part of it.
 
+Note that every selector is a *memoized selector* by design, which means that a next value will only be subscribed if there is a difference with the previous value.
+
 ### Full state
 
 ```csharp
@@ -247,9 +249,9 @@ Store.Select(SelectCurrentPage)
     });
 ```
 
-### Memoized selectors
+### Reuse selectors - without props
 
-Memoized selectors are a kind of selectors that combine multiple selectors to create a new one.
+Note that you can combine multiple selectors to create a new one.
 
 ```csharp
 public static ISelectorWithoutProps<RootState, bool> SelectHasPreviousPage = CreateSelector(
@@ -258,9 +260,9 @@ public static ISelectorWithoutProps<RootState, bool> SelectHasPreviousPage = Cre
 );
 ```
 
-### Memoized selectors with props
+### Reuse selectors - with props
 
-Same as memoized selectors, but you can now use variables out of the store to create a new selector.   
+You can also use variables out of the store to create a new selector.   
 
 ```csharp
 public static ISelectorWithProps<RootState, string, bool> SelectIsPageSelected = CreateSelector(
@@ -269,9 +271,19 @@ public static ISelectorWithProps<RootState, string, bool> SelectIsPageSelected =
 );
 ```
 
+And then use it this way:
+
+```csharp
+Store.Select(SelectIsPageSelected, "mainPage")
+    .Subscribe(isMainPageSelected =>
+    {
+        // TODO
+    });
+```
+
 ### Combine selectors
 
-Sometimes, you need to consume multiple selectors. In some cases, you just want to combine them. This is what you can do with `CombineSelectors` function. It uses `CombineLatest` operator. Here is an example:
+Sometimes, you need to consume multiple selectors. In some cases, you just want to combine them. This is what you can do with `CombineSelectors` function. It uses `CombineLatest` operator of the Rx.NET library. Here is an example:
 
 ```csharp
 Store.Select(
