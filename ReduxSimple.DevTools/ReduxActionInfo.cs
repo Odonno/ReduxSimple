@@ -15,21 +15,21 @@ namespace ReduxSimple.DevTools
         /// <summary>
         /// The type of the action.
         /// </summary>
-        public Type Type { get; set; }
+        public Type? Type { get; set; }
 
         /// <summary>
         /// The payload of the action.
         /// </summary>
-        public object Data { get; set; }
+        public object? Data { get; set; }
 
         /// <summary>
         /// The state before the action was dispatched in the store.
         /// </summary>
-        public object PreviousState { get; set; }
+        public object? PreviousState { get; set; }
 
         /// <summary>
         /// The state after the action was dispatched in the store.
         /// </summary>
-        public object NextState { get; set; }
+        public object? NextState { get; set; }
     }
 }

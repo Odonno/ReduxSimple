@@ -41,7 +41,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            object lastAction = null;
+            object? lastAction = null;
 
             store.ObserveUndoneAction()
                 .Subscribe(action =>
@@ -80,7 +80,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            object lastAction = null;
+            object? lastAction = null;
 
             store.ObserveUndoneAction<SwitchUserAction>()
                 .Subscribe(action =>

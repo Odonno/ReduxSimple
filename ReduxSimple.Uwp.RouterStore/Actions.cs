@@ -5,7 +5,7 @@
     /// </summary>
     public class RouterNavigatingAction
     {
-        public RouterNavigatingEvent Event { get; set; }
+        public RouterNavigatingEvent? Event { get; set; }
     }
 
     /// <summary>
@@ -13,7 +13,7 @@
     /// </summary>
     public class RouterNavigatedAction
     {
-        public RouterNavigatedEvent Event { get; set; }
+        public RouterNavigatedEvent? Event { get; set; }
     }
 
     /// <summary>
@@ -21,7 +21,7 @@
     /// </summary>
     public class RouterErrorAction
     {
-        public RouterErrorEvent Event { get; set; }
+        public RouterErrorEvent? Event { get; set; }
     }
 
     /// <summary>
@@ -29,6 +29,6 @@
     /// </summary>
     public class RouterCancelAction
     {
-        public RouterCancelEvent Event { get; set; }
+        public RouterCancelEvent? Event { get; set; }
     }
 }

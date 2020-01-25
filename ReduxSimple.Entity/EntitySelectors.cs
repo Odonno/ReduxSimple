@@ -32,7 +32,7 @@ namespace ReduxSimple.Entity
         public ISelectorWithoutProps<EntityState<TEntity, TKey>, int> SelectCount { get; }
 
         internal EntitySelectors(
-            IComparer<TEntity> sortComparer
+            IComparer<TEntity>? sortComparer
         )
         {
             SelectIds = CreateSelector(
@@ -97,7 +97,7 @@ namespace ReduxSimple.Entity
 
         internal EntitySelectors(
             ISelectorWithoutProps<TInput, EntityState<TEntity, TKey>> selectEntityState,
-            IComparer<TEntity> sortComparer
+            IComparer<TEntity>? sortComparer
         )
         {
             SelectIds = CreateSelector(

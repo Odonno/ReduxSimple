@@ -49,7 +49,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            IEnumerable<TodoItem> result = null;
+            IEnumerable<TodoItem>? result = null;
 
             store.Select(SelectSearchedItems, "no item")
                 .Subscribe(items =>
@@ -80,7 +80,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            IEnumerable<TodoItem> result = null;
+            IEnumerable<TodoItem>? result = null;
 
             store.Select(SelectSearchedItems, "Create")
                 .Subscribe(items =>

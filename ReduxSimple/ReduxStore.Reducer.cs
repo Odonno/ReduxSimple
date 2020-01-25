@@ -10,7 +10,7 @@ namespace ReduxSimple
     /// <typeparam name="TState">The type of the state.</typeparam>
     public sealed partial class ReduxStore<TState> where TState : class, new()
     {
-        private readonly List<On<TState>> _reducers;
+        private readonly List<On<TState>> _reducers = new List<On<TState>>();
 
         /// <summary>
         /// Dynamically add a list of reducers to be used in the store.
@@ -32,7 +32,7 @@ namespace ReduxSimple
             var actionName = action.GetType().FullName;
             var reducer = _reducers.FirstOrDefault(r => r.Types.Contains(actionName));
 
-            if (reducer != null)
+            if (reducer?.Reduce != null)
             {
                 return reducer.Reduce(state, action);
             }

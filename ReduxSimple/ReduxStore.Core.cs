@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Subjects;
 
 namespace ReduxSimple
@@ -37,11 +38,11 @@ namespace ReduxSimple
         /// <param name="enableTimeTravel">Enable time-travel operations (undo, redo).</param>
         public ReduxStore(
             IEnumerable<On<TState>> reducers,
-            TState initialState,
+            TState? initialState,
             bool enableTimeTravel = false
         )
         {
-            _reducers = new List<On<TState>>(reducers);
+            AddReducers(reducers.ToArray());
             State = _initialState = initialState ?? new TState();
             _stateSubject = new BehaviorSubject<TState>(State);
             TimeTravelEnabled = enableTimeTravel;

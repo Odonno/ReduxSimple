@@ -2,7 +2,7 @@
 {
     public class RootState
     {
-        public NestedState Nested { get; set; }
+        public NestedState? Nested { get; set; }
 
         public static RootState InitialState =>
             new RootState
@@ -13,7 +13,7 @@
 
     public class NestedState
     {
-        public int RandomNumber { get; set; }
+        public int? RandomNumber { get; set; }
 
         public static NestedState InitialState =>
             new NestedState

@@ -29,7 +29,7 @@ namespace ReduxSimple.Uwp.DevTools
             appWindowContentFrame.Navigate(typeof(DevToolsComponent));
 
             var devToolsComponent = appWindowContentFrame.Content as DevToolsComponent;
-            devToolsComponent.Initialize(store);
+            devToolsComponent?.Initialize(store);
 
             // TODO : Set as options
             // Extend view into title bar
@@ -50,7 +50,6 @@ namespace ReduxSimple.Uwp.DevTools
             appWindow.Closed += delegate
             {
                 appWindowContentFrame.Content = null;
-                appWindow = null;
             };
 
             return result;

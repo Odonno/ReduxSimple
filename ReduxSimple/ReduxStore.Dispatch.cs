@@ -35,6 +35,7 @@ namespace ReduxSimple
             if (action == null)
             {
                 Debug.WriteLine("[Warning] Dispatching a `null` action is forbidden.");
+                return;
             }
 
             if (TimeTravelEnabled)

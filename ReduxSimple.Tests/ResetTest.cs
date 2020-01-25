@@ -21,7 +21,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            TodoListState lastState = null;
+            TodoListState? lastState = null;
 
             store.ObserveReset()
                 .Subscribe(state =>
@@ -40,8 +40,8 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(1, observeCount);
-            Assert.Empty(lastState.TodoList);
-            Assert.Equal("David", lastState.CurrentUser);
+            Assert.Empty(lastState?.TodoList);
+            Assert.Equal("David", lastState?.CurrentUser);
             Assert.False(store.CanRedo);
             Assert.False(store.CanUndo);
         }
@@ -59,7 +59,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            TodoListState lastState = null;
+            TodoListState? lastState = null;
 
             store.ObserveReset()
                 .Subscribe(state =>
@@ -74,8 +74,8 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(1, observeCount);
-            Assert.Empty(lastState.TodoList);
-            Assert.Equal("David", lastState.CurrentUser);
+            Assert.Empty(lastState?.TodoList);
+            Assert.Equal("David", lastState?.CurrentUser);
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            ReduxHistory<TodoListState> lastHistory = null;
+            ReduxHistory<TodoListState>? lastHistory = null;
 
             store.ObserveHistory()
                 .Subscribe(history =>
@@ -106,9 +106,9 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(5, observeCount);
-            Assert.Single(lastHistory.PreviousStates);
-            Assert.IsType<InitializeStoreAction>(lastHistory.PreviousStates[0].Action);
-            Assert.Empty(lastHistory.FutureActions);
+            Assert.Single(lastHistory?.PreviousStates);
+            Assert.IsType<InitializeStoreAction>(lastHistory?.PreviousStates[0].Action);
+            Assert.Empty(lastHistory?.FutureActions);
         }
     }
 }

@@ -11,11 +11,11 @@ namespace ReduxSimple
         /// <summary>
         /// Reducer function
         /// </summary>
-        public Func<TState, object, TState> Reduce { get; set; }
+        public Func<TState, object, TState>? Reduce { get; set; }
 
         /// <summary>
         /// List of action type that target this reducer
         /// </summary>
-        public string[] Types { get; set; }
+        public string[]? Types { get; set; }
     }
 }

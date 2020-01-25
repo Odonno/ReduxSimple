@@ -42,7 +42,7 @@ namespace ReduxSimple.Tests
             store.Redo();
 
             // Assert
-            Assert.Equal(2, store.State.TodoList.Count);
+            Assert.Equal(2, store.State.TodoList?.Count);
             Assert.Equal("Emily", store.State.CurrentUser);
         }
 

@@ -12,10 +12,12 @@
     <Company />
     <PackageIconUrl>https://raw.githubusercontent.com/Odonno/ReduxSimple/master/images/logo.png</PackageIconUrl>
     <PackageTags>Redux Reactive ReactiveExtensions Rx ReduxSimple State Management UWP Router</PackageTags>
+
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" />
     <PackageReference Include="ReactiveUI.Events" Version="8.2.1" />
   </ItemGroup>
 

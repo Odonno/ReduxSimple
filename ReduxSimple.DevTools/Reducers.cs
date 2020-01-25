@@ -26,7 +26,7 @@ namespace ReduxSimple.DevTools
                             {
                                 action.CurrentActions,
                                 action.FutureActions,
-                                SelectedActionPosition = setPositionToLastAction
+                                SelectedActionPosition = setPositionToLastAction && action.CurrentActions != null
                                     ? action.CurrentActions.Count - 1
                                     : state.SelectedActionPosition
                             }

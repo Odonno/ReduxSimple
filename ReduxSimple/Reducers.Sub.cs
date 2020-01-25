@@ -37,6 +37,9 @@ namespace ReduxSimple
                     {
                         Reduce = (state, action) =>
                         {
+                            if (r?.Reduce == null)
+                                return state;
+
                             var featureState = selectFeature(state);
                             var reducerResult = r.Reduce(featureState, action);
 
@@ -65,7 +68,7 @@ namespace ReduxSimple
         /// <returns>Returns reducers targeting the root state.</returns>
         public static On<TState>[] CreateSubReducers<TState, TFeatureState>(
             On<TFeatureState>[] featureReducers,
-            ISelectorWithoutProps<TState, TFeatureState> selectFeature
+            ISelectorWithoutProps<TState, TFeatureState?> selectFeature
         )
             where TState : class, new()
             where TFeatureState : class, new()
@@ -85,7 +88,14 @@ namespace ReduxSimple
                     {
                         Reduce = (state, action) =>
                         {
+                            if (r?.Reduce == null)
+                                return state;
+
                             var featureState = selectFeature.Apply(state);
+
+                            if (featureState == null)
+                                return state;
+
                             var reducerResult = r.Reduce(featureState, action);
 
                             if (IsDeepEqual(featureState, reducerResult))

@@ -4,13 +4,13 @@ namespace ReduxSimple.Tests.Setup.NestedStore
 {
     public static class Selectors
     {
-        public static ISelectorWithoutProps<RootState, NestedState> SelectNested = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested = CreateSelector(
             (RootState state) => state.Nested
         );
 
-        public static ISelectorWithoutProps<RootState, int> SelectRandomNumber = CreateSelector(
+        public static ISelectorWithoutProps<RootState, int?> SelectRandomNumber = CreateSelector(
             SelectNested,
-            nested => nested.RandomNumber
+            nested => nested?.RandomNumber
         );
     }
 }

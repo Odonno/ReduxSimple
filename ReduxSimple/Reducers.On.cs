@@ -19,7 +19,13 @@ namespace ReduxSimple
         {
             return new On<TState>
             {
-                Reduce = (state, action) => reducer(state, action as TAction),
+                Reduce = (state, action) =>
+                {
+                    if (!(action is TAction actionT1))
+                        return state;
+
+                    return reducer(state, actionT1);
+                },
                 Types = new[] { typeof(TAction).FullName }
             };
         }

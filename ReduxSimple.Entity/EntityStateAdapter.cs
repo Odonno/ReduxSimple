@@ -16,12 +16,12 @@ namespace ReduxSimple.Entity
         /// <summary>
         /// Function used to get the primary key of the entity.
         /// </summary>
-        public Func<TEntity, TKey> SelectId { get; internal set; }
+        public Func<TEntity, TKey>? SelectId { get; internal set; }
 
         /// <summary>
         /// Sort function to get entities custom sort.
         /// </summary>
-        public IComparer<TEntity> SortComparer { get; internal set; }
+        public IComparer<TEntity>? SortComparer { get; internal set; }
 
         /// <summary>
         /// Add (reset and add) all entities in the state.
@@ -72,7 +72,7 @@ namespace ReduxSimple.Entity
                 .Select(partialEntity =>
                 {
                     var entity = partialEntity as TEntity ?? partialEntity.ConvertTo<TEntity>();
-                    var key = SelectId(entity);
+                    var key = SelectId != null ? SelectId(entity) : default;
 
                     state.Collection.TryGetValue(key, out var existingEntity);
                     if (existingEntity == null)
@@ -91,7 +91,9 @@ namespace ReduxSimple.Entity
             var currentEntities = state.Collection.Values;
 
             var collection = currentEntities
-                .Except(currentEntities.Where(e => keysOfUpdatedEntities.Contains(SelectId(e))))
+                .Except(
+                    currentEntities.Where(e => keysOfUpdatedEntities.Contains(SelectId != null ? SelectId(e) : default))
+                )
                 .Concat(updatedEntities)
                 .ToDictionary(SelectId);
 
@@ -127,7 +129,9 @@ namespace ReduxSimple.Entity
         {
             var entities = state.Collection.Values;
             var collection = entities
-                .Except(entities.Where(e => keys.Contains(SelectId(e))))
+                .Except(
+                    entities.Where(e => keys.Contains(SelectId != null ? SelectId(e) : default))
+                )
                 .ToDictionary(SelectId);
 
             return state.With(new

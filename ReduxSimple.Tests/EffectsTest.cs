@@ -22,7 +22,7 @@ namespace ReduxSimple.Tests
 
             var effectWithDispatch = CreateEffect<TodoListState>(
                 () => store.ObserveAction<AddTodoItemAction>()
-                    .Where(action => action.TodoItem.Id == 1)
+                    .Where(action => action.TodoItem?.Id == 1)
                     .Do(_ => calls++)
                     .Select(_ =>
                     {
@@ -46,7 +46,7 @@ namespace ReduxSimple.Tests
             DispatchAddTodoItemAction(store, 1, "Create unit tests");
 
             // Assert
-            Assert.Equal(2, store.State.TodoList.Count);
+            Assert.Equal(2, store.State.TodoList?.Count);
             Assert.Equal(1, calls);
         }
 

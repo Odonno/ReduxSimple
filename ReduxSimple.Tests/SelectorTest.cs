@@ -24,7 +24,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            TodoListState lastState = null;
+            TodoListState? lastState = null;
 
             store.Select()
                 .Subscribe(state =>
@@ -38,8 +38,8 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(3, observeCount);
-            Assert.Single(lastState.TodoList);
-            Assert.Equal("Emily", lastState.CurrentUser);
+            Assert.Single(lastState?.TodoList);
+            Assert.Equal("Emily", lastState?.CurrentUser);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            ImmutableList<TodoItem> lastResult = null;
+            ImmutableList<TodoItem>? lastResult = null;
 
             store.Select(SelectTodoList)
                 .Subscribe(todoList =>
@@ -95,7 +95,7 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(4, observeCount);
-            Assert.Equal(3, lastResult.Count);
+            Assert.Equal(3, lastResult?.Count);
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
+            (IImmutableList<TodoItem>? todoList, string? currentUser) lastPartialState = (null, null);
 
             store.Select(
                 CombineSelectors(SelectTodoList, SelectCurrentUser)
@@ -153,7 +153,7 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(5, observeCount);
-            Assert.Equal(3, lastPartialState.todoList.Count);
+            Assert.Equal(3, lastPartialState.todoList?.Count);
             Assert.Equal("Emily", lastPartialState.currentUser);
         }
 
@@ -169,7 +169,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            (IImmutableList<TodoItem> todoList, string currentUser) lastPartialState = (null, null);
+            (IImmutableList<TodoItem>? todoList, string? currentUser) lastPartialState = (null, null);
 
             store.Select(
                 CombineSelectors(SelectTodoList, SelectCurrentUser)
@@ -189,7 +189,7 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(4, observeCount);
-            Assert.Equal(2, lastPartialState.todoList.Count);
+            Assert.Equal(2, lastPartialState.todoList?.Count);
             Assert.Equal("Emily", lastPartialState.currentUser);
         }
 
@@ -205,7 +205,7 @@ namespace ReduxSimple.Tests
 
             // Act
             int observeCount = 0;
-            (IImmutableList<TodoItem> todoList, string uselessProperty) lastPartialState = (null, null);
+            (IImmutableList<TodoItem>? todoList, string? uselessProperty) lastPartialState = (null, null);
 
             store.Select(
                 CombineSelectors(SelectTodoList, SelectUselessProperty)
@@ -225,7 +225,7 @@ namespace ReduxSimple.Tests
 
             // Assert
             Assert.Equal(3, observeCount);
-            Assert.Equal(2, lastPartialState.todoList.Count);
+            Assert.Equal(2, lastPartialState.todoList?.Count);
             Assert.Null(lastPartialState.uselessProperty);
         }
     }

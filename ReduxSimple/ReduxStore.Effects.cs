@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reactive.Linq;
 
 namespace ReduxSimple
@@ -20,6 +21,12 @@ namespace ReduxSimple
         {
             foreach (var effect in effects)
             {
+                if (effect.Run == null || effect.Config == null)
+                {
+                    Debug.WriteLine($"An effect is not well configured...");
+                    continue;
+                }
+
                 if (effect.Config.Dispatch)
                 {
                     effect.Run().Subscribe(Dispatch);

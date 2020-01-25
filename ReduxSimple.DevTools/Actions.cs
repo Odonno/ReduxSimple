@@ -7,8 +7,8 @@ namespace ReduxSimple.DevTools
     /// </summary>
     public class HistoryUpdated
     {
-        public ImmutableList<ReduxActionInfo> CurrentActions { get; set; }
-        public ImmutableList<ReduxActionInfo> FutureActions { get; set; }
+        public ImmutableList<ReduxActionInfo>? CurrentActions { get; set; }
+        public ImmutableList<ReduxActionInfo>? FutureActions { get; set; }
     }
     
     /// <summary>
@@ -16,7 +16,7 @@ namespace ReduxSimple.DevTools
     /// </summary>
     public class MoveToPositionAction
     {
-        public int Position { get; set; }
+        public int? Position { get; set; }
     }
     
     /// <summary>
@@ -24,7 +24,7 @@ namespace ReduxSimple.DevTools
     /// </summary>
     public class SelectPositionAction
     {
-        public int Position { get; set; }
+        public int? Position { get; set; }
     }
 
     /// <summary>
