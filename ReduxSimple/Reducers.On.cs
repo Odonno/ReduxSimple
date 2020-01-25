@@ -14,7 +14,7 @@ namespace ReduxSimple
         public static On<TState> On<TAction, TState>(
             Func<TState, TAction, TState> reducer
         )
-            where TState : class, new()
+            where TState : class
             where TAction : class
         {
             return new On<TState>
@@ -33,7 +33,7 @@ namespace ReduxSimple
         public static On<TState> On<TAction, TState>(
             Func<TState, TState> reducer
         )
-            where TState : class, new()
+            where TState : class
             where TAction : class
         {
             return new On<TState>
@@ -57,7 +57,7 @@ namespace ReduxSimple
         public static On<TState> On<TAction1, TAction2, TState>(
             Func<TState, TState> reducer
         )
-            where TState : class, new()
+            where TState : class
             where TAction1 : class
             where TAction2 : class
         {
@@ -84,7 +84,7 @@ namespace ReduxSimple
         public static On<TState> On<TAction1, TAction2, TAction3, TState>(
             Func<TState, TState> reducer
         )
-            where TState : class, new()
+            where TState : class
             where TAction1 : class
             where TAction2 : class
             where TAction3 : class
@@ -114,7 +114,7 @@ namespace ReduxSimple
         public static On<TState> On<TAction1, TAction2, TAction3, TAction4, TState>(
             Func<TState, TState> reducer
         )
-            where TState : class, new()
+            where TState : class
             where TAction1 : class
             where TAction2 : class
             where TAction3 : class

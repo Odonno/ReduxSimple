@@ -6,7 +6,7 @@ namespace ReduxSimple
     /// A class that contains reducer with filtering options.
     /// </summary>
     /// <typeparam name="TState">State type used in the reducer function.</typeparam>
-    public class On<TState> where TState : class, new()
+    public class On<TState> where TState : class
     {
         /// <summary>
         /// Reducer function
