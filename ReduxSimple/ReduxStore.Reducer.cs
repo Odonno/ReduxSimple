@@ -30,13 +30,17 @@ namespace ReduxSimple
         private TState Reduce(TState state, object action)
         {
             var actionName = action.GetType().FullName;
-            var reducer = _reducers.FirstOrDefault(r => r.Types.Contains(actionName));
 
-            if (reducer?.Reduce != null)
-            {
-                return reducer.Reduce(state, action);
-            }
-            return state;
+            return _reducers
+              .Where(r => r.Types.Contains(actionName))
+              .Aggregate(state, (state, reducer) =>
+              {
+                  if (reducer?.Reduce != null)
+                  {
+                      return reducer.Reduce(state, action);
+                  }
+                  return state;
+              });
         }
 
         /// <summary>
