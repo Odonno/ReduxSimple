@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>ReduxSimple</PackageId>
-    <Version>3.0.1</Version>
+    <Version>3.1.0</Version>
     <Authors>David Bottiau</Authors>
     <Description>Simple Stupid Redux Store using Reactive Extensions</Description>
     <PackageProjectUrl>https://github.com/Odonno/ReduxSimple</PackageProjectUrl>
