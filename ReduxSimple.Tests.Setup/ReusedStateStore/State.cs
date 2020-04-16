@@ -1,0 +1,28 @@
+﻿namespace ReduxSimple.Tests.Setup.ReusedStateStore
+{
+    public class RootState
+    {
+        public NestedState? Nested1 { get; set; }
+        public NestedState? Nested2 { get; set; }
+        public NestedState? Nested3 { get; set; }
+
+        public static RootState InitialState =>
+            new RootState
+            {
+                Nested1 = NestedState.InitialState,
+                Nested2 = NestedState.InitialState,
+                Nested3 = NestedState.InitialState
+            };
+    }
+
+    public class NestedState
+    {
+        public int? RandomNumber { get; set; }
+
+        public static NestedState InitialState =>
+            new NestedState
+            {
+                RandomNumber = 0
+            };
+    }
+}

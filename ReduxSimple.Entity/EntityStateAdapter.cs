@@ -16,12 +16,12 @@ namespace ReduxSimple.Entity
         /// <summary>
         /// Function used to get the primary key of the entity.
         /// </summary>
-        public Func<TEntity, TKey>? SelectId { get; internal set; }
+        public Func<TEntity, TKey> SelectId { get; internal set; }
 
         /// <summary>
         /// Sort function to get entities custom sort.
         /// </summary>
-        public IComparer<TEntity>? SortComparer { get; internal set; }
+        public IComparer<TEntity> SortComparer { get; internal set; }
 
         /// <summary>
         /// Add (reset and add) all entities in the state.

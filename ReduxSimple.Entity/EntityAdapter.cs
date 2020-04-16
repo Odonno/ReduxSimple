@@ -42,7 +42,7 @@ namespace ReduxSimple.Entity
         /// <param name="selectId">Function used to get the id of an entity.</param>
         /// <param name="sortComparer">Comparer used to sort the collection of entities.</param>
         /// <returns>A new Entity Adapter.</returns>
-        public static EntityAdapter<TEntity, TKey> Create(Func<TEntity, TKey> selectId, IComparer<TEntity>? sortComparer = null)
+        public static EntityAdapter<TEntity, TKey> Create(Func<TEntity, TKey> selectId, IComparer<TEntity> sortComparer = null)
         {
             return new EntityAdapter<TEntity, TKey>
             {

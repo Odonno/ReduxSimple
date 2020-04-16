@@ -22,13 +22,7 @@ namespace ReduxSimple
             where TState : class, new()
             where TFeatureState : class, new()
         {
-            var selectFeatureType = selectFeature.GetType();
-
-            var selectFeatureInputType = selectFeatureType.GenericTypeArguments[0];
-            var selectFeatureOutputType = selectFeatureType.GenericTypeArguments[1];
-
-            var featureProperty = selectFeatureInputType.GetProperties()
-                .Single(p => p.PropertyType.FullName == selectFeatureOutputType.FullName);
+            var parentStateProperties = typeof(TState).GetProperties();
 
             return featureReducers
                 .Select(r =>
@@ -44,6 +38,17 @@ namespace ReduxSimple
                             var reducerResult = r.Reduce(featureState, action);
 
                             if (IsDeepEqual(featureState, reducerResult))
+                            {
+                                return state;
+                            }
+
+                            var featureProperty = parentStateProperties
+                                .FirstOrDefault(p =>
+                                {
+                                    return p.GetValue(state) == featureState;
+                                });
+
+                            if (featureProperty == null)
                             {
                                 return state;
                             }
@@ -73,13 +78,7 @@ namespace ReduxSimple
             where TState : class, new()
             where TFeatureState : class, new()
         {
-            var selectFeatureType = selectFeature.GetType();
-
-            var selectFeatureInputType = selectFeatureType.GenericTypeArguments[0];
-            var selectFeatureOutputType = selectFeatureType.GenericTypeArguments[1];
-
-            var featureProperty = selectFeatureInputType.GetProperties()
-                .Single(p => p.PropertyType.FullName == selectFeatureOutputType.FullName);
+            var parentStateProperties = typeof(TState).GetProperties();
 
             return featureReducers
                 .Select(r =>
@@ -99,6 +98,17 @@ namespace ReduxSimple
                             var reducerResult = r.Reduce(featureState, action);
 
                             if (IsDeepEqual(featureState, reducerResult))
+                            {
+                                return state;
+                            }
+
+                            var featureProperty = parentStateProperties
+                                .FirstOrDefault(p =>
+                                {
+                                    return p.GetValue(state) == featureState;
+                                });
+
+                            if (featureProperty == null)
                             {
                                 return state;
                             }

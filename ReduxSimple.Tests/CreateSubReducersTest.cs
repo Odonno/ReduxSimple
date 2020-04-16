@@ -9,7 +9,7 @@ using static ReduxSimple.Tests.Setup.NestedStore.Selectors;
 
 namespace ReduxSimple.Tests
 {
-    public class CreateSubReducersTests
+    public class CreateSubReducersTest
     {
         [Fact]
         public void CanCreateAndUseSubReducers()
