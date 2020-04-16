@@ -78,7 +78,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
                 .ObserveOnDispatcher()
                 .Subscribe(e =>
                 {
-                    var selectedPokemonOption = (e.SelectedItem as PokemonGeneralInfo).ToOption();
+                    var selectedPokemonOption = (e.args.SelectedItem as PokemonGeneralInfo).ToOption();
                     if (selectedPokemonOption.HasValue)
                     {
                         AutoSuggestBox.Text = selectedPokemonOption.Value.Name; // Avoid the automatic change of the Text property of SuggestBox
