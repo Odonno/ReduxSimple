@@ -1,7 +1,6 @@
 ﻿using Converto;
 using System;
 using System.Linq;
-using static Converto.Main;
 
 namespace ReduxSimple
 {
@@ -37,7 +36,7 @@ namespace ReduxSimple
                             var featureState = selectFeature(state);
                             var reducerResult = r.Reduce(featureState, action);
 
-                            if (IsDeepEqual(featureState, reducerResult))
+                            if (featureState.IsDeepEqual(reducerResult))
                             {
                                 return state;
                             }
@@ -97,7 +96,7 @@ namespace ReduxSimple
 
                             var reducerResult = r.Reduce(featureState, action);
 
-                            if (IsDeepEqual(featureState, reducerResult))
+                            if (featureState.IsDeepEqual(reducerResult))
                             {
                                 return state;
                             }
