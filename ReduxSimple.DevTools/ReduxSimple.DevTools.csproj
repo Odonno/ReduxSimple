@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>ReduxSimple.DevTools</RootNamespace>
     <PackageId>ReduxSimple.DevTools</PackageId>
-    <Version>3.3.0-preview001</Version>
+    <Version>3.4.0-preview001</Version>
     <Authors>David Bottiau</Authors>
     <Title>ReduxSimple DevTools</Title>
     <Description>Simple Stupid Redux Store using Reactive Extensions</Description>

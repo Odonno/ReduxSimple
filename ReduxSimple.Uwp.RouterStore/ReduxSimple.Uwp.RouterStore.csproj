@@ -3,7 +3,7 @@
     <TargetFramework>uap10.0.16299</TargetFramework>
     <RootNamespace>ReduxSimple.Uwp.RouterStore</RootNamespace>
     <PackageId>ReduxSimple.Uwp.RouterStore</PackageId>
-    <Version>3.3.0-preview001</Version>
+    <Version>3.4.0-preview001</Version>
     <Authors>David Bottiau</Authors>
     <Title>ReduxSimple Router Store for UWP</Title>
     <Description>Simple Stupid Redux Store using Reactive Extensions - Binding between Store and Routing in UWP applications</Description>

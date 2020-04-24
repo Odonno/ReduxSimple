@@ -9,4 +9,6 @@
     {
         public string? NewUser { get; set; }
     }
+
+    public class ResetStateAction { }
 }

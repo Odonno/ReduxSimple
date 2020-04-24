@@ -32,7 +32,12 @@ namespace ReduxSimple.Tests.Setup.TodoListStore
                 NewUser = newUser
             });
         }
-        
+
+        public static void DispatchResetAction<T>(ReduxStore<T> store) where T : class, new()
+        {
+            store.Dispatch(new ResetStateAction());
+        }
+
         public static void DispatchAllActions<T>(ReduxStore<T> store) where T : class, new()
         {
             DispatchAddTodoItemAction(store, 1, "Create unit tests");

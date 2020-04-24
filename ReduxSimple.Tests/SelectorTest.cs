@@ -228,5 +228,39 @@ namespace ReduxSimple.Tests
             Assert.Equal(2, lastPartialState.todoList?.Count);
             Assert.Null(lastPartialState.uselessProperty);
         }
+
+        [Fact]
+        public void CanCombineSelectorsWithSynchronousStateUpdates()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState
+            );
+
+            // Act
+            int observeCount = 0;
+            (IImmutableList<TodoItem>? todoList, string? currentUser) lastPartialState = (null, null);
+
+            store.Select(
+                CombineSelectors(SelectTodoList, SelectCurrentUser)
+            )
+                .Subscribe(x =>
+                {
+                    var (todolist, currentUser) = x;
+
+                    observeCount++;
+                    lastPartialState = (todolist, currentUser);
+                });
+
+            DispatchAllActions(store);
+            DispatchResetAction(store);
+
+            // Assert
+            Assert.Equal(6, observeCount);
+            Assert.Equal(0, lastPartialState.todoList?.Count);
+            Assert.Equal("David", lastPartialState.currentUser);
+        }
     }
 }

@@ -36,8 +36,8 @@ namespace ReduxSimple
         }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
-            return Selector.Apply(input)
-                .Select(ProjectorFunction)
+            return input
+                .Select(Apply)
                 .DistinctUntilChanged();
         }
     }
@@ -86,17 +86,8 @@ namespace ReduxSimple
         }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
-            return Observable.CombineLatest(
-                Selector1.Apply(input),
-                Selector2.Apply(input),
-                Tuple.Create
-            )
-                .Select(x =>
-                    ProjectorFunction(
-                        x.Item1,
-                        x.Item2
-                    )
-                )
+            return input
+                .Select(Apply)
                 .DistinctUntilChanged();
         }
     }
@@ -154,19 +145,8 @@ namespace ReduxSimple
         }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
-            return Observable.CombineLatest(
-                Selector1.Apply(input),
-                Selector2.Apply(input),
-                Selector3.Apply(input),
-                Tuple.Create
-            )
-                .Select(x =>
-                    ProjectorFunction(
-                        x.Item1,
-                        x.Item2,
-                        x.Item3
-                    )
-                )
+            return input
+                .Select(Apply)
                 .DistinctUntilChanged();
         }
     }
@@ -233,21 +213,8 @@ namespace ReduxSimple
         }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
-            return Observable.CombineLatest(
-                Selector1.Apply(input),
-                Selector2.Apply(input),
-                Selector3.Apply(input),
-                Selector4.Apply(input),
-                Tuple.Create
-            )
-                .Select(x =>
-                    ProjectorFunction(
-                        x.Item1,
-                        x.Item2,
-                        x.Item3,
-                        x.Item4
-                    )
-                )
+            return input
+                .Select(Apply)
                 .DistinctUntilChanged();
         }
     }
@@ -323,23 +290,8 @@ namespace ReduxSimple
         }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
-            return Observable.CombineLatest(
-                Selector1.Apply(input),
-                Selector2.Apply(input),
-                Selector3.Apply(input),
-                Selector4.Apply(input),
-                Selector5.Apply(input),
-                Tuple.Create
-            )
-                .Select(x =>
-                    ProjectorFunction(
-                        x.Item1,
-                        x.Item2,
-                        x.Item3,
-                        x.Item4,
-                        x.Item5
-                    )
-                )
+            return input
+                .Select(Apply)
                 .DistinctUntilChanged();
         }
     }
@@ -424,25 +376,8 @@ namespace ReduxSimple
         }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
-            return Observable.CombineLatest(
-                Selector1.Apply(input),
-                Selector2.Apply(input),
-                Selector3.Apply(input),
-                Selector4.Apply(input),
-                Selector5.Apply(input),
-                Selector6.Apply(input),
-                Tuple.Create
-            )
-                .Select(x =>
-                    ProjectorFunction(
-                        x.Item1,
-                        x.Item2,
-                        x.Item3,
-                        x.Item4,
-                        x.Item5,
-                        x.Item6
-                    )
-                )
+            return input
+                .Select(Apply)
                 .DistinctUntilChanged();
         }
     }
@@ -536,27 +471,8 @@ namespace ReduxSimple
         }
         public IObservable<TOutput> Apply(IObservable<TInput> input)
         {
-            return Observable.CombineLatest(
-                Selector1.Apply(input),
-                Selector2.Apply(input),
-                Selector3.Apply(input),
-                Selector4.Apply(input),
-                Selector5.Apply(input),
-                Selector6.Apply(input),
-                Selector7.Apply(input),
-                Tuple.Create
-            )
-                .Select(x =>
-                    ProjectorFunction(
-                        x.Item1,
-                        x.Item2,
-                        x.Item3,
-                        x.Item4,
-                        x.Item5,
-                        x.Item6,
-                        x.Item7
-                    )
-                )
+            return input
+                .Select(Apply)
                 .DistinctUntilChanged();
         }
     }

@@ -283,7 +283,7 @@ Store.Select(SelectIsPageSelected, "mainPage")
 
 ### Combine selectors
 
-Sometimes, you need to consume multiple selectors. In some cases, you just want to combine them. This is what you can do with `CombineSelectors` function. It uses `CombineLatest` operator of the Rx.NET library. Here is an example:
+Sometimes, you need to consume multiple selectors. In some cases, you just want to combine them. This is what you can do with `CombineSelectors` function. Here is an example:
 
 ```csharp
 Store.Select(

@@ -1,6 +1,7 @@
 ﻿using Converto;
 using System.Collections.Generic;
 using static ReduxSimple.Reducers;
+using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 
 namespace ReduxSimple.Tests.Setup.TodoListStore
 {
@@ -31,6 +32,9 @@ namespace ReduxSimple.Tests.Setup.TodoListStore
                             CurrentUser = action.NewUser
                         }
                     )
+                ),
+                On<ResetStateAction, TodoListState>(
+                    (state, action) => CreateInitialTodoListState()
                 )
             };
         }
