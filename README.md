@@ -181,22 +181,46 @@ return new List<On<RootState>>
 
 Sub-reducers also known as feature reducers are nested reducers that are used to update a part of the state. They are mainly used in larger applications to split state and reducer logic in multiple parts.
 
-The `CreateSubReducers` function takes a list of sub-reducers and the select feature function that returns the state property to use to save the state.
+The `CreateSubReducers` function helps you to create sub-reducers. This function has a few requirements:
+
+* a `Selector` - to be able to access the value of the current nested state
+* a `Reducer` - to explicitly detail how to update the parent state given a new value for the nested state
+* and the list of reducers using `On` pattern
+
+First you need to create a new state lens for feature/nested states:
+
+```csharp
+public static IEnumerable<On<RootState>> GetReducers()
+{
+    return CreateSubReducers(SelectCounterState)
+        .On<IncrementAction>(state => state.With(new { Count = state.Count + 1 }))
+        .On<DecrementAction>(state => state.With(new { Count = state.Count - 1 }))
+        .ToList();
+}
+```
+
+Then you can combine nested reducers into your root state:
 
 ```csharp
 public static IEnumerable<On<RootState>> CreateReducers()
 {
-    var counterReducers = Counter.Reducers.CreateReducers();
-    var ticTacToeReducers = TicTacToe.Reducers.CreateReducers();
-    var todoListReducers = TodoList.Reducers.CreateReducers();
-    var pokedexReducers = Pokedex.Reducers.CreateReducers();
-
-    return CreateSubReducers(counterReducers.ToArray(), SelectCounterState)
-        .Concat(CreateSubReducers(ticTacToeReducers.ToArray(), SelectTicTacToeState))
-        .Concat(CreateSubReducers(todoListReducers.ToArray(), SelectTodoListState))
-        .Concat(CreateSubReducers(pokedexReducers.ToArray(), SelectPokedexState));
+    return CombineReducers(
+        Counter.Reducers.GetReducers(),
+        TicTacToe.Reducers.GetReducers(),
+        TodoList.Reducers.GetReducers(),
+        Pokedex.Reducers.GetReducers()
+    );
 }
 ```
+
+And so inject your reducers into the Store:
+
+```csharp
+public static readonly ReduxStore<RootState> Store =
+    new ReduxStore<RootState>(CreateReducers(), RootState.InitialState);
+```
+
+Remember that following this pattern, you can have an infinite number of layers for your state.
 
 </details>
 
