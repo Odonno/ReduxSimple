@@ -42,14 +42,16 @@ namespace ReduxSimple
                             }
 
                             var featureProperty = parentStateProperties
-                                .FirstOrDefault(p =>
+                                .SingleOrDefault(p =>
                                 {
                                     return p.GetValue(state) == featureState;
                                 });
 
                             if (featureProperty == null)
                             {
-                                return state;
+                                throw new NotSupportedException(
+                                    $"A sub-reducer cannot find the feature reducer of `{typeof(TFeatureState).Name}` inside `{typeof(TState).Name}`."
+                                );
                             }
 
                             var stateCopy = state.Copy();
@@ -102,14 +104,16 @@ namespace ReduxSimple
                             }
 
                             var featureProperty = parentStateProperties
-                                .FirstOrDefault(p =>
+                                .SingleOrDefault(p =>
                                 {
                                     return p.GetValue(state) == featureState;
                                 });
 
                             if (featureProperty == null)
                             {
-                                return state;
+                                throw new NotSupportedException(
+                                    $"A sub-reducer cannot find the feature reducer of `{typeof(TFeatureState).Name}` inside `{typeof(TState).Name}`."
+                                );
                             }
 
                             var stateCopy = state.Copy();

@@ -1,18 +1,18 @@
-﻿using ReduxSimple.Tests.Setup.ReusedStateStore;
+﻿using ReduxSimple.Tests.Setup.NestedArrayStore;
 using System;
 using System.Linq;
 using Xunit;
-using RootStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.ReusedStateStore.RootState>;
+using RootStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.NestedArrayStore.RootState>;
 using static ReduxSimple.Reducers;
-using static ReduxSimple.Tests.Setup.ReusedStateStore.Reducers;
-using static ReduxSimple.Tests.Setup.ReusedStateStore.Selectors;
+using static ReduxSimple.Tests.Setup.NestedArrayStore.Reducers;
+using static ReduxSimple.Tests.Setup.NestedArrayStore.Selectors;
 
 namespace ReduxSimple.Tests
 {
-    public class ReusedStateStoreTest
+    public class NestedArrayStoreTest
     {
         [Fact]
-        public void CanCreateAndUseSubReducers()
+        public void ThrowExceptionIfUsingIndexedArrayForNestedStates()
         {
             // Arrange
             var nestedReducers = CreateReducers();
@@ -21,16 +21,8 @@ namespace ReduxSimple.Tests
                 nestedReducers.ToArray(),
                 SelectNested1
             );
-            var reducers2 = CreateSubReducers(
-                nestedReducers.ToArray(),
-                SelectNested2
-            );
-            var reducers3 = CreateSubReducers(
-                nestedReducers.ToArray(),
-                SelectNested3
-            );
 
-            var reducers = reducers1.Concat(reducers2).Concat(reducers3);
+            var reducers = reducers1;
 
             var store = new RootStore(
                 reducers,
@@ -42,6 +34,7 @@ namespace ReduxSimple.Tests
             int? lastResult1 = null;
             int? lastResult2 = null;
             int? lastResult3 = null;
+            int? lastResult4 = null;
 
             store.Select(SelectRandomNumber1)
                 .Subscribe(number =>
@@ -61,14 +54,19 @@ namespace ReduxSimple.Tests
                     observeCount++;
                     lastResult3 = number;
                 });
+            store.Select(SelectRandomNumber4)
+                .Subscribe(number =>
+                {
+                    observeCount++;
+                    lastResult4 = number;
+                });
 
-            store.Dispatch(new UpdateNumberAction { Number = 10 });
+            var exception = Assert.Throws<NotSupportedException>(() =>
+                store.Dispatch(new UpdateNumberAction { Number = 10 })
+            );
 
             // Assert
-            Assert.Equal(6, observeCount);
-            Assert.Equal(10, lastResult1);
-            Assert.Equal(10, lastResult2);
-            Assert.Equal(10, lastResult3);
+            Assert.Equal("A sub-reducer cannot find the feature reducer of `NestedState` inside `RootState`.", exception.Message);
         }
     }
 }
