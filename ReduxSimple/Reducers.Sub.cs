@@ -14,6 +14,7 @@ namespace ReduxSimple
         /// <param name="featureReducers">Reducers that directly use the feature state.</param>
         /// <param name="selectFeature">Select the feature from the root state.</param>
         /// <returns>Returns reducers targeting the root state.</returns>
+        [Obsolete("Please use the new version of CreateSubReducers.")]
         public static On<TState>[] CreateSubReducers<TState, TFeatureState>(
             On<TFeatureState>[] featureReducers,
             Func<TState, TFeatureState> selectFeature
@@ -72,6 +73,7 @@ namespace ReduxSimple
         /// <param name="featureReducers">Reducers that directly use the feature state.</param>
         /// <param name="selectFeature">Select the feature from the root state.</param>
         /// <returns>Returns reducers targeting the root state.</returns>
+        [Obsolete("Please use the new version of CreateSubReducers.")]
         public static On<TState>[] CreateSubReducers<TState, TFeatureState>(
             On<TFeatureState>[] featureReducers,
             ISelectorWithoutProps<TState, TFeatureState?> selectFeature
@@ -125,6 +127,39 @@ namespace ReduxSimple
                     };
                 })
                 .ToArray();
+        }
+
+        public static IStateLens<TState, TFeatureState> CreateSubReducers<TState, TFeatureState>(Func<TState, TFeatureState> featureSelector)
+            where TState : class, new()
+            where TFeatureState : class, new()
+        {
+            return new ImplicitStateLens<TState, TFeatureState>(featureSelector);
+        }
+        public static IStateLens<TState, TFeatureState> CreateSubReducers<TState, TFeatureState>(ISelectorWithoutProps<TState, TFeatureState> featureSelector)
+            where TState : class, new()
+            where TFeatureState : class, new()
+        {
+            var selector = new Func<TState, TFeatureState>(state => featureSelector.Apply(state));
+            return new ImplicitStateLens<TState, TFeatureState>(selector);
+        }
+        public static IStateLens<TState, TFeatureState> CreateSubReducers<TState, TFeatureState>(
+            Func<TState, TFeatureState> featureSelector,
+            Func<TState, TFeatureState, TState> stateReducer
+        )
+            where TState : class, new()
+            where TFeatureState : class, new()
+        {
+            return new ExplicitStateLens<TState, TFeatureState>(featureSelector, stateReducer);
+        }
+        public static IStateLens<TState, TFeatureState> CreateSubReducers<TState, TFeatureState>(
+            ISelectorWithoutProps<TState, TFeatureState> featureSelector,
+            Func<TState, TFeatureState, TState> stateReducer
+        )
+            where TState : class, new()
+            where TFeatureState : class, new()
+        {
+            var selector = new Func<TState, TFeatureState>(state => featureSelector.Apply(state));
+            return new ExplicitStateLens<TState, TFeatureState>(selector, stateReducer);
         }
     }
 }

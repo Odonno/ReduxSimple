@@ -1,22 +1,18 @@
 ﻿using Converto;
 using System.Collections.Generic;
 using static ReduxSimple.Reducers;
+using static ReduxSimple.Uwp.Samples.Counter.Selectors;
 
 namespace ReduxSimple.Uwp.Samples.Counter
 {
     public static class Reducers
     {
-        public static IEnumerable<On<CounterState>> CreateReducers()
+        public static IEnumerable<On<RootState>> GetReducers()
         {
-            return new List<On<CounterState>>
-            {
-                On<IncrementAction, CounterState>(
-                    state => state.With(new { Count = state.Count + 1 })
-                ),
-                On<DecrementAction, CounterState>(
-                    state => state.With(new { Count = state.Count - 1 })
-                )
-            };
+            return CreateSubReducers(SelectCounterState)
+                .On<IncrementAction>(state => state.With(new { Count = state.Count + 1 }))
+                .On<DecrementAction>(state => state.With(new { Count = state.Count - 1 }))
+                .ToList();
         }
     }
 }
