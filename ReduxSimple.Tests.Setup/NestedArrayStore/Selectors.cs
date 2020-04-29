@@ -4,16 +4,16 @@ namespace ReduxSimple.Tests.Setup.NestedArrayStore
 {
     public static class Selectors
     {
-        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested1 = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState> SelectNested1 = CreateSelector(
             (RootState state) => state.States[0]
         );
-        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested2 = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState> SelectNested2 = CreateSelector(
             (RootState state) => state.States[1]
         );
-        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested3 = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState> SelectNested3 = CreateSelector(
             (RootState state) => state.States[2]
         );
-        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested4 = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState> SelectNested4 = CreateSelector(
             (RootState state) => state.States[3]
         );
 
