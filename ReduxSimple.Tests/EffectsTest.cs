@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Shouldly;
+using Xunit;
 using ReduxSimple.Tests.Setup.TodoListStore;
 using System.Reactive.Linq;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
@@ -46,8 +47,8 @@ namespace ReduxSimple.Tests
             DispatchAddTodoItemAction(store, 1, "Create unit tests");
 
             // Assert
-            Assert.Equal(2, store.State.TodoList?.Count);
-            Assert.Equal(1, calls);
+            store.State.TodoList?.Count.ShouldBe(2);
+            calls.ShouldBe(1);
         }
 
         [Fact]
@@ -75,8 +76,8 @@ namespace ReduxSimple.Tests
             DispatchAddTodoItemAction(store, 1, "Create unit tests");
 
             // Assert
-            Assert.Single(store.State.TodoList);
-            Assert.Equal(1, calls);
+            store.State.TodoList.ShouldHaveSingleItem();
+            calls.ShouldBe(1);
         }
     }
 }

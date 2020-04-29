@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,11 @@ namespace ReduxSimple.Tests
                     observeCount++;
 
                     // Assert
-                    Assert.Empty(items);
+                    items.ShouldBeEmpty();
                 });
 
             // Assert
-            Assert.Equal(1, observeCount);
+            observeCount.ShouldBe(1);
         }
 
         [Fact]
@@ -64,8 +65,8 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(3, observeCount);
-            Assert.Empty(result);
+            observeCount.ShouldBe(3);
+            result.ShouldBeEmpty();
         }
 
         [Fact]
@@ -95,8 +96,8 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(3, observeCount);
-            Assert.Equal(2, result.Count());
+            observeCount.ShouldBe(3);
+            result.Count().ShouldBe(2);
         }
     }
 }

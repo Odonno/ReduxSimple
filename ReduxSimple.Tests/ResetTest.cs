@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
+using Shouldly;
 using System;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
@@ -32,18 +33,18 @@ namespace ReduxSimple.Tests
 
             DispatchAllActions(store);
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
             store.Reset();
 
             // Assert
-            Assert.Equal(1, observeCount);
-            Assert.Empty(lastState?.TodoList);
-            Assert.Equal("David", lastState?.CurrentUser);
-            Assert.False(store.CanRedo);
-            Assert.False(store.CanUndo);
+            observeCount.ShouldBe(1);
+            lastState?.TodoList.ShouldBeEmpty();
+            lastState?.CurrentUser.ShouldBe("David");
+            store.CanRedo.ShouldBeFalse();
+            store.CanUndo.ShouldBeFalse();
         }
 
         [Fact]
@@ -73,9 +74,9 @@ namespace ReduxSimple.Tests
             store.Reset();
 
             // Assert
-            Assert.Equal(1, observeCount);
-            Assert.Empty(lastState?.TodoList);
-            Assert.Equal("David", lastState?.CurrentUser);
+            observeCount.ShouldBe(1);
+            lastState?.TodoList.ShouldBeEmpty();
+            lastState?.CurrentUser.ShouldBe("David");
         }
 
         [Fact]
@@ -105,10 +106,10 @@ namespace ReduxSimple.Tests
             store.Reset();
 
             // Assert
-            Assert.Equal(5, observeCount);
-            Assert.Single(lastHistory?.PreviousStates);
-            Assert.IsType<InitializeStoreAction>(lastHistory?.PreviousStates[0].Action);
-            Assert.Empty(lastHistory?.FutureActions);
+            observeCount.ShouldBe(5);
+            var previousState = lastHistory?.PreviousStates.ShouldHaveSingleItem();
+            previousState?.Action.ShouldBeOfType<InitializeStoreAction>();
+            lastHistory?.FutureActions.ShouldBeEmpty();
         }
     }
 }

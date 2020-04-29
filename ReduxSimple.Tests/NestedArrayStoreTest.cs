@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.NestedArrayStore;
+using Shouldly;
 using System;
 using System.Linq;
 using Xunit;
@@ -61,12 +62,12 @@ namespace ReduxSimple.Tests
                     lastResult4 = number;
                 });
 
-            var exception = Assert.Throws<NotSupportedException>(() =>
+            var exception = Should.Throw<NotSupportedException>(() =>
                 store.Dispatch(new UpdateNumberAction { Number = 10 })
             );
 
             // Assert
-            Assert.Equal("A sub-reducer cannot find the feature reducer of `NestedState` inside `RootState`.", exception.Message);
+            exception.Message.ShouldBe("A sub-reducer cannot find the feature reducer of `NestedState` inside `RootState`.");
         }
     }
 }

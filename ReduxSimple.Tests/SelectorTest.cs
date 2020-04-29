@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
+using Shouldly;
 using System;
 using System.Collections.Immutable;
 using System.Reactive.Linq;
@@ -37,9 +38,9 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(3, observeCount);
-            Assert.Single(lastState?.TodoList);
-            Assert.Equal("Emily", lastState?.CurrentUser);
+            observeCount.ShouldBe(3);
+            lastState?.TodoList.ShouldHaveSingleItem();
+            lastState?.CurrentUser.ShouldBe("Emily");
         }
 
         [Fact]
@@ -67,7 +68,7 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(4, observeCount);
+            observeCount.ShouldBe(4);
         }
 
         [Fact]
@@ -94,8 +95,8 @@ namespace ReduxSimple.Tests
             DispatchAllActions(store);
 
             // Assert
-            Assert.Equal(4, observeCount);
-            Assert.Equal(3, lastResult?.Count);
+            observeCount.ShouldBe(4);
+            lastResult?.Count.ShouldBe(3);
         }
 
         [Fact]
@@ -121,7 +122,7 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(2, observeCount);
+            observeCount.ShouldBe(2);
         }
 
         [Fact]
@@ -152,9 +153,9 @@ namespace ReduxSimple.Tests
             DispatchAllActions(store);
 
             // Assert
-            Assert.Equal(5, observeCount);
-            Assert.Equal(3, lastPartialState.todoList?.Count);
-            Assert.Equal("Emily", lastPartialState.currentUser);
+            observeCount.ShouldBe(5);
+            lastPartialState.todoList?.Count.ShouldBe(3);
+            lastPartialState.currentUser.ShouldBe("Emily");
         }
 
         [Fact]
@@ -188,9 +189,9 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(4, observeCount);
-            Assert.Equal(2, lastPartialState.todoList?.Count);
-            Assert.Equal("Emily", lastPartialState.currentUser);
+            observeCount.ShouldBe(4);
+            lastPartialState.todoList?.Count.ShouldBe(2);
+            lastPartialState.currentUser.ShouldBe("Emily");
         }
 
         [Fact]
@@ -224,9 +225,9 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Equal(3, observeCount);
-            Assert.Equal(2, lastPartialState.todoList?.Count);
-            Assert.Null(lastPartialState.uselessProperty);
+            observeCount.ShouldBe(3);
+            lastPartialState.todoList?.Count.ShouldBe(2);
+            lastPartialState.uselessProperty.ShouldBeNull();
         }
 
         [Fact]
@@ -258,9 +259,9 @@ namespace ReduxSimple.Tests
             DispatchResetAction(store);
 
             // Assert
-            Assert.Equal(6, observeCount);
-            Assert.Equal(0, lastPartialState.todoList?.Count);
-            Assert.Equal("David", lastPartialState.currentUser);
+            observeCount.ShouldBe(6);
+            lastPartialState.todoList.ShouldBeEmpty();
+            lastPartialState.currentUser.ShouldBe("David");
         }
     }
 }

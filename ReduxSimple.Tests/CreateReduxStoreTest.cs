@@ -1,3 +1,4 @@
+using Shouldly;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using EmptyStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.EmptyStore.EmptyState>;
@@ -18,7 +19,7 @@ namespace ReduxSimple.Tests
             // Act
 
             // Assert
-            Assert.NotNull(store.State);
+            store.State.ShouldNotBeNull();
         }
 
         [Fact]
@@ -34,7 +35,7 @@ namespace ReduxSimple.Tests
             // Act
 
             // Assert
-            Assert.Empty(store.State.TodoList);
+            store.State.TodoList.ShouldBeEmpty();
         }
 
         [Fact]
@@ -52,9 +53,9 @@ namespace ReduxSimple.Tests
             var history = store.GetHistory();
 
             // Assert
-            Assert.Single(history.PreviousStates);
-            Assert.IsType<InitializeStoreAction>(history.PreviousStates[0].Action);
-            Assert.Empty(history.FutureActions);
+            var previousState = history.PreviousStates.ShouldHaveSingleItem();
+            previousState.Action.ShouldBeOfType<InitializeStoreAction>();
+            history.FutureActions.ShouldBeEmpty();
         }
     }
 }

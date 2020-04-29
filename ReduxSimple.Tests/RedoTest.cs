@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shouldly;
+using System;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
@@ -21,29 +22,29 @@ namespace ReduxSimple.Tests
             // Act
             DispatchAllActions(store);
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanRedo);
+            store.CanRedo.ShouldBeTrue();
 
             store.Redo();
 
-            Assert.True(store.CanRedo);
+            store.CanRedo.ShouldBeTrue();
 
             store.Redo();
 
             // Assert
-            Assert.Equal(2, store.State.TodoList?.Count);
-            Assert.Equal("Emily", store.State.CurrentUser);
+            store.State.TodoList?.Count.ShouldBe(2);
+            store.State.CurrentUser.ShouldBe("Emily");
         }
 
         [Fact]
@@ -61,7 +62,7 @@ namespace ReduxSimple.Tests
             DispatchAllActions(store);
 
             // Assert
-            Assert.False(store.CanRedo);
+            store.CanRedo.ShouldBeFalse();
         }
         
         [Fact]
@@ -93,7 +94,7 @@ namespace ReduxSimple.Tests
             store.Redo();
 
             // Assert
-            Assert.Equal(4, observeCount);
+            observeCount.ShouldBe(4);
         }
 
         [Fact]
@@ -125,7 +126,7 @@ namespace ReduxSimple.Tests
             store.Redo();
 
             // Assert
-            Assert.Equal(2, observeCount);
+            observeCount.ShouldBe(2);
         }
     }
 }

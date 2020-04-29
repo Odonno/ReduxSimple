@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.MultiReduceStore;
+using Shouldly;
 using Xunit;
 using MultiReduceStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.MultiReduceStore.MultiReduceState>;
 
@@ -18,9 +19,9 @@ namespace ReduxSimple.Tests
             store.Dispatch(new UpdateNumberAction { Number = 12 });
 
             // Assert
-            Assert.Equal(12, store.State.Number1);
-            Assert.Equal(12, store.State.Number2);
-            Assert.Equal(12, store.State.Number3);
+            store.State.Number1.ShouldBe(12);
+            store.State.Number2.ShouldBe(12);
+            store.State.Number3.ShouldBe(12);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.ReusedStateStore;
+using Shouldly;
 using System;
 using System.Linq;
 using Xunit;
@@ -65,10 +66,10 @@ namespace ReduxSimple.Tests
             store.Dispatch(new UpdateNumberAction { Number = 10 });
 
             // Assert
-            Assert.Equal(6, observeCount);
-            Assert.Equal(10, lastResult1);
-            Assert.Equal(10, lastResult2);
-            Assert.Equal(10, lastResult3);
+            observeCount.ShouldBe(6);
+            lastResult1.ShouldBe(10);
+            lastResult2.ShouldBe(10);
+            lastResult3.ShouldBe(10);
         }
     }
 }

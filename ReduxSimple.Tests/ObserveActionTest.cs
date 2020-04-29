@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
+using Shouldly;
 using System;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
@@ -32,8 +33,8 @@ namespace ReduxSimple.Tests
             DispatchAllActions(store);
 
             // Assert
-            Assert.Equal(4, observeCount);
-            Assert.IsType<AddTodoItemAction>(lastAction);
+            observeCount.ShouldBe(4);
+            lastAction.ShouldBeOfType<AddTodoItemAction>();
         }
 
         [Fact]
@@ -60,8 +61,8 @@ namespace ReduxSimple.Tests
             DispatchAllActions(store);
 
             // Assert
-            Assert.Equal(1, observeCount);
-            Assert.IsType<SwitchUserAction>(lastAction);
+            observeCount.ShouldBe(1);
+            lastAction.ShouldBeOfType<SwitchUserAction>();
         }
     }
 }

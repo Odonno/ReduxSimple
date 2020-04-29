@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.NestedStore;
+using Shouldly;
 using System;
 using System.Linq;
 using Xunit;
@@ -40,8 +41,8 @@ namespace ReduxSimple.Tests
             store.Dispatch(new UpdateNumberAction { Number = 10 });
 
             // Assert
-            Assert.Equal(2, observeCount);
-            Assert.Equal(10, lastResult);
+            observeCount.ShouldBe(2);
+            lastResult.ShouldBe(10);
         }
     }
 }

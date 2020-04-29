@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Shouldly;
+using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
 
@@ -20,7 +21,7 @@ namespace ReduxSimple.Tests
             DispatchAddTodoItemAction(store, 1, "Create unit tests");
 
             // Assert
-            Assert.Single(store.State.TodoList);
+            store.State.TodoList.ShouldHaveSingleItem();
         }
 
         [Fact]
@@ -38,8 +39,8 @@ namespace ReduxSimple.Tests
             DispatchSwitchUserAction(store, "Emily");
 
             // Assert
-            Assert.Single(store.State.TodoList);
-            Assert.Equal("Emily", store.State.CurrentUser);
+            store.State.TodoList.ShouldHaveSingleItem();
+            store.State.CurrentUser.ShouldBe("Emily");
         }
     }
 }

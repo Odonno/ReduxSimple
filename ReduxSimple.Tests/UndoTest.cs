@@ -1,4 +1,5 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
+using Shouldly;
 using System;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
@@ -23,9 +24,9 @@ namespace ReduxSimple.Tests
             bool result = store.CanUndo;
 
             // Assert
-            Assert.False(result);
-            Assert.Equal("David", store.State.CurrentUser);
-            Assert.Empty(store.State.TodoList);
+            result.ShouldBeFalse();
+            store.State.CurrentUser.ShouldBe("David");
+            store.State.TodoList.ShouldBeEmpty();
         }
 
         [Fact]
@@ -52,19 +53,19 @@ namespace ReduxSimple.Tests
 
             DispatchAllActions(store);
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
             // Assert
-            Assert.Equal(2, observeCount);
-            Assert.IsType<AddTodoItemAction>(lastAction);
-            Assert.Single(store.State.TodoList);
-            Assert.Equal("Emily", store.State.CurrentUser);
+            observeCount.ShouldBe(2);
+            lastAction.ShouldBeOfType<AddTodoItemAction>();
+            store.State.TodoList.ShouldHaveSingleItem();
+            store.State.CurrentUser.ShouldBe("Emily");
         }
 
         [Fact]
@@ -91,23 +92,23 @@ namespace ReduxSimple.Tests
 
             DispatchAllActions(store);
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
             // Assert
-            Assert.Equal(1, observeCount);
-            Assert.IsType<SwitchUserAction>(lastAction);
-            Assert.Single(store.State.TodoList);
-            Assert.Equal("David", store.State.CurrentUser);
+            observeCount.ShouldBe(1);
+            lastAction.ShouldBeOfType<SwitchUserAction>();
+            store.State.TodoList.ShouldHaveSingleItem();
+            store.State.CurrentUser.ShouldBe("David");
         }
 
         [Fact]
@@ -124,26 +125,26 @@ namespace ReduxSimple.Tests
             // Act
             DispatchAllActions(store);
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
-            Assert.True(store.CanUndo);
+            store.CanUndo.ShouldBeTrue();
 
             store.Undo();
 
             // Assert
-            Assert.False(store.CanUndo);
-            Assert.Equal("David", store.State.CurrentUser);
-            Assert.Empty(store.State.TodoList);
+            store.CanUndo.ShouldBeFalse();
+            store.State.CurrentUser.ShouldBe("David");
+            store.State.TodoList.ShouldBeEmpty();
         }
     }
 }
