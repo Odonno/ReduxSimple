@@ -1,14 +1,11 @@
 ```csharp
 public static class Reducers
 {
-    public static IEnumerable<On<TodoListState>> CreateReducers()
+    public static IEnumerable<On<RootState>> GetReducers()
     {
-        return new List<On<TodoListState>>
-        {
-            On<SetFilterAction, TodoListState>(
-                (state, action) => state.With(new { action.Filter })
-            ),
-            On<CreateTodoItemAction, TodoListState>(
+        return CreateSubReducers(SelectTodoListState)
+            .On<SetFilterAction>((state, action) => state.With(new { action.Filter }))
+            .On<CreateTodoItemAction>(
                 state =>
                 {
                     int newId = state.Items.Collection.Any() ? state.Items.Ids.Max() + 1 : 1;
@@ -17,8 +14,8 @@ public static class Reducers
                         Items = TodoItemAdapter.UpsertOne(new TodoItem { Id = newId }, state.Items)
                     });
                 }
-            ),
-            On<CompleteTodoItemAction, TodoListState>(
+            )
+            .On<CompleteTodoItemAction>(
                 (state, action) =>
                 {
                     return state.With(new
@@ -26,8 +23,8 @@ public static class Reducers
                         Items = TodoItemAdapter.UpsertOne(new { action.Id, Completed = true }, state.Items)
                     });
                 }
-            ),
-            On<RevertCompleteTodoItemAction, TodoListState>(
+            )
+            .On<RevertCompleteTodoItemAction>(
                 (state, action) =>
                 {
                     return state.With(new
@@ -35,8 +32,8 @@ public static class Reducers
                         Items = TodoItemAdapter.UpsertOne(new { action.Id, Completed = false }, state.Items)
                     });
                 }
-            ),
-            On<UpdateTodoItemAction, TodoListState>(
+            )
+            .On<UpdateTodoItemAction>(
                 (state, action) =>
                 {
                     return state.With(new
@@ -44,8 +41,8 @@ public static class Reducers
                         Items = TodoItemAdapter.UpsertOne(new { action.Id, action.Content }, state.Items)
                     });
                 }
-            ),
-            On<RemoveTodoItemAction, TodoListState>(
+            )
+            .On<RemoveTodoItemAction>(
                 (state, action) =>
                 {
                     return state.With(new
@@ -54,7 +51,7 @@ public static class Reducers
                     });
                 }
             )
-        };
+            .ToList();
     }
 }
 ```

@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using static ReduxSimple.Reducers;
+using static ReduxSimple.Uwp.Samples.TicTacToe.Selectors;
 
 namespace ReduxSimple.Uwp.Samples.TicTacToe
 {
     public static class Reducers
     {
-        public static IEnumerable<On<TicTacToeState>> CreateReducers()
+        public static IEnumerable<On<RootState>> GetReducers()
         {
-            return new List<On<TicTacToeState>>
-            {
-                On<PlayAction, TicTacToeState>(
+            return CreateSubReducers(SelectTicTacToeState)
+                .On<PlayAction>(
                     (state, action) =>
                     {
                         // Player take cell
@@ -46,11 +46,9 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
                             Winner = winnerTurn2
                         });
                     }
-                ),
-                On<StartNewGameAction, TicTacToeState>(
-                    _ => TicTacToeState.InitialState
                 )
-            };
+                .On<StartNewGameAction>(_ => TicTacToeState.InitialState)
+                .ToList();
         }
 
         private static ImmutableArray<Cell> PlayerTakeCell(ImmutableArray<Cell> cells, PlayAction playAction)
