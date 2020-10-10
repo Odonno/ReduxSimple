@@ -4,12 +4,13 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/odonno/reduxsimple/badge)](https://www.codefactor.io/repository/github/odonno/reduxsimple)
 
-| Package | Versions |
-| ------- | -------- |
-| ReduxSimple | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.svg)](https://www.nuget.org/packages/ReduxSimple/) |
-| ReduxSimple.Entity | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Entity.svg)](https://www.nuget.org/packages/ReduxSimple.Entity/) |
+| Package                     | Versions                                                                                                                                |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| ReduxSimple                 | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.svg)](https://www.nuget.org/packages/ReduxSimple/)                                 |
+| ReduxSimple.Entity          | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Entity.svg)](https://www.nuget.org/packages/ReduxSimple.Entity/)                   |
+| ReduxSimple.Uwp             | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp/)                         |
 | ReduxSimple.Uwp.RouterStore | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.RouterStore.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp.RouterStore/) |
-| ReduxSimple.Uwp.DevTools | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.DevTools.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp.DevTools/) |
+| ReduxSimple.Uwp.DevTools    | [![NuGet](https://img.shields.io/nuget/v/ReduxSimple.Uwp.DevTools.svg)](https://www.nuget.org/packages/ReduxSimple.Uwp.DevTools/)       |
 
 > Simple Stupid Redux Store using Reactive Extensions
 
@@ -23,12 +24,12 @@ You can follow this link: https://www.microsoft.com/store/apps/9PDBXGFZCVMS
 
 ## Getting started
 
-Like the original Redux library, you will have to initialize a new `State` when creating a `Store` + you will create `Reducer` functions each linked to an `Action` which will possibly update this `State`. 
+Like the original Redux library, you will have to initialize a new `State` when creating a `Store` + you will create `Reducer` functions each linked to an `Action` which will possibly update this `State`.
 
 In your app, you can:
 
-* `Dispatch` new `Action` to change the `State` 
-* and listen to events/changes using the `Subscribe` method
+- `Dispatch` new `Action` to change the `State`
+- and listen to events/changes using the `Subscribe` method
 
 You will need to follow the following steps to create your own Redux Store:
 
@@ -70,17 +71,17 @@ public static class Reducers
                 (state, action) => state.With(new { Pages = state.Pages.Add(action.PageName) })
             ),
             On<GoBackAction, RootState>(
-                state => 
+                state =>
                 {
                     var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
-                    return state.With(new { 
+                    return state.With(new {
                         CurrentPage = newPages.LastOrDefault(),
                         Pages = newPages
                     });
                 }
             ),
             On<ResetAction, RootState>(
-                state => state.With(new { 
+                state => state.With(new {
                     CurrentPage = string.Empty,
                     Pages = ImmutableArray<string>.Empty
                 })
@@ -134,6 +135,7 @@ Store.ObserveAction<NavigateAction>().Subscribe(_ =>
 
 Store.Select(state => state.CurrentPage)
     .Where(currentPage => currentPage == nameof(Page1))
+    .UntilDestroyed(this)
     .Subscribe(_ =>
     {
         // TODO : Handle event when the current page is now "Page1"
@@ -146,7 +148,7 @@ Store.Select(state => state.CurrentPage)
 <summary>Reducers</summary>
 <br>
 
-Reducers are pure functions used to create a new `state` once an `action` is triggered. 
+Reducers are pure functions used to create a new `state` once an `action` is triggered.
 
 ### Reducers on action
 
@@ -159,17 +161,17 @@ return new List<On<RootState>>
         (state, action) => state.With(new { Pages = state.Pages.Add(action.PageName) })
     ),
     On<GoBackAction, RootState>(
-        state => 
+        state =>
         {
             var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
-            return state.With(new { 
+            return state.With(new {
                 CurrentPage = newPages.LastOrDefault(),
                 Pages = newPages
             });
         }
     ),
     On<ResetAction, RootState>(
-        state => state.With(new { 
+        state => state.With(new {
             CurrentPage = string.Empty,
             Pages = ImmutableArray<string>.Empty
         })
@@ -183,9 +185,9 @@ Sub-reducers also known as feature reducers are nested reducers that are used to
 
 The `CreateSubReducers` function helps you to create sub-reducers. This function has a few requirements:
 
-* a `Selector` - to be able to access the value of the current nested state
-* a `Reducer` - to explicitly detail how to update the parent state given a new value for the nested state
-* and the list of reducers using `On` pattern
+- a `Selector` - to be able to access the value of the current nested state
+- a `Reducer` - to explicitly detail how to update the parent state given a new value for the nested state
+- and the list of reducers using `On` pattern
 
 First you need to create a new state lens for feature/nested states:
 
@@ -230,7 +232,7 @@ Remember that following this pattern, you can have an infinite number of layers 
 
 Based on what you need, you can observe the entire state or just a part of it.
 
-Note that every selector is a *memoized selector* by design, which means that a next value will only be subscribed if there is a difference with the previous value.
+Note that every selector is a _memoized selector_ by design, which means that a next value will only be subscribed if there is a difference with the previous value.
 
 ### Full state
 
@@ -256,7 +258,7 @@ Store.Select(state => state.CurrentPage)
 
 ### Simple selectors
 
-Simple selectors are like functions but the main benefits are that they can be reused in multiple components and they can be reused to create other selectors. 
+Simple selectors are like functions but the main benefits are that they can be reused in multiple components and they can be reused to create other selectors.
 
 ```csharp
 public static ISelectorWithoutProps<RootState, string> SelectCurrentPage = CreateSelector(
@@ -286,7 +288,7 @@ public static ISelectorWithoutProps<RootState, bool> SelectHasPreviousPage = Cre
 
 ### Reuse selectors - with props
 
-You can also use variables out of the store to create a new selector.   
+You can also use variables out of the store to create a new selector.
 
 ```csharp
 public static ISelectorWithProps<RootState, string, bool> SelectIsPageSelected = CreateSelector(
@@ -333,9 +335,9 @@ Side effects are functions that runs outside of the predictable State -> UI cycl
 
 When you work with asynchronous tasks (side effects), you can follow the following rule:
 
-* Create 3 actions - a start action, a `fulfilled` action and a `failed` action
-* Reduce/Handle response on `fulfilled` action
-* Reduce/Handle error on `failed` action
+- Create 3 actions - a start action, a `fulfilled` action and a `failed` action
+- Reduce/Handle response on `fulfilled` action
+- Reduce/Handle error on `failed` action
 
 Here is a concrete example.
 
@@ -365,14 +367,14 @@ public static Effect<RootState> GetTodos = CreateEffect<RootState>(
     () => Store.ObserveAction<GetTodosAction>()
         .Select(_ => _todoApi.GetTodos())
         .Switch()
-        .Select(todos => 
+        .Select(todos =>
         {
             return new GetTodosFulfilledAction
             {
                 Todos = todos.ToImmutableList()
             };
         })
-        .Catch(e => 
+        .Catch(e =>
         {
             return Observable.Return(
                 new GetTodosFailedAction
@@ -434,14 +436,14 @@ It will then fires an `UndoneAction` event you can subscribe to.
 Store.Select()
     .Subscribe(_ =>
     {
-        // TODO : Handle event when the State changed 
+        // TODO : Handle event when the State changed
         // You can observe the previous state generated or...
     });
 
 Store.ObserveUndoneAction()
     .Subscribe(_ =>
     {
-        // TODO : Handle event when an Undo event is triggered 
+        // TODO : Handle event when an Undo event is triggered
         // ...or you can observe actions undone
     });
 ```
@@ -512,7 +514,7 @@ You can then handle the reset event on your application.
 Store.ObserveReset()
     .Subscribe(_ =>
     {
-        // TODO : Handle event when the Store is reset 
+        // TODO : Handle event when the Store is reset
         // (example: flush navigation history and restart from login page)
     });
 ```
@@ -525,7 +527,7 @@ Store.ObserveReset()
 
 When dealing with entities, you often repeat the same process to add, update and remove entity from your collection state. With the `ReduxSimple.Entity` package, you can simplify the management of entities using the following pattern:
 
-1. Start creating an `EntityState` and an `EntityAdapter` 
+1. Start creating an `EntityState` and an `EntityAdapter`
 
 ```csharp
 public class TodoItemEntityState : EntityState<TodoItem, int>
@@ -619,12 +621,12 @@ protected override void OnLaunched(LaunchActivatedEventArgs e)
 
 ![./images/devtools.PNG](./images/devtools.PNG)
 
-Sometimes, it can be hard to debug your application. So there is a perfect tool called Redux DevTools which help you with that: 
+Sometimes, it can be hard to debug your application. So there is a perfect tool called Redux DevTools which help you with that:
 
-* list all dispatched actions
-* payload of the action and details of the new state after dispatch
-* differences between previous and next state
-* replay mechanism (time travel) 
+- list all dispatched actions
+- payload of the action and details of the new state after dispatch
+- differences between previous and next state
+- replay mechanism (time travel)
 
 #### For UWP
 
@@ -647,11 +649,11 @@ await Store.OpenDevToolsAsync();
 
 #### [mhusainisurge](https://github.com/mhusainisurge)
 
-* Observe partial state [#7](https://github.com/Odonno/ReduxSimple/pull/7)
-* `ReduxStoreWithHistory` [#9](https://github.com/Odonno/ReduxSimple/pull/9)
-* `Reset()` method on `ReduxStore` [#14](https://github.com/Odonno/ReduxSimple/pull/14)
-* XML documentation of C# classes and attributes [#16](https://github.com/Odonno/ReduxSimple/pull/16)
+- Observe partial state [#7](https://github.com/Odonno/ReduxSimple/pull/7)
+- `ReduxStoreWithHistory` [#9](https://github.com/Odonno/ReduxSimple/pull/9)
+- `Reset()` method on `ReduxStore` [#14](https://github.com/Odonno/ReduxSimple/pull/14)
+- XML documentation of C# classes and attributes [#16](https://github.com/Odonno/ReduxSimple/pull/16)
 
 #### [ltjax](https://github.com/ltjax)
 
-* Improvements on sub-reducers, with State lenses [#75](https://github.com/Odonno/ReduxSimple/pull/75)
+- Improvements on sub-reducers, with State lenses [#75](https://github.com/Odonno/ReduxSimple/pull/75)
