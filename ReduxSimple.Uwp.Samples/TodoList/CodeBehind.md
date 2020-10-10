@@ -17,6 +17,7 @@ public sealed partial class TodoListPage : Page
 
         // Observe changes on state
         Store.Select(SelectFilter)
+            .UntilDestroyed(this)
             .Subscribe(filter =>
             {
                 switch (filter)
@@ -38,6 +39,7 @@ public sealed partial class TodoListPage : Page
             });
 
         Store.Select(SelectItems)
+            .UntilDestroyed(this)
             .Subscribe(items =>
             {
                 if (TodoItemsListView.ItemsSource != advancedCollectionView)

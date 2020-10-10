@@ -10,6 +10,7 @@ public sealed partial class PokedexPage : Page
             CombineSelectors(SelectLoading, SelectIsPokedexEmpty)
         )
             .ObserveOnDispatcher()
+            .UntilDestroyed(this)
             .Subscribe(x =>
             {
                 var (loading, isPokedexEmpty) = x;
@@ -23,6 +24,7 @@ public sealed partial class PokedexPage : Page
 
         Store.Select(SelectSuggestions, 5)
             .ObserveOnDispatcher()
+            .UntilDestroyed(this)
             .Subscribe(suggestions =>
             {
                 AutoSuggestBox.ItemsSource = suggestions;
@@ -30,6 +32,7 @@ public sealed partial class PokedexPage : Page
 
         Store.Select(SelectPokemon)
             .ObserveOnDispatcher()
+            .UntilDestroyed(this)
             .Subscribe(pokemon =>
             {
                 PokemonPanel.ShowIf(pokemon.HasValue);
@@ -40,6 +43,7 @@ public sealed partial class PokedexPage : Page
 
         Store.Select(SelectErrors)
             .ObserveOnDispatcher()
+            .UntilDestroyed(this)
             .Subscribe(errors =>
             {
                 ErrorsListView.ItemsSource = errors;

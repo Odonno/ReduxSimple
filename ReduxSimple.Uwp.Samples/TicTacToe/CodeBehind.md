@@ -12,6 +12,7 @@ public sealed partial class TicTacToePage : Page
 		Store.Select(
             CombineSelectors(SelectGameEnded, SelectWinner)
         )
+            .UntilDestroyed(this)
             .Subscribe(x =>
             {
                 var (gameEnded, winner) = x;
@@ -30,6 +31,7 @@ public sealed partial class TicTacToePage : Page
             });
 
         Store.Select(SelectCells)
+            .UntilDestroyed(this)
             .Subscribe(cells =>
             {
                 for (int i = 0; i < cells.Length; i++)
