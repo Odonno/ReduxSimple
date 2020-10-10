@@ -26,20 +26,22 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
             Store.Select(
                 CombineSelectors(SelectLoading, SelectIsPokedexEmpty)
             )
-               .ObserveOnDispatcher()
-               .Subscribe(x =>
-               {
-                   var (loading, isPokedexEmpty) = x;
+                .ObserveOnDispatcher()
+                .UntilDestroyed(this)
+                .Subscribe(x =>
+                {
+                    var (loading, isPokedexEmpty) = x;
 
-                   OpenPokedexButton.ShowIf(!loading && isPokedexEmpty);
+                    OpenPokedexButton.ShowIf(!loading && isPokedexEmpty);
 
-                   GlobalLoadingProgressRing.IsActive = loading && isPokedexEmpty;
-                   GlobalLoadingProgressRing.ShowIf(loading && isPokedexEmpty);
-                   RootStackPanel.ShowIf(!isPokedexEmpty);
-               });
+                    GlobalLoadingProgressRing.IsActive = loading && isPokedexEmpty;
+                    GlobalLoadingProgressRing.ShowIf(loading && isPokedexEmpty);
+                    RootStackPanel.ShowIf(!isPokedexEmpty);
+                });
 
             Store.Select(SelectSuggestions, 5)
                 .ObserveOnDispatcher()
+                .UntilDestroyed(this)
                 .Subscribe(suggestions =>
                 {
                     AutoSuggestBox.ItemsSource = suggestions;
@@ -47,6 +49,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
 
             Store.Select(SelectPokemon)
                 .ObserveOnDispatcher()
+                .UntilDestroyed(this)
                 .Subscribe(pokemon =>
                 {
                     PokemonPanel.ShowIf(pokemon.HasValue);
@@ -57,6 +60,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
 
             Store.Select(SelectErrors)
                 .ObserveOnDispatcher()
+                .UntilDestroyed(this)
                 .Subscribe(errors =>
                 {
                     ErrorsListView.ItemsSource = errors;

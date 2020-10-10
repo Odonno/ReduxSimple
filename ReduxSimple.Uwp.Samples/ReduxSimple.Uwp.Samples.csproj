@@ -322,6 +322,10 @@
       <Project>{1a224f30-719c-411c-9876-5c9bd99ea3c6}</Project>
       <Name>ReduxSimple.Uwp.RouterStore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReduxSimple.Uwp\ReduxSimple.Uwp.csproj">
+      <Project>{981e7664-7703-4f24-93ec-073a913643e0}</Project>
+      <Name>ReduxSimple.Uwp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReduxSimple\ReduxSimple.csproj">
       <Project>{bd02f8db-a1e4-409c-9d69-3dfb2e84e786}</Project>
       <Name>ReduxSimple</Name>

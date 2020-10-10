@@ -26,6 +26,7 @@ namespace ReduxSimple.Uwp.Samples.TodoList
 
             // Observe changes on state
             Store.Select(SelectFilter)
+                .UntilDestroyed(this)
                 .Subscribe(filter =>
                 {
                     switch (filter)
@@ -47,6 +48,7 @@ namespace ReduxSimple.Uwp.Samples.TodoList
                 });
 
             Store.Select(SelectItems)
+                .UntilDestroyed(this)
                 .Subscribe(items =>
                 {
                     if (TodoItemsListView.ItemsSource != advancedCollectionView)

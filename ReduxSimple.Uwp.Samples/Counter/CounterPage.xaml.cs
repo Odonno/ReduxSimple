@@ -1,7 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
 using ReduxSimple.Uwp.DevTools;
 using ReduxSimple.Uwp.Samples.Components;
-using ReduxSimple.Uwp.Samples.Extensions;
 using System;
 using System.Reactive.Linq;
 using Windows.System;
@@ -21,6 +20,7 @@ namespace ReduxSimple.Uwp.Samples.Counter
 
             // Observe changes on state
             Store.Select(SelectCount)
+                .UntilDestroyed(this)
                 .Subscribe(count =>
                 {
                     CounterValueTextBlock.Text = count.ToString();

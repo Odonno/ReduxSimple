@@ -27,6 +27,7 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
             Store.Select(
                 CombineSelectors(SelectGameEnded, SelectWinner)
             )
+                .UntilDestroyed(this)
                 .Subscribe(x =>
                 {
                     var (gameEnded, winner) = x;
@@ -45,6 +46,7 @@ namespace ReduxSimple.Uwp.Samples.TicTacToe
                 });
 
             Store.Select(SelectCells)
+                .UntilDestroyed(this)
                 .Subscribe(cells =>
                 {
                     for (int i = 0; i < cells.Length; i++)
