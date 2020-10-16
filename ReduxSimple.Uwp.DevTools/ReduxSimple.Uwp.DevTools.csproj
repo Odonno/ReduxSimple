@@ -3,7 +3,7 @@
     <TargetFramework>uap10.0.18362</TargetFramework>
     <RootNamespace>ReduxSimple.Uwp.DevTools</RootNamespace>
     <PackageId>ReduxSimple.Uwp.DevTools</PackageId>
-    <Version>3.5.0-preview001</Version>
+    <Version>3.5.1-preview001</Version>
     <Authors>David Bottiau</Authors>
     <Title>ReduxSimple DevTools for UWP</Title>
     <Description>Simple Stupid Redux Store using Reactive Extensions - DevTools for UWP applications</Description>
