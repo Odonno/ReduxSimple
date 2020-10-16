@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
 namespace ReduxSimple
@@ -46,6 +48,20 @@ namespace ReduxSimple
             State = _initialState = initialState ?? new TState();
             _stateSubject = new BehaviorSubject<TState>(State);
             TimeTravelEnabled = enableTimeTravel;
+
+            _toDispatchSubject
+                .Synchronize()
+                .Subscribe(actionDispatched =>
+                {
+                    if (actionDispatched is ActionDispatchedWithOrigin actionWithOrigin)
+                    {
+                        ExecuteDispatch(actionWithOrigin);
+                    }
+                    if (actionDispatched is ActionDispatchedWithRewriteHistory actionWithRewriteHistory)
+                    {
+                        ExecuteDispatch(actionWithRewriteHistory);
+                    }
+                });
 
             Dispatch(new InitializeStoreAction());
         }

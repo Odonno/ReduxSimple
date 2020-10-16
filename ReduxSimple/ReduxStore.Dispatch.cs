@@ -11,19 +11,8 @@ namespace ReduxSimple
     /// <typeparam name="TState">The type of the state.</typeparam>
     public sealed partial class ReduxStore<TState> where TState : class, new()
     {
-        private class ActionWithOrigin
-        {
-            public object Action { get; }
-            public ActionOrigin Origin { get; set; }
-
-            public ActionWithOrigin(object action, ActionOrigin origin)
-            {
-                Action = action;
-                Origin = origin;
-            }
-        }
-
-        private readonly Subject<ActionWithOrigin> _actionSubject = new Subject<ActionWithOrigin>();
+        private readonly Subject<ActionDispatched> _toDispatchSubject = new Subject<ActionDispatched>();
+        private readonly Subject<ActionDispatchedWithOrigin> _dispatchedSubject = new Subject<ActionDispatchedWithOrigin>();
 
         /// <summary>
         /// Dispatches the specified action to the store, which reduces the current state of the store to a new state by performing the specified action
@@ -40,38 +29,44 @@ namespace ReduxSimple
 
             if (TimeTravelEnabled)
             {
-                Dispatch(action, true);
+                _toDispatchSubject.OnNext(new ActionDispatchedWithRewriteHistory(action, true));
             }
             else
             {
-                Dispatch(action, ActionOrigin.Normal);
+                _toDispatchSubject.OnNext(new ActionDispatchedWithOrigin(action, ActionOrigin.Normal));
             }
         }
+
         /// <summary>
         /// Dispatches the specified action to the store with the origin of the action (from current timeline, or previous one that meaning redone action)
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
         /// <param name="origin">The origin of the action.</param>
-        private void Dispatch(object action, ActionOrigin origin)
+        private void ExecuteDispatch(ActionDispatchedWithOrigin actionDispatchedWithOrigin)
         {
-            UpdateState(Reduce(State, action));
-            _actionSubject.OnNext(new ActionWithOrigin(action, origin));
+            UpdateState(Reduce(State, actionDispatchedWithOrigin.Action));
+            _dispatchedSubject.OnNext(actionDispatchedWithOrigin);
         }
         /// <summary>
         /// Dispatches the specified action to the store by specifying that it should clear the list of future actions (in time-travel scenario)
         /// </summary>
         /// <param name="action">The action to be performed on the current state.</param>
         /// <param name="rewriteHistory">Clear the list of future actions (that were already fired before in the store).</param>
-        private void Dispatch(object action, bool rewriteHistory)
+        private void ExecuteDispatch(ActionDispatchedWithRewriteHistory actionWithRewriteHistory)
         {
-            if (rewriteHistory)
+            if (actionWithRewriteHistory.RewriteHistory)
             {
                 _futureActions.Clear();
             }
 
-            _pastMementos.Push(new ReduxMemento<TState>(DateTime.Now, State, action));
+            _pastMementos.Push(new ReduxMemento<TState>(DateTime.Now, State, actionWithRewriteHistory.Action));
 
-            Dispatch(action, rewriteHistory ? ActionOrigin.Normal : ActionOrigin.Redone);
+            ExecuteDispatch(
+                new ActionDispatchedWithOrigin(
+                    actionWithRewriteHistory.Action,
+                    actionWithRewriteHistory.RewriteHistory ? ActionOrigin.Normal : ActionOrigin.Redone
+                )
+            );
         }
 
         /// <summary>
@@ -81,7 +76,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about actions performed on the store.</returns>
         public IObservable<object> ObserveAction(ActionOriginFilter filter = ActionOriginFilter.Normal)
         {
-            return _actionSubject
+            return _dispatchedSubject
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
                 .Select(x => x.Action);
         }
@@ -95,7 +90,7 @@ namespace ReduxSimple
         /// </returns>
         public IObservable<T> ObserveAction<T>(ActionOriginFilter filter = ActionOriginFilter.Normal)
         {
-            return _actionSubject
+            return _dispatchedSubject
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
                 .Select(x => x.Action)
                 .OfType<T>();

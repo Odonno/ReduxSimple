@@ -82,7 +82,7 @@ namespace ReduxSimple
                 return false;
             }
 
-            Dispatch(_futureActions.Pop(), false);
+            ExecuteDispatch(new ActionDispatchedWithRewriteHistory(_futureActions.Pop(), false));
 
             return true;
         }
