@@ -62,7 +62,7 @@ namespace ReduxSimple.Tests
         }
         
         [Fact]
-        public void ThrowExceptionIfUsingIndexedArrayForNestedStatesWithExplicitLens()
+        public void NotThrowExceptionIfUsingIndexedArrayForNestedStatesWithExplicitLens()
         {
             // Arrange
             var reducers = GetReducersFromExplicitLens();
