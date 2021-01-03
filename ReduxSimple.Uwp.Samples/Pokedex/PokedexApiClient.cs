@@ -41,6 +41,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
             {
                 var result = await GetAsync<PokedexResponse>("https://pokeapi.co/api/v1/pokedex/1");
                 observer.OnNext(result);
+                observer.OnCompleted();
             })
             .WithCache(() => _cacheService.Get<PokedexResponse>("pokedex"), r => _cacheService.Set("pokedex", r));
         }
@@ -51,6 +52,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
             {
                 var result = await GetAsync<PokemonResponse>($"https://pokeapi.co/api/v2/pokemon/{id}");
                 observer.OnNext(result);
+                observer.OnCompleted();
             })
             .WithCache(() => _cacheService.Get<PokemonResponse>($"pokemon/{id}"), r => _cacheService.Set($"pokemon/{id}", r));
         }
