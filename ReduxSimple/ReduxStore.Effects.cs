@@ -29,11 +29,15 @@ namespace ReduxSimple
 
                 if (effect.Config.Dispatch)
                 {
-                    effect.Run().Subscribe(Dispatch);
+                    effect.Run()
+                        .Retry()
+                        .Subscribe(Dispatch);
                 }
                 else
                 {
-                    effect.Run().Subscribe();
+                    effect.Run()
+                        .Retry()
+                        .Subscribe();
                 }
 
                 _effects.Add(effect);
