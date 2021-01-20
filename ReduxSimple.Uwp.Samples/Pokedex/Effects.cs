@@ -14,58 +14,62 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
 
         public static Effect<RootState> LoadPokemonList = CreateEffect<RootState>(
             () => Store.ObserveAction<GetPokemonListAction>()
-                .Select(_ => _pokedexApiClient.GetPokedex())
-                .Switch()
-                .Select(response =>
-                {
-                    return new GetPokemonListFullfilledAction
-                    {
-                        Pokedex = response.PokemonEntries
-                            .Select(p => new PokemonGeneralInfo { Id = p.Number, Name = p.Species.Name.Capitalize() })
-                            .ToList()
-                    };
-                })
-                .Catch<object, Exception>(e =>
-                {
-                    return Observable.Return(
-                        new GetPokemonListFailedAction
+                .Select(_ => 
+                    _pokedexApiClient.GetPokedex()
+                        .Select(response =>
                         {
-                            Exception = e
-                        }
-                    );
-                }),
+                            return new GetPokemonListFullfilledAction
+                            {
+                                Pokedex = response.PokemonEntries
+                                    .Select(p => new PokemonGeneralInfo { Id = p.Number, Name = p.Species.Name.Capitalize() })
+                                    .ToList()
+                            };
+                        })
+                        .Catch<object, Exception>(e =>
+                        {
+                            return Observable.Return(
+                                new GetPokemonListFailedAction
+                                {
+                                    Exception = e
+                                }
+                            );
+                        })
+                )
+                .Switch(),
             true
         );
 
         public static Effect<RootState> LoadPokemonById = CreateEffect<RootState>(
             () => Store.ObserveAction<GetPokemonByIdAction>()
-                .Select(action => _pokedexApiClient.GetPokemonById(action.Id))
-                .Switch()
-                .Select(response =>
-                {
-                    return new GetPokemonByIdFullfilledAction
-                    {
-                        Pokemon = new Pokemon
+                .Select(action => 
+                    _pokedexApiClient.GetPokemonById(action.Id)
+                        .Select(response =>
                         {
-                            Id = response.Id,
-                            Name = response.Name.Capitalize(),
-                            Image = response.Sprites.Image,
-                            Types = response.Types
-                                .OrderBy(t => t.Slot)
-                                .Select(t => new PokemonType { Name = t.Type.Name })
-                                .ToList()
-                        }
-                    };
-                })
-                .Catch<object, Exception>(e =>
-                {
-                    return Observable.Return(
-                        new GetPokemonByIdFailedAction
+                            return new GetPokemonByIdFullfilledAction
+                            {
+                                Pokemon = new Pokemon
+                                {
+                                    Id = response.Id,
+                                    Name = response.Name.Capitalize(),
+                                    Image = response.Sprites.Image,
+                                    Types = response.Types
+                                        .OrderBy(t => t.Slot)
+                                        .Select(t => new PokemonType { Name = t.Type.Name })
+                                        .ToList()
+                                }
+                            };
+                        })
+                        .Catch<object, Exception>(e =>
                         {
-                            Exception = e
-                        }
-                    );
-                }),
+                            return Observable.Return(
+                                new GetPokemonByIdFailedAction
+                                {
+                                    Exception = e
+                                }
+                            );
+                        })
+                )
+                .Switch(),                
             true
         );
 

@@ -365,25 +365,27 @@ You now need to observe this action and execute an HTTP call that will then disp
 ```csharp
 public static Effect<RootState> GetTodos = CreateEffect<RootState>(
     () => Store.ObserveAction<GetTodosAction>()
-        .Select(_ => _todoApi.GetTodos())
-        .Switch()
-        .Select(todos =>
-        {
-            return new GetTodosFulfilledAction
-            {
-                Todos = todos.ToImmutableList()
-            };
-        })
-        .Catch(e =>
-        {
-            return Observable.Return(
-                new GetTodosFailedAction
+        .Select(_ =>
+            _todoApi.GetTodos()
+                .Select(todos =>
                 {
-                    StatusCode = e.StatusCode,
-                    Reason = e.Reason
-                }
-            );
-        }),
+                    return new GetTodosFulfilledAction
+                    {
+                        Todos = todos.ToImmutableList()
+                    };
+                })
+                .Catch(e =>
+                {
+                    return Observable.Return(
+                        new GetTodosFailedAction
+                        {
+                            StatusCode = e.StatusCode,
+                            Reason = e.Reason
+                        }
+                    );
+                })
+        )
+        .Switch(),
     true // indicates if the ouput of the effect should be dispatched to the store
 );
 ```
