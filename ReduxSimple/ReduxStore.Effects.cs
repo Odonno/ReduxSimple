@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Linq;
 
 namespace ReduxSimple
@@ -11,37 +12,34 @@ namespace ReduxSimple
     /// <typeparam name="TState">The type of the state.</typeparam>
     public sealed partial class ReduxStore<TState> where TState : class, new()
     {
-        private readonly List<Effect<TState>> _effects = new List<Effect<TState>>();
-
         /// <summary>
         /// Append effects to the current list of effect.
         /// </summary>
         /// <param name="effect">Effect to use in the Store.</param>
         public void RegisterEffects(params Effect<TState>[] effects)
         {
-            foreach (var effect in effects)
-            {
-                if (effect.Run == null || effect.Config == null)
+            var effectSources = effects
+                .Select(effect =>
                 {
-                    Debug.WriteLine($"An effect is not well configured...");
-                    continue;
-                }
+                    if (effect.Run == null || effect.Config == null)
+                    {
+                        Debug.WriteLine($"An effect is not well configured...");
+                        return null;
+                    }
 
-                if (effect.Config.Dispatch)
-                {
-                    effect.Run()
-                        .Retry()
-                        .Subscribe(Dispatch);
-                }
-                else
-                {
-                    effect.Run()
-                        .Retry()
-                        .Subscribe();
-                }
+                    if (effect.Config.Dispatch)
+                    {
+                        return effect.Run()
+                            .Retry()
+                            .SelectMany(action => Observable.Return(action));
+                    }
 
-                _effects.Add(effect);
-            }
+                    return effect.Run()
+                        .Retry()
+                        .SelectMany(_ => Observable.Empty<object>());
+                });
+
+            Observable.Merge(effectSources).Subscribe(Dispatch);
         }
     }
 }

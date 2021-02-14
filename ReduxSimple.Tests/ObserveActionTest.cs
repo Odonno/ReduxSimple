@@ -1,6 +1,7 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
 using Shouldly;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
@@ -10,7 +11,7 @@ namespace ReduxSimple.Tests
     public class ObserveActionTest
     {
         [Fact]
-        public void CanObserveActions()
+        public async Task CanObserveActions()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -32,13 +33,15 @@ namespace ReduxSimple.Tests
 
             DispatchAllActions(store);
 
+            await Task.Delay(100);
+
             // Assert
             observeCount.ShouldBe(4);
             lastAction.ShouldBeOfType<AddTodoItemAction>();
         }
 
         [Fact]
-        public void CanObserveSingleActionType()
+        public async Task CanObserveSingleActionType()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -59,6 +62,8 @@ namespace ReduxSimple.Tests
                 });
 
             DispatchAllActions(store);
+
+            await Task.Delay(100);
 
             // Assert
             observeCount.ShouldBe(1);

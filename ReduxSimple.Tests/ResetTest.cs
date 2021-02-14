@@ -1,6 +1,7 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
 using Shouldly;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
@@ -80,7 +81,7 @@ namespace ReduxSimple.Tests
         }
 
         [Fact]
-        public void ObserveHistoryOnReset()
+        public async Task ObserveHistoryOnReset()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -104,6 +105,8 @@ namespace ReduxSimple.Tests
             DispatchAllActions(store);
 
             store.Reset();
+
+            await Task.Delay(100);
 
             // Assert
             observeCount.ShouldBe(5);

@@ -1,5 +1,6 @@
 ﻿using Shouldly;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
@@ -66,7 +67,7 @@ namespace ReduxSimple.Tests
         }
         
         [Fact]
-        public void RedoAndObserveNormalTimelineActionsOnly()
+        public async Task RedoAndObserveNormalTimelineActionsOnly()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -80,7 +81,7 @@ namespace ReduxSimple.Tests
             int observeCount = 0;
 
             store.ObserveAction()
-                .Subscribe(_ =>
+                .Subscribe(a =>
                 {
                     observeCount++;
                 });
@@ -93,12 +94,14 @@ namespace ReduxSimple.Tests
             store.Redo();
             store.Redo();
 
+            await Task.Delay(1000);
+
             // Assert
             observeCount.ShouldBe(4);
         }
 
         [Fact]
-        public void RedoAndObserveRedoneActionsOnly()
+        public async Task RedoAndObserveRedoneActionsOnly()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
@@ -124,6 +127,8 @@ namespace ReduxSimple.Tests
             store.Undo();
             store.Redo();
             store.Redo();
+
+            await Task.Delay(100);
 
             // Assert
             observeCount.ShouldBe(2);

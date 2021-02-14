@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -48,6 +49,11 @@ namespace ReduxSimple
             State = _initialState = initialState ?? new TState();
             _stateSubject = new BehaviorSubject<TState>(State);
             TimeTravelEnabled = enableTimeTravel;
+
+            _dispatchedAction = _dispatchedSubject
+                .ObserveOn(Scheduler.Default)
+                .Publish();
+            _dispatchedAction.Connect();
 
             _toDispatchSubject
                 .Synchronize()

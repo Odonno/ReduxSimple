@@ -14,6 +14,8 @@ namespace ReduxSimple
         private readonly Subject<ActionDispatched> _toDispatchSubject = new Subject<ActionDispatched>();
         private readonly Subject<ActionDispatchedWithOrigin> _dispatchedSubject = new Subject<ActionDispatchedWithOrigin>();
 
+        private readonly IConnectableObservable<ActionDispatchedWithOrigin> _dispatchedAction;
+
         /// <summary>
         /// Dispatches the specified action to the store, which reduces the current state of the store to a new state by performing the specified action
         /// on the current state.
@@ -76,7 +78,7 @@ namespace ReduxSimple
         /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates about actions performed on the store.</returns>
         public IObservable<object> ObserveAction(ActionOriginFilter filter = ActionOriginFilter.Normal)
         {
-            return _dispatchedSubject
+            return _dispatchedAction
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
                 .Select(x => x.Action);
         }
@@ -90,7 +92,7 @@ namespace ReduxSimple
         /// </returns>
         public IObservable<T> ObserveAction<T>(ActionOriginFilter filter = ActionOriginFilter.Normal)
         {
-            return _dispatchedSubject
+            return _dispatchedAction
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
                 .Select(x => x.Action)
                 .OfType<T>();
