@@ -29,12 +29,12 @@ namespace ReduxSimple
 
                     if (effect.Config.Dispatch)
                     {
-                        return effect.Run()
+                        return effect.Run(this)
                             .Retry()
                             .SelectMany(action => Observable.Return(action));
                     }
 
-                    return effect.Run()
+                    return effect.Run(this)
                         .Retry()
                         .SelectMany(_ => Observable.Empty<object>());
                 });

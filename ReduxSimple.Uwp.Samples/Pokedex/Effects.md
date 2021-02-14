@@ -4,7 +4,7 @@ public static class Effects
     private readonly static PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
     public static Effect<RootState> LoadPokemonList = CreateEffect<RootState>(
-        () => Store.ObserveAction<GetPokemonListAction>()
+        (store) => store.ObserveAction<GetPokemonListAction>()
             .Select(_ =>
                 _pokedexApiClient.GetPokedex()
                     .Select(response =>
@@ -31,7 +31,7 @@ public static class Effects
     );
 
     public static Effect<RootState> LoadPokemonById = CreateEffect<RootState>(
-        () => Store.ObserveAction<GetPokemonByIdAction>()
+        (store) => store.ObserveAction<GetPokemonByIdAction>()
             .Select(action =>
                 _pokedexApiClient.GetPokemonById(action.Id)
                     .Select(response =>
@@ -65,14 +65,14 @@ public static class Effects
     );
 
     public static Effect<RootState> SearchPokemon = CreateEffect<RootState>(
-        () => Store.Select(SelectSearch)
+        (store) => store.Select(SelectSearch)
             .Select(search =>
             {
                 return Observable.CombineLatest(
                     Observable.Return(search),
-                    Store.Select(SelectIsPokedexEmpty).Take(1),
-                    Store.Select(SelectPokedex).Take(1),
-                    Store.Select(SelectSuggestions, 1).Take(1),
+                    store.Select(SelectIsPokedexEmpty).Take(1),
+                    store.Select(SelectPokedex).Take(1),
+                    store.Select(SelectSuggestions, 1).Take(1),
                     Tuple.Create
                 );
             })

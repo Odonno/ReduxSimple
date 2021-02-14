@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using static ReduxSimple.Effects;
-using static ReduxSimple.Uwp.Samples.App;
 using static ReduxSimple.Uwp.Samples.Pokedex.Selectors;
 
 namespace ReduxSimple.Uwp.Samples.Pokedex
@@ -13,7 +12,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
         private readonly static PokedexApiClient _pokedexApiClient = new PokedexApiClient();
 
         public static Effect<RootState> LoadPokemonList = CreateEffect<RootState>(
-            () => Store.ObserveAction<GetPokemonListAction>()
+            (store) => store.ObserveAction<GetPokemonListAction>()
                 .Select(_ => 
                     _pokedexApiClient.GetPokedex()
                         .Select(response =>
@@ -40,7 +39,7 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
         );
 
         public static Effect<RootState> LoadPokemonById = CreateEffect<RootState>(
-            () => Store.ObserveAction<GetPokemonByIdAction>()
+            (store) => store.ObserveAction<GetPokemonByIdAction>()
                 .Select(action => 
                     _pokedexApiClient.GetPokemonById(action.Id)
                         .Select(response =>
@@ -74,14 +73,14 @@ namespace ReduxSimple.Uwp.Samples.Pokedex
         );
 
         public static Effect<RootState> SearchPokemon = CreateEffect<RootState>(
-            () => Store.Select(SelectSearch)
+            (store) => store.Select(SelectSearch)
                 .Select(search =>
                 {
                     return Observable.CombineLatest(
                         Observable.Return(search),
-                        Store.Select(SelectIsPokedexEmpty).Take(1),
-                        Store.Select(SelectPokedex).Take(1),
-                        Store.Select(SelectSuggestions, 1).Take(1),
+                        store.Select(SelectIsPokedexEmpty).Take(1),
+                        store.Select(SelectPokedex).Take(1),
+                        store.Select(SelectSuggestions, 1).Take(1),
                         Tuple.Create
                     );
                 })

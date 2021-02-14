@@ -27,7 +27,7 @@ namespace ReduxSimple.Tests
             int calls = 0;
 
             var effectWithDispatch = CreateEffect<TodoListState>(
-                () => store.ObserveAction<AddTodoItemAction>()
+                (s) => s.ObserveAction<AddTodoItemAction>()
                     .Where(action => action.TodoItem?.Id == 1)
                     .Do(_ => calls++)
                     .Select(_ =>
@@ -72,7 +72,7 @@ namespace ReduxSimple.Tests
             int calls = 0;
 
             var effectWithoutDispatch = CreateEffect<TodoListState>(
-                () => store.ObserveAction()
+                (s) => s.ObserveAction()
                     .Do(_ => calls++),
                 false
             );
@@ -117,7 +117,7 @@ namespace ReduxSimple.Tests
             int calls = 0;
 
             var effectWithDispatch = CreateEffect<TodoListState>(
-                () => store.ObserveAction<AddTodoItemAction>()
+                (s) => s.ObserveAction<AddTodoItemAction>()
                     .Do(_ => calls++)
                     .Select(_ =>
                     {
@@ -174,7 +174,7 @@ namespace ReduxSimple.Tests
             int callIndex = 0;
 
             var effect1Dispatch = CreateEffect<TodoListState>(
-                () => store.ObserveAction<AddTodoItemAction>()
+                (s) => s.ObserveAction<AddTodoItemAction>()
                     .Where(action => action.TodoItem?.Id == 1)
                     .Select(_ =>
                     {
@@ -193,7 +193,7 @@ namespace ReduxSimple.Tests
             var actionsObserved = new List<AddTodoItemAction?>();
 
             var effect2Dispatch = CreateEffect<TodoListState>(
-                () => store.ObserveAction()
+                (s) => s.ObserveAction()
                     .Do(action =>
                     {
                         var addTodoItemAction = action as AddTodoItemAction;
