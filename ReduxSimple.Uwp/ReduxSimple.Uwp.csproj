@@ -3,7 +3,7 @@
     <TargetFramework>uap10.0.16299</TargetFramework>
     <RootNamespace>ReduxSimple.Uwp</RootNamespace>
     <PackageId>ReduxSimple.Uwp</PackageId>
-    <Version>3.5.2-preview001</Version>
+    <Version>3.6.0-preview001</Version>
     <Authors>David Bottiau</Authors>
     <Title>ReduxSimple for UWP</Title>
     <Description>Simple Stupid Redux Store using Reactive Extensions - Store in UWP applications</Description>
