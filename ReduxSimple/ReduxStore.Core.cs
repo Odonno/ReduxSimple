@@ -39,10 +39,12 @@ namespace ReduxSimple
         /// <param name="reducers">A list of reducers to update state when an action is triggered.</param>
         /// <param name="initialState">The initial state to put the store in; if <c>null</c>, a default value is constructed using <c>new TState()</c>.</param>
         /// <param name="enableTimeTravel">Enable time-travel operations (undo, redo).</param>
+        /// <param name="dispatchedActionScheduler">Dispatched actions will be dispatched using the given scheduler. Defaults to <c>Scheduler.Default</c>.</param>
         public ReduxStore(
             IEnumerable<On<TState>> reducers,
             TState? initialState,
-            bool enableTimeTravel = false
+            bool enableTimeTravel = false,
+            IScheduler? dispatchedActionScheduler = null
         )
         {
             AddReducers(reducers.ToArray());
@@ -51,7 +53,7 @@ namespace ReduxSimple
             TimeTravelEnabled = enableTimeTravel;
 
             _dispatchedAction = _dispatchedSubject
-                .ObserveOn(Scheduler.Default)
+                .ObserveOn(dispatchedActionScheduler ?? Scheduler.Default)
                 .Publish();
             _dispatchedAction.Connect();
 

@@ -18,7 +18,7 @@ namespace ReduxSimple.Tests
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
                 initialState,
-                true
+                enableTimeTravel: true
             );
 
             // Act
@@ -56,7 +56,7 @@ namespace ReduxSimple.Tests
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
                 initialState,
-                true
+                enableTimeTravel: true
             );
 
             // Act
@@ -88,7 +88,7 @@ namespace ReduxSimple.Tests
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
                 initialState,
-                true
+                enableTimeTravel: true
             );
 
             // Act
