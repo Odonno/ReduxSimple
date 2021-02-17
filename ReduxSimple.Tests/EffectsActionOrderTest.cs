@@ -27,8 +27,8 @@ namespace ReduxSimple.Tests
                 enableTimeTravel: false);
 
             store.RegisterEffects(
-                GetIncRandomActionEffect(store),
-                TrackActionEffect(store));
+                GetIncRandomActionEffect(),
+                TrackActionEffect());
 
             _output.WriteLine($"Main thread: {Thread.CurrentThread.ManagedThreadId}");
             
@@ -52,17 +52,16 @@ namespace ReduxSimple.Tests
                 (state, action) => state.WithCounter(action.RandomValue));
         }
 
-        private Effect<RootState> GetIncRandomActionEffect(ReduxStore<RootState> store) =>
+        private Effect<RootState> GetIncRandomActionEffect() =>
             Effects.CreateEffect<RootState>(
-                // TODO: Here it would be nice to pass the store as argument... Then we would not need to reside on a shared variable...
-                () => store.ObserveAction<IncRandomAction>()
+                store => store.ObserveAction<IncRandomAction>()
                     .Do(_ => _output.WriteLine($"GetIncRandomActionEffect on thread {Thread.CurrentThread.ManagedThreadId}"))
                     .Select(_ => new IncRandomFulfilledAction {RandomValue = new Random().Next()}),
                 dispatch: true);
 
-        private Effect<RootState> TrackActionEffect(ReduxStore<RootState> store) =>
+        private Effect<RootState> TrackActionEffect() =>
             Effects.CreateEffect<RootState>(
-                () => store.ObserveAction()
+                store => store.ObserveAction()
                     .Do(action =>
                     {
                         string actionType = action.GetType().Name;
