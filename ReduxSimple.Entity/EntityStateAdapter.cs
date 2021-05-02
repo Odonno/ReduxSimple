@@ -6,11 +6,11 @@ using System.Linq;
 namespace ReduxSimple.Entity
 {
     /// <summary>
-    /// Adapter of an <see cref="EntityState{TEntity, TKey}"/> with the different reducer functions to handle entity manipulation.
+    /// Adapter of an <see cref="EntityState{TKey, TEntity}"/> with the different reducer functions to handle entity manipulation.
     /// </summary>
-    /// <typeparam name="TEntity">Type of the entity.</typeparam>
     /// <typeparam name="TKey">Primary key of the entity.</typeparam>
-    public abstract class EntityStateAdapter<TEntity, TKey>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
+    public abstract class EntityStateAdapter<TKey, TEntity>
         where TEntity : class
     {
         /// <summary>
@@ -31,7 +31,7 @@ namespace ReduxSimple.Entity
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
         public TEntityState AddAll<TEntityState>(IEnumerable<TEntity> entities, TEntityState state)
-            where TEntityState : EntityState<TEntity, TKey>
+            where TEntityState : EntityState<TKey, TEntity>
         {
             var collection = entities.ToDictionary(SelectId);
             return state.With(new
@@ -50,7 +50,7 @@ namespace ReduxSimple.Entity
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
         public TEntityState UpsertOne<TEntityState, TPartialEntity>(TPartialEntity entity, TEntityState state)
-            where TEntityState : EntityState<TEntity, TKey>
+            where TEntityState : EntityState<TKey, TEntity>
             where TPartialEntity : class
         {
             return UpsertMany(new[] { entity }, state);
@@ -65,7 +65,7 @@ namespace ReduxSimple.Entity
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
         public TEntityState UpsertMany<TEntityState, TPartialEntity>(IEnumerable<TPartialEntity> entities, TEntityState state)
-            where TEntityState : EntityState<TEntity, TKey>
+            where TEntityState : EntityState<TKey, TEntity>
             where TPartialEntity : class
         {
             var updatedEntities = entities
@@ -112,7 +112,7 @@ namespace ReduxSimple.Entity
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
         public TEntityState RemoveOne<TEntityState>(TKey key, TEntityState state)
-            where TEntityState : EntityState<TEntity, TKey>
+            where TEntityState : EntityState<TKey, TEntity>
         {
             return RemoveMany(new[] { key }, state);
         }
@@ -125,7 +125,7 @@ namespace ReduxSimple.Entity
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
         public TEntityState RemoveMany<TEntityState>(IEnumerable<TKey> keys, TEntityState state)
-            where TEntityState : EntityState<TEntity, TKey>
+            where TEntityState : EntityState<TKey, TEntity>
         {
             var entities = state.Collection.Values;
             var collection = entities
@@ -148,9 +148,9 @@ namespace ReduxSimple.Entity
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
         public TEntityState RemoveAll<TEntityState>(TEntityState state)
-            where TEntityState : EntityState<TEntity, TKey>
+            where TEntityState : EntityState<TKey, TEntity>
         {
-            var collection = new Dictionary<TEntity, TKey>();
+            var collection = new Dictionary<TKey, TEntity>();
             return state.With(new
             {
                 Ids = collection.Keys.ToList(),
@@ -166,7 +166,7 @@ namespace ReduxSimple.Entity
         /// <param name="state">Current Entity State.</param>
         /// <returns>Updated Entity State.</returns>
         public TEntityState Map<TEntityState>(Func<TEntity, TEntity> map, TEntityState state)
-            where TEntityState : EntityState<TEntity, TKey>
+            where TEntityState : EntityState<TKey, TEntity>
         {
             var entities = state.Collection.Values.Select(map);
             var collection = entities.ToDictionary(SelectId);

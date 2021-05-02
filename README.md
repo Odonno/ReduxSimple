@@ -532,13 +532,13 @@ When dealing with entities, you often repeat the same process to add, update and
 1. Start creating an `EntityState` and an `EntityAdapter`
 
 ```csharp
-public class TodoItemEntityState : EntityState<TodoItem, int>
+public class TodoItemEntityState : EntityState<int, TodoItem>
 {
 }
 
 public static class Entities
 {
-    public static EntityAdapter<TodoItem, int> TodoItemAdapter = EntityAdapter<TodoItem, int>.Create(item => item.Id);
+    public static EntityAdapter<int, TodoItem> TodoItemAdapter = EntityAdapter<int, TodoItem>.Create(item => item.Id);
 }
 ```
 
@@ -573,7 +573,7 @@ private static readonly ISelectorWithoutProps<RootState, TodoItemEntityState> Se
     SelectTodoListState,
     state => state.Items
 );
-private static readonly EntitySelectors<RootState, TodoItem, int> TodoItemSelectors = TodoItemAdapter.GetSelectors(SelectItemsEntityState);
+private static readonly EntitySelectors<RootState, int, TodoItem> TodoItemSelectors = TodoItemAdapter.GetSelectors(SelectItemsEntityState);
 ```
 
 ```csharp

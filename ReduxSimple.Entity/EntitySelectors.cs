@@ -5,42 +5,42 @@ using static ReduxSimple.Selectors;
 namespace ReduxSimple.Entity
 {
     /// <summary>
-    /// Collection of selectors for an <see cref="EntityState{TEntity, TKey}"/>.
+    /// Collection of selectors for an <see cref="EntityState{TKey, TEntity}"/>.
     /// </summary>
-    /// <typeparam name="TEntity">Type of the entity.</typeparam>
     /// <typeparam name="TKey">Primary key of the entity.</typeparam>
-    public class EntitySelectors<TEntity, TKey>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
+    public class EntitySelectors<TKey, TEntity>
     {
         /// <summary>
         /// Select keys from the state.
         /// </summary>
-        public ISelectorWithoutProps<EntityState<TEntity, TKey>, List<TKey>> SelectIds { get; }
+        public ISelectorWithoutProps<EntityState<TKey, TEntity>, List<TKey>> SelectIds { get; }
 
         /// <summary>
         /// Select collection (dictionary of entities) from the state.
         /// </summary>
-        public ISelectorWithoutProps<EntityState<TEntity, TKey>, Dictionary<TKey, TEntity>> SelectCollection { get; }
+        public ISelectorWithoutProps<EntityState<TKey, TEntity>, Dictionary<TKey, TEntity>> SelectCollection { get; }
 
         /// <summary>
         /// Select list of entities from the state.
         /// </summary>
-        public ISelectorWithoutProps<EntityState<TEntity, TKey>, List<TEntity>> SelectEntities { get; }
+        public ISelectorWithoutProps<EntityState<TKey, TEntity>, List<TEntity>> SelectEntities { get; }
 
         /// <summary>
         /// Select number of entities from the state.
         /// </summary>
-        public ISelectorWithoutProps<EntityState<TEntity, TKey>, int> SelectCount { get; }
+        public ISelectorWithoutProps<EntityState<TKey, TEntity>, int> SelectCount { get; }
 
         internal EntitySelectors(
             IComparer<TEntity> sortComparer = null
         )
         {
             SelectIds = CreateSelector(
-                (EntityState<TEntity, TKey> entityState) => entityState.Ids
+                (EntityState<TKey, TEntity> entityState) => entityState.Ids
             );
 
             SelectCollection = CreateSelector(
-                (EntityState<TEntity, TKey> entityState) => entityState.Collection
+                (EntityState<TKey, TEntity> entityState) => entityState.Collection
             );
 
             SelectEntities = CreateSelector(
@@ -68,12 +68,12 @@ namespace ReduxSimple.Entity
     }
 
     /// <summary>
-    /// Collection of selectors for an <see cref="EntityState{TEntity, TKey}"/>.
+    /// Collection of selectors for an <see cref="EntityState{TKey, TEntity}"/>.
     /// </summary>
     /// <typeparam name="TInput">Part of the state used to create selectors.</typeparam>
-    /// <typeparam name="TEntity">Type of the entity.</typeparam>
     /// <typeparam name="TKey">Primary key of the entity.</typeparam>
-    public class EntitySelectors<TInput, TEntity, TKey>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
+    public class EntitySelectors<TInput, TKey, TEntity>
     {
         /// <summary>
         /// Select keys from the state.
@@ -96,7 +96,7 @@ namespace ReduxSimple.Entity
         public ISelectorWithoutProps<TInput, int> SelectCount { get; }
 
         internal EntitySelectors(
-            ISelectorWithoutProps<TInput, EntityState<TEntity, TKey>> selectEntityState,
+            ISelectorWithoutProps<TInput, EntityState<TKey, TEntity>> selectEntityState,
             IComparer<TEntity> sortComparer = null
         )
         {

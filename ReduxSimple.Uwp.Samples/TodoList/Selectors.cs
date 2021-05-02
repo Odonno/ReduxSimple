@@ -15,7 +15,7 @@ namespace ReduxSimple.Uwp.Samples.TodoList
             SelectTodoListState,
             state => state.Items
         );
-        private static readonly EntitySelectors<RootState, TodoItem, int> TodoItemSelectors = TodoItemAdapter.GetSelectors(SelectItemsEntityState);
+        private static readonly EntitySelectors<RootState, int, TodoItem> TodoItemSelectors = TodoItemAdapter.GetSelectors(SelectItemsEntityState);
 
         public static ISelectorWithoutProps<RootState, TodoFilter> SelectFilter = CreateSelector(
             SelectTodoListState,

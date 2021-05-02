@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace ReduxSimple.Entity
 {
     /// <summary>
-    /// Adapter of an <see cref="EntityState{TEntity, TKey}"/> with the different reducer functions to handle entity manipulation.
+    /// Adapter of an <see cref="EntityState{TKey, TEntity}"/> with the different reducer functions to handle entity manipulation.
     /// </summary>
-    /// <typeparam name="TEntity">Type of the entity.</typeparam>
     /// <typeparam name="TKey">Primary key of the entity.</typeparam>
-    public sealed class EntityAdapter<TEntity, TKey> : EntityStateAdapter<TEntity, TKey>
+    /// <typeparam name="TEntity">Type of the entity.</typeparam>
+    public sealed class EntityAdapter<TKey, TEntity> : EntityStateAdapter<TKey, TEntity>
         where TEntity : class
     {
         private EntityAdapter()
@@ -16,35 +16,35 @@ namespace ReduxSimple.Entity
         }
 
         /// <summary>
-        /// Get selectors for the specified <see cref="EntityState{TEntity, TKey}"/>.
+        /// Get selectors for the specified <see cref="EntityState{TKey, TEntity}"/>.
         /// </summary>
         /// <returns>A new Entity Selectors.</returns>
-        public EntitySelectors<TEntity, TKey> GetSelectors()
+        public EntitySelectors<TKey, TEntity> GetSelectors()
         {
-            return new EntitySelectors<TEntity, TKey>(SortComparer);
+            return new EntitySelectors<TKey, TEntity>(SortComparer);
         }
         /// <summary>
-        /// Get selectors for the specified <see cref="EntityState{TEntity, TKey}"/>.
+        /// Get selectors for the specified <see cref="EntityState{TKey, TEntity}"/>.
         /// </summary>
         /// <typeparam name="TInput">Part of the state used to create selectors.</typeparam>
-        /// <param name="selectEntityState">Function used to select <see cref="EntityState{TEntity, TKey}"/> from the <typeparamref name="TInput"/>.</param>
+        /// <param name="selectEntityState">Function used to select <see cref="EntityState{TKey, TEntity}"/> from the <typeparamref name="TInput"/>.</param>
         /// <returns>A new Entity Selectors.</returns>
-        public EntitySelectors<TInput, TEntity, TKey> GetSelectors<TInput>(
-            ISelectorWithoutProps<TInput, EntityState<TEntity, TKey>> selectEntityState
+        public EntitySelectors<TInput, TKey, TEntity> GetSelectors<TInput>(
+            ISelectorWithoutProps<TInput, EntityState<TKey, TEntity>> selectEntityState
         )
         {
-            return new EntitySelectors<TInput, TEntity, TKey>(selectEntityState, SortComparer);
+            return new EntitySelectors<TInput, TKey, TEntity>(selectEntityState, SortComparer);
         }
 
         /// <summary>
-        /// Creates a new <see cref="EntityAdapter{TEntity, TKey}"/>.
+        /// Creates a new <see cref="EntityAdapter{TKey, TEntity}"/>.
         /// </summary>
         /// <param name="selectId">Function used to get the id of an entity.</param>
         /// <param name="sortComparer">Comparer used to sort the collection of entities.</param>
         /// <returns>A new Entity Adapter.</returns>
-        public static EntityAdapter<TEntity, TKey> Create(Func<TEntity, TKey> selectId, IComparer<TEntity> sortComparer = null)
+        public static EntityAdapter<TKey, TEntity> Create(Func<TEntity, TKey> selectId, IComparer<TEntity> sortComparer = null)
         {
-            return new EntityAdapter<TEntity, TKey>
+            return new EntityAdapter<TKey, TEntity>
             {
                 SelectId = selectId,
                 SortComparer = sortComparer

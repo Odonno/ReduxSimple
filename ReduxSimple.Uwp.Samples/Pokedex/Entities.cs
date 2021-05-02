@@ -2,12 +2,12 @@
 
 namespace ReduxSimple.Uwp.Samples.Pokedex
 {
-    public class PokedexEntityState : EntityState<PokemonGeneralInfo, int>
+    public class PokedexEntityState : EntityState<int, PokemonGeneralInfo>
     {
     }
 
     public static class Entities
     {
-        public static EntityAdapter<PokemonGeneralInfo, int> PokedexAdapter = EntityAdapter<PokemonGeneralInfo, int>.Create(item => item.Id);
+        public static EntityAdapter<int, PokemonGeneralInfo> PokedexAdapter = EntityAdapter<int, PokemonGeneralInfo>.Create(item => item.Id);
     }
 }

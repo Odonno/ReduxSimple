@@ -9,7 +9,7 @@ public static class Selectors
         SelectPokedexState,
         state => state.Pokedex
     );
-    private static readonly EntitySelectors<RootState, PokemonGeneralInfo, int> PokedexSelectors = PokedexAdapter.GetSelectors(SelectPokedexEntityState);
+    private static readonly EntitySelectors<RootState, int, PokemonGeneralInfo> PokedexSelectors = PokedexAdapter.GetSelectors(SelectPokedexEntityState);
 
     public static ISelectorWithoutProps<RootState, List<PokemonGeneralInfo>> SelectPokedex = PokedexSelectors.SelectEntities;
     public static ISelectorWithoutProps<RootState, bool> SelectIsPokedexEmpty = CreateSelector(
