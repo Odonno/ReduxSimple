@@ -2,9 +2,9 @@
 {
     public class RootState
     {
-        public NestedState? Nested1 { get; set; }
-        public NestedState? Nested2 { get; set; }
-        public NestedState? Nested3 { get; set; }
+        public NestedState Nested1 { get; set; } = NestedState.InitialState;
+        public NestedState Nested2 { get; set; } = NestedState.InitialState;
+        public NestedState Nested3 { get; set; } = NestedState.InitialState;
 
         public static RootState InitialState =>
             new RootState

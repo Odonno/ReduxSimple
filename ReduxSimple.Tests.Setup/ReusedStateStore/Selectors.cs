@@ -4,13 +4,13 @@ namespace ReduxSimple.Tests.Setup.ReusedStateStore
 {
     public static class Selectors
     {
-        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested1 = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState> SelectNested1 = CreateSelector(
             (RootState state) => state.Nested1
         );
-        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested2 = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState> SelectNested2 = CreateSelector(
             (RootState state) => state.Nested2
         );
-        public static ISelectorWithoutProps<RootState, NestedState?> SelectNested3 = CreateSelector(
+        public static ISelectorWithoutProps<RootState, NestedState> SelectNested3 = CreateSelector(
             (RootState state) => state.Nested3
         );
 
