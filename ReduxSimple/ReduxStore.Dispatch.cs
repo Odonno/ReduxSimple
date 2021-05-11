@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -31,11 +32,11 @@ namespace ReduxSimple
 
             if (TimeTravelEnabled)
             {
-                _toDispatchSubject.OnNext(new ActionDispatchedWithRewriteHistory(action, true));
+                _toDispatchSubject.OnNext(new ActionDispatchedWithRewriteHistory(action, State, true));
             }
             else
             {
-                _toDispatchSubject.OnNext(new ActionDispatchedWithOrigin(action, ActionOrigin.Normal));
+                _toDispatchSubject.OnNext(new ActionDispatchedWithOrigin(action, State, ActionOrigin.Normal));
             }
         }
 
@@ -66,6 +67,7 @@ namespace ReduxSimple
             ExecuteDispatch(
                 new ActionDispatchedWithOrigin(
                     actionWithRewriteHistory.Action,
+                    actionWithRewriteHistory.StateWhenDispatched,
                     actionWithRewriteHistory.RewriteHistory ? ActionOrigin.Normal : ActionOrigin.Redone
                 )
             );
@@ -96,6 +98,28 @@ namespace ReduxSimple
                 .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin))
                 .Select(x => x.Action)
                 .OfType<T>();
+        }
+
+        /// <summary>
+        /// Observes actions of a specific type being performed on the store.
+        /// </summary>
+        /// <typeparam name="TAction">The type of actions that the subscriber is interested in.</typeparam>
+        /// <typeparam name="TResult">The type of objects in the returned observable.</typeparam>
+        /// <param name="resultSelector">Builder for objects in the result observe being passed the action and state when the action was dispatched.</param>
+        /// <param name="filter">Filter action by origin.</param>
+        /// <returns>
+        /// An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever an action of <typeparamref name="TAction"/> is performed on the store.
+        /// </returns>
+        public IObservable<TResult> ObserveAction<TAction, TResult>(
+            Func<TAction, TState, TResult> resultSelector,
+            ActionOriginFilter filter = ActionOriginFilter.Normal)
+        {
+            if (resultSelector == null)
+                throw new ArgumentNullException(nameof(resultSelector));
+            
+            return _dispatchedAction
+                .Where(x => filter.HasFlag((ActionOriginFilter)x.Origin) && x.Action is TAction)
+                .Select(x => resultSelector((TAction) x.Action, (TState) x.StateWhenDispatched));
         }
     }
 }
