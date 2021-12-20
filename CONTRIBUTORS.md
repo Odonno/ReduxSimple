@@ -14,3 +14,4 @@
 ### [akaegi](https://github.com/akaegi)
 
 - Custom scheduler for dispatched actions [#89](https://github.com/Odonno/ReduxSimple/pull/89)
+- ObserveAction with current state [#95](https://github.com/Odonno/ReduxSimple/pull/95)
