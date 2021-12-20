@@ -1,6 +1,7 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
 using Shouldly;
 using System;
+using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
@@ -11,13 +12,14 @@ namespace ReduxSimple.Tests
     public class ObserveActionTest
     {
         [Fact]
-        public async Task CanObserveActions()
+        public void CanObserveActions()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState
+                initialState,
+                dispatchedActionScheduler: Scheduler.Immediate
             );
 
             // Act
@@ -32,22 +34,21 @@ namespace ReduxSimple.Tests
                 });
 
             DispatchAllActions(store);
-
-            await Task.Delay(100);
-
+            
             // Assert
             observeCount.ShouldBe(4);
             lastAction.ShouldBeOfType<AddTodoItemAction>();
         }
 
         [Fact]
-        public async Task CanObserveSingleActionType()
+        public void CanObserveSingleActionType()
         {
             // Arrange
             var initialState = CreateInitialTodoListState();
             var store = new TodoListStore(
                 Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState
+                initialState,
+                dispatchedActionScheduler: Scheduler.Immediate 
             );
 
             // Act
@@ -62,12 +63,47 @@ namespace ReduxSimple.Tests
                 });
 
             DispatchAllActions(store);
-
-            await Task.Delay(100);
-
+            
             // Assert
             observeCount.ShouldBe(1);
             lastAction.ShouldBeOfType<SwitchUserAction>();
+        }
+        
+        [Fact]
+        public void CanObserveActionAndStateWhenDispatchedIsPassed()
+        {
+            // Arrange
+            var initialState = CreateInitialTodoListState();
+            var store = new TodoListStore(
+                Setup.TodoListStore.Reducers.CreateReducers(),
+                initialState,
+                dispatchedActionScheduler: Scheduler.Immediate 
+            );
+
+            TodoListState? stateBeforeAction = null;
+            store.ObserveAction<AddTodoItemAction, ActionStatePair>((action, state) => new ActionStatePair
+                {
+                    Action = action, State = state
+                })
+                .Subscribe(x =>
+                {
+                    // Assert
+                    x.State.ShouldBe(stateBeforeAction);
+                });
+
+            // Act 1
+            stateBeforeAction = initialState;
+            DispatchAddTodoItemAction(store, 1, "Create unit tests");
+
+            stateBeforeAction = store.State;
+            DispatchAddTodoItemAction(store, 2, "Create Models");
+        }
+
+        class ActionStatePair
+        {
+            public object? Action { get; set; }
+            
+            public object? State { get; set; }
         }
     }
 }
