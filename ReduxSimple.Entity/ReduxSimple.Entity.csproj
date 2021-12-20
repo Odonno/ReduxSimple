@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>ReduxSimple.Entity</RootNamespace>
     <PackageId>ReduxSimple.Entity</PackageId>
-    <Version>3.6.1-preview002</Version>
+    <Version>3.7.0-preview001</Version>
     <Authors>David Bottiau</Authors>
     <Title>ReduxSimple Entity Management</Title>
     <Description>Simple Stupid Redux Store using Reactive Extensions</Description>
