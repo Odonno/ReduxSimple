@@ -1,37 +1,36 @@
-﻿namespace ReduxSimple
+﻿namespace ReduxSimple;
+
+internal abstract class ActionDispatched
 {
-    internal abstract class ActionDispatched
-    {
-        public object Action { get; }
+    public object Action { get; }
         
-        public object StateWhenDispatched { get; }
+    public object StateWhenDispatched { get; }
 
-        protected ActionDispatched(object action, object state)
-        {
-            Action = action;
-            StateWhenDispatched = state;
-        }
-    }
-
-    internal sealed class ActionDispatchedWithOrigin : ActionDispatched
+    protected ActionDispatched(object action, object state)
     {
-        public ActionOrigin Origin { get; }
+        Action = action;
+        StateWhenDispatched = state;
+    }
+}
+
+internal sealed class ActionDispatchedWithOrigin : ActionDispatched
+{
+    public ActionOrigin Origin { get; }
         
-        public ActionDispatchedWithOrigin(object action, object state, ActionOrigin origin) 
-            : base(action, state)
-        {
-            Origin = origin;
-        }
-    }
-
-    internal sealed class ActionDispatchedWithRewriteHistory : ActionDispatched
+    public ActionDispatchedWithOrigin(object action, object state, ActionOrigin origin) 
+        : base(action, state)
     {
-        public bool RewriteHistory { get; }
+        Origin = origin;
+    }
+}
 
-        public ActionDispatchedWithRewriteHistory(object action, object state, bool rewriteHistory) 
-            : base(action, state)
-        {
-            RewriteHistory = rewriteHistory;
-        }
+internal sealed class ActionDispatchedWithRewriteHistory : ActionDispatched
+{
+    public bool RewriteHistory { get; }
+
+    public ActionDispatchedWithRewriteHistory(object action, object state, bool rewriteHistory) 
+        : base(action, state)
+    {
+        RewriteHistory = rewriteHistory;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace ReduxSimple.Tests.Setup.MultiReduceStore
+﻿namespace ReduxSimple.Tests.Setup.MultiReduceStore;
+
+public class UpdateNumberAction
 {
-    public class UpdateNumberAction
-    {
-        public int Number { get; set; }
-    }
+    public int Number { get; set; }
 }

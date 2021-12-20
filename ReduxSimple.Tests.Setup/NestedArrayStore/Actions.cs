@@ -1,7 +1,6 @@
-﻿namespace ReduxSimple.Tests.Setup.NestedArrayStore
+﻿namespace ReduxSimple.Tests.Setup.NestedArrayStore;
+
+public class UpdateNumberAction
 {
-    public class UpdateNumberAction
-    {
-        public int Number { get; set; }
-    }
+    public int Number { get; set; }
 }

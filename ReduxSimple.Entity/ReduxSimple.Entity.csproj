@@ -14,7 +14,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/Odonno/ReduxSimple/master/images/logo.png</PackageIconUrl>
     <PackageTags>Redux Reactive ReactiveExtensions Rx ReduxSimple State Management Entity</PackageTags>
 
-    <LangVersion>8.0</LangVersion>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

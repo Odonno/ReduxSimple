@@ -1,6 +1,5 @@
-﻿namespace ReduxSimple.Tests.Setup.EmptyStore
+﻿namespace ReduxSimple.Tests.Setup.EmptyStore;
+
+public class EmptyState
 {
-    public class EmptyState
-    {
-    }
 }

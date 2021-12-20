@@ -1,137 +1,132 @@
-﻿using Shouldly;
-using System;
-using System.Threading.Tasks;
-using Xunit;
-using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
+﻿using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
 
-namespace ReduxSimple.Tests
+namespace ReduxSimple.Tests;
+
+public class RedoTest
 {
-    public class RedoTest
+    [Fact]
+    public void CanRedo()
     {
-        [Fact]
-        public void CanRedo()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            DispatchAllActions(store);
+        // Act
+        DispatchAllActions(store);
 
-            store.CanUndo.ShouldBeTrue();
+        store.CanUndo.ShouldBeTrue();
 
-            store.Undo();
+        store.Undo();
 
-            store.CanUndo.ShouldBeTrue();
+        store.CanUndo.ShouldBeTrue();
 
-            store.Undo();
+        store.Undo();
 
-            store.CanUndo.ShouldBeTrue();
+        store.CanUndo.ShouldBeTrue();
 
-            store.Undo();
+        store.Undo();
 
-            store.CanRedo.ShouldBeTrue();
+        store.CanRedo.ShouldBeTrue();
 
-            store.Redo();
+        store.Redo();
 
-            store.CanRedo.ShouldBeTrue();
+        store.CanRedo.ShouldBeTrue();
 
-            store.Redo();
+        store.Redo();
 
-            // Assert
-            store.State.TodoList?.Count.ShouldBe(2);
-            store.State.CurrentUser.ShouldBe("Emily");
-        }
+        // Assert
+        store.State.TodoList?.Count.ShouldBe(2);
+        store.State.CurrentUser.ShouldBe("Emily");
+    }
 
-        [Fact]
-        public void CannotRedo()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+    [Fact]
+    public void CannotRedo()
+    {
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            DispatchAllActions(store);
+        // Act
+        DispatchAllActions(store);
 
-            // Assert
-            store.CanRedo.ShouldBeFalse();
-        }
+        // Assert
+        store.CanRedo.ShouldBeFalse();
+    }
         
-        [Fact]
-        public async Task RedoAndObserveNormalTimelineActionsOnly()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+    [Fact]
+    public async Task RedoAndObserveNormalTimelineActionsOnly()
+    {
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            int observeCount = 0;
+        // Act
+        int observeCount = 0;
 
-            store.ObserveAction()
-                .Subscribe(a =>
-                {
-                    observeCount++;
-                });
+        store.ObserveAction()
+            .Subscribe(a =>
+            {
+                observeCount++;
+            });
 
-            DispatchAllActions(store);
+        DispatchAllActions(store);
 
-            store.Undo();
-            store.Undo();
-            store.Undo();
-            store.Redo();
-            store.Redo();
+        store.Undo();
+        store.Undo();
+        store.Undo();
+        store.Redo();
+        store.Redo();
 
-            await Task.Delay(1000);
+        await Task.Delay(1000);
 
-            // Assert
-            observeCount.ShouldBe(4);
-        }
+        // Assert
+        observeCount.ShouldBe(4);
+    }
 
-        [Fact]
-        public async Task RedoAndObserveRedoneActionsOnly()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+    [Fact]
+    public async Task RedoAndObserveRedoneActionsOnly()
+    {
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            int observeCount = 0;
+        // Act
+        int observeCount = 0;
 
-            store.ObserveAction(ActionOriginFilter.Redone)
-                .Subscribe(_ =>
-                {
-                    observeCount++;
-                });
+        store.ObserveAction(ActionOriginFilter.Redone)
+            .Subscribe(_ =>
+            {
+                observeCount++;
+            });
 
-            DispatchAllActions(store);
+        DispatchAllActions(store);
 
-            store.Undo();
-            store.Undo();
-            store.Undo();
-            store.Redo();
-            store.Redo();
+        store.Undo();
+        store.Undo();
+        store.Undo();
+        store.Redo();
+        store.Redo();
 
-            await Task.Delay(100);
+        await Task.Delay(100);
 
-            // Assert
-            observeCount.ShouldBe(2);
-        }
+        // Assert
+        observeCount.ShouldBe(2);
     }
 }

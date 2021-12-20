@@ -1,61 +1,58 @@
-using Shouldly;
-using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using EmptyStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.EmptyStore.EmptyState>;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
 
-namespace ReduxSimple.Tests
+namespace ReduxSimple.Tests;
+
+public class CreateReduxStoreTest
 {
-    public class CreateReduxStoreTest
+    [Fact]
+    public void CanCreateAStoreWithEmptyState()
     {
-        [Fact]
-        public void CanCreateAStoreWithEmptyState()
-        {
-            // Arrange
-            var store = new EmptyStore(
-                Setup.EmptyStore.Reducers.CreateReducers()
-            );
+        // Arrange
+        var store = new EmptyStore(
+            Setup.EmptyStore.Reducers.CreateReducers()
+        );
 
-            // Act
+        // Act
 
-            // Assert
-            store.State.ShouldNotBeNull();
-        }
+        // Assert
+        store.State.ShouldNotBeNull();
+    }
 
-        [Fact]
-        public void CanCreateAStoreWithDefaultState()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState
-            );
+    [Fact]
+    public void CanCreateAStoreWithDefaultState()
+    {
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState
+        );
 
-            // Act
+        // Act
 
-            // Assert
-            store.State.TodoList.ShouldBeEmpty();
-        }
+        // Assert
+        store.State.TodoList.ShouldBeEmpty();
+    }
 
-        [Fact]
-        public void CreatingAStoreShouldDispatchInitializeAction()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+    [Fact]
+    public void CreatingAStoreShouldDispatchInitializeAction()
+    {
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            var history = store.GetHistory();
+        // Act
+        var history = store.GetHistory();
 
-            // Assert
-            var previousState = history.PreviousStates.ShouldHaveSingleItem();
-            previousState.Action.ShouldBeOfType<InitializeStoreAction>();
-            history.FutureActions.ShouldBeEmpty();
-        }
+        // Assert
+        var previousState = history.PreviousStates.ShouldHaveSingleItem();
+        previousState.Action.ShouldBeOfType<InitializeStoreAction>();
+        history.FutureActions.ShouldBeEmpty();
     }
 }

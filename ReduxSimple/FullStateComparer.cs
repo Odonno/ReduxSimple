@@ -1,50 +1,43 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿namespace ReduxSimple;
 
-namespace ReduxSimple
+internal class FullStateComparer<TState> : IEqualityComparer<TState>
+    where TState : class, new()
 {
-    internal class FullStateComparer<TState> : IEqualityComparer<TState>
-        where TState : class, new()
+    private readonly ConcurrentDictionary<string, IEnumerable<PropertyInfo>> _propertiesPerType = new ConcurrentDictionary<string, IEnumerable<PropertyInfo>>();
+
+    public bool Equals(TState x, TState y)
     {
-        private readonly ConcurrentDictionary<string, IEnumerable<PropertyInfo>> _propertiesPerType = new ConcurrentDictionary<string, IEnumerable<PropertyInfo>>();
+        var stateType = typeof(TState);
 
-        public bool Equals(TState x, TState y)
+        var properties = GetStatePropertiesFromCache(stateType);
+
+        foreach (var property in properties)
         {
-            var stateType = typeof(TState);
+            var leftValue = property.GetValue(x, null);
+            var rightValue = property.GetValue(y, null);
 
-            var properties = GetStatePropertiesFromCache(stateType);
+            if (leftValue != rightValue)
+                return false;
+        }
 
-            foreach (var property in properties)
+        return true;
+    }
+
+    public int GetHashCode(TState obj)
+    {
+        return obj.GetHashCode();
+    }
+
+    private IEnumerable<PropertyInfo> GetStatePropertiesFromCache(Type stateType)
+    {
+        return _propertiesPerType.GetOrAdd(
+            stateType.FullName,
+            _ =>
             {
-                var leftValue = property.GetValue(x, null);
-                var rightValue = property.GetValue(y, null);
-
-                if (leftValue != rightValue)
-                    return false;
+                return stateType
+                    .GetProperties()
+                    .Where(p => p.CanRead && p.CanWrite);
             }
-
-            return true;
-        }
-
-        public int GetHashCode(TState obj)
-        {
-            return obj.GetHashCode();
-        }
-
-        private IEnumerable<PropertyInfo> GetStatePropertiesFromCache(Type stateType)
-        {
-            return _propertiesPerType.GetOrAdd(
-                stateType.FullName,
-                _ =>
-                {
-                    return stateType
-                        .GetProperties()
-                        .Where(p => p.CanRead && p.CanWrite);
-                }
-            );
-        }
+        );
     }
 }

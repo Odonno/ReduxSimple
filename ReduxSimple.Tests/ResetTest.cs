@@ -1,118 +1,113 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
-using Shouldly;
-using System;
-using System.Threading.Tasks;
-using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
 
-namespace ReduxSimple.Tests
+namespace ReduxSimple.Tests;
+
+public class ResetTest
 {
-    public class ResetTest
+    [Fact]
+    public void CanResetStoreWithUndoneActions()
     {
-        [Fact]
-        public void CanResetStoreWithUndoneActions()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            int observeCount = 0;
-            TodoListState? lastState = null;
+        // Act
+        int observeCount = 0;
+        TodoListState? lastState = null;
 
-            store.ObserveReset()
-                .Subscribe(state =>
-                {
-                    observeCount++;
-                    lastState = state;
-                });
+        store.ObserveReset()
+            .Subscribe(state =>
+            {
+                observeCount++;
+                lastState = state;
+            });
 
-            DispatchAllActions(store);
+        DispatchAllActions(store);
 
-            store.CanUndo.ShouldBeTrue();
+        store.CanUndo.ShouldBeTrue();
 
-            store.Undo();
+        store.Undo();
 
-            store.Reset();
+        store.Reset();
 
-            // Assert
-            observeCount.ShouldBe(1);
-            lastState?.TodoList.ShouldBeEmpty();
-            lastState?.CurrentUser.ShouldBe("David");
-            store.CanRedo.ShouldBeFalse();
-            store.CanUndo.ShouldBeFalse();
-        }
+        // Assert
+        observeCount.ShouldBe(1);
+        lastState?.TodoList.ShouldBeEmpty();
+        lastState?.CurrentUser.ShouldBe("David");
+        store.CanRedo.ShouldBeFalse();
+        store.CanUndo.ShouldBeFalse();
+    }
 
-        [Fact]
-        public void CanResetStore()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+    [Fact]
+    public void CanResetStore()
+    {
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            int observeCount = 0;
-            TodoListState? lastState = null;
+        // Act
+        int observeCount = 0;
+        TodoListState? lastState = null;
 
-            store.ObserveReset()
-                .Subscribe(state =>
-                {
-                    observeCount++;
-                    lastState = state;
-                });
+        store.ObserveReset()
+            .Subscribe(state =>
+            {
+                observeCount++;
+                lastState = state;
+            });
 
-            DispatchAllActions(store);
+        DispatchAllActions(store);
 
-            store.Reset();
+        store.Reset();
 
-            // Assert
-            observeCount.ShouldBe(1);
-            lastState?.TodoList.ShouldBeEmpty();
-            lastState?.CurrentUser.ShouldBe("David");
-        }
+        // Assert
+        observeCount.ShouldBe(1);
+        lastState?.TodoList.ShouldBeEmpty();
+        lastState?.CurrentUser.ShouldBe("David");
+    }
 
-        [Fact]
-        public async Task ObserveHistoryOnReset()
-        {
-            // Arrange
-            var initialState = CreateInitialTodoListState();
-            var store = new TodoListStore(
-                Setup.TodoListStore.Reducers.CreateReducers(),
-                initialState,
-                enableTimeTravel: true
-            );
+    [Fact]
+    public async Task ObserveHistoryOnReset()
+    {
+        // Arrange
+        var initialState = CreateInitialTodoListState();
+        var store = new TodoListStore(
+            Setup.TodoListStore.Reducers.CreateReducers(),
+            initialState,
+            enableTimeTravel: true
+        );
 
-            // Act
-            int observeCount = 0;
-            ReduxHistory<TodoListState>? lastHistory = null;
+        // Act
+        int observeCount = 0;
+        ReduxHistory<TodoListState>? lastHistory = null;
 
-            store.ObserveHistory()
-                .Subscribe(history =>
-                {
-                    observeCount++;
-                    lastHistory = history;
-                });
+        store.ObserveHistory()
+            .Subscribe(history =>
+            {
+                observeCount++;
+                lastHistory = history;
+            });
 
-            DispatchAllActions(store);
+        DispatchAllActions(store);
 
-            store.Reset();
+        store.Reset();
 
-            await Task.Delay(100);
+        await Task.Delay(100);
 
-            // Assert
-            observeCount.ShouldBe(5);
-            var previousState = lastHistory?.PreviousStates.ShouldHaveSingleItem();
-            previousState?.Action.ShouldBeOfType<InitializeStoreAction>();
-            lastHistory?.FutureActions.ShouldBeEmpty();
-        }
+        // Assert
+        observeCount.ShouldBe(5);
+        var previousState = lastHistory?.PreviousStates.ShouldHaveSingleItem();
+        previousState?.Action.ShouldBeOfType<InitializeStoreAction>();
+        lastHistory?.FutureActions.ShouldBeEmpty();
     }
 }

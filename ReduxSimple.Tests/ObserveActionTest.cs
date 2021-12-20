@@ -1,14 +1,9 @@
 ﻿using ReduxSimple.Tests.Setup.TodoListStore;
-using Shouldly;
-using System;
-using System.Reactive.Concurrency;
-using System.Threading.Tasks;
-using Xunit;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 using TodoListStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.TodoListStore.TodoListState>;
 
-namespace ReduxSimple.Tests
-{
+namespace ReduxSimple.Tests;
+
     public class ObserveActionTest
     {
         [Fact]
@@ -106,4 +101,3 @@ namespace ReduxSimple.Tests
             public object? State { get; set; }
         }
     }
-}

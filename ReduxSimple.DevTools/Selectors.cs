@@ -1,6 +1,4 @@
-﻿using SuccincT.Options;
-using System.Collections.Immutable;
-using static ReduxSimple.Selectors;
+﻿using static ReduxSimple.Selectors;
 
 namespace ReduxSimple.DevTools
 {

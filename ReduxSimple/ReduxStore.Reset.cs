@@ -1,50 +1,46 @@
-﻿using System;
-using System.Reactive.Subjects;
+﻿namespace ReduxSimple;
 
-namespace ReduxSimple
+/// <summary>
+/// The <see cref="ReduxStore{TState}" /> is a centralized object for creating predictable state containers.
+/// </summary>
+/// <typeparam name="TState">The type of the state.</typeparam>
+public sealed partial class ReduxStore<TState> where TState : class, new()
 {
+    private readonly Subject<TState> _resetSubject = new Subject<TState>();
+
     /// <summary>
-    /// The <see cref="ReduxStore{TState}" /> is a centralized object for creating predictable state containers.
+    /// Resets the store to its initial state.
     /// </summary>
-    /// <typeparam name="TState">The type of the state.</typeparam>
-    public sealed partial class ReduxStore<TState> where TState : class, new()
+    public void Reset()
     {
-        private readonly Subject<TState> _resetSubject = new Subject<TState>();
-
-        /// <summary>
-        /// Resets the store to its initial state.
-        /// </summary>
-        public void Reset()
+        if (TimeTravelEnabled)
         {
-            if (TimeTravelEnabled)
+            while (_pastMementos.Count > 1)
             {
-                while (_pastMementos.Count > 1)
-                {
-                    _pastMementos.Pop();
-                }
-
-                _futureActions.Clear();
+                _pastMementos.Pop();
             }
 
-            ResetState();
+            _futureActions.Clear();
         }
 
-        /// <summary>
-        /// Reset the state and trigger a new reset event.
-        /// </summary>
-        private void ResetState()
-        {
-            UpdateState(_initialState);
-            _resetSubject.OnNext(State);
-        }
+        ResetState();
+    }
 
-        /// <summary>
-        /// Observes the reset operation being performed on the store.
-        /// </summary>
-        /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever the store is reset to its initial state.</returns>
-        public IObservable<TState> ObserveReset()
-        {
-            return _resetSubject;
-        }
+    /// <summary>
+    /// Reset the state and trigger a new reset event.
+    /// </summary>
+    private void ResetState()
+    {
+        UpdateState(_initialState);
+        _resetSubject.OnNext(State);
+    }
+
+    /// <summary>
+    /// Observes the reset operation being performed on the store.
+    /// </summary>
+    /// <returns>An <see cref="IObservable{T}"/> that can be subscribed to in order to receive updates whenever the store is reset to its initial state.</returns>
+    public IObservable<TState> ObserveReset()
+    {
+        return _resetSubject;
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace ReduxSimple.Tests.Setup.TodoListStore
+﻿namespace ReduxSimple.Tests.Setup.TodoListStore;
+
+public class TodoItem
 {
-    public class TodoItem
-    {
-        public int? Id { get; set; }
-        public string? Title { get; set; }
-        public bool? Done { get; set; }
-    }
+    public int? Id { get; set; }
+    public string? Title { get; set; }
+    public bool? Done { get; set; }
 }

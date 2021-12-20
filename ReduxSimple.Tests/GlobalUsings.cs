@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using System.Collections.Generic;
+global using System.Collections.Immutable;
+global using System.Reactive.Concurrency;
+global using System.Reactive.Linq;
+global using System.Threading;
+global using Microsoft.Reactive.Testing;
+global using Shouldly;
+global using Xunit;
+global using Xunit.Abstractions;
