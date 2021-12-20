@@ -5,8 +5,8 @@
 /// </summary>
 public class HistoryUpdated
 {
-    public ImmutableList<ReduxActionInfo>? CurrentActions { get; set; }
-    public ImmutableList<ReduxActionInfo>? FutureActions { get; set; }
+    public ImmutableList<ReduxActionInfo> CurrentActions { get; set; } = ImmutableList<ReduxActionInfo>.Empty;
+    public ImmutableList<ReduxActionInfo> FutureActions { get; set; } = ImmutableList<ReduxActionInfo>.Empty;
 }
     
 /// <summary>
@@ -22,7 +22,7 @@ public class MoveToPositionAction
 /// </summary>
 public class SelectPositionAction
 {
-    public int? Position { get; set; }
+    public int Position { get; set; }
 }
 
 /// <summary>

@@ -3,7 +3,7 @@
 /// <summary>
 /// State used (internally) to display information about the Application Store.
 /// </summary>
-public class DevToolsState
+public record DevToolsState
 {
     /// <summary>
     /// List of current (dispatched) actions in the Application Store.
