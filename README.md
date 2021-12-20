@@ -36,14 +36,14 @@ You will need to follow the following steps to create your own Redux Store:
 1. Create `State` definition
 
 ```csharp
-public class RootState
+public record RootState
 {
     public string CurrentPage { get; set; } = string.Empty;
     public ImmutableArray<string> Pages { get; set; } = ImmutableArray<string>.Empty;
 }
 ```
 
-Each State should immutable. That's why we prefer to use immutable types for each property of the State.
+Each State should be immutable. That's why we prefer to use immutable types for each property of the State.
 
 2. Create `Action` definitions
 
@@ -68,23 +68,24 @@ public static class Reducers
         return new List<On<RootState>>
         {
             On<NavigateAction, RootState>(
-                (state, action) => state.With(new { Pages = state.Pages.Add(action.PageName) })
+                (state, action) => state with { Pages = state.Pages.Add(action.PageName) }
             ),
             On<GoBackAction, RootState>(
                 state =>
                 {
                     var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
-                    return state.With(new {
+
+                    return state with {
                         CurrentPage = newPages.LastOrDefault(),
                         Pages = newPages
-                    });
+                    };
                 }
             ),
             On<ResetAction, RootState>(
-                state => state.With(new {
+                state => state with {
                     CurrentPage = string.Empty,
                     Pages = ImmutableArray<string>.Empty
-                })
+                }
             )
         };
     }
@@ -158,23 +159,24 @@ You can define a list of `On` functions where at least one action can be trigger
 return new List<On<RootState>>
 {
     On<NavigateAction, RootState>(
-        (state, action) => state.With(new { Pages = state.Pages.Add(action.PageName) })
+        (state, action) => state with { Pages = state.Pages.Add(action.PageName) }
     ),
     On<GoBackAction, RootState>(
         state =>
         {
             var newPages = state.Pages.RemoveAt(state.Pages.Length - 1);
-            return state.With(new {
+
+            return state with {
                 CurrentPage = newPages.LastOrDefault(),
                 Pages = newPages
-            });
+            };
         }
     ),
     On<ResetAction, RootState>(
-        state => state.With(new {
+        state => state with {
             CurrentPage = string.Empty,
             Pages = ImmutableArray<string>.Empty
-        })
+        }
     )
 };
 ```
@@ -195,8 +197,8 @@ First you need to create a new state lens for feature/nested states:
 public static IEnumerable<On<RootState>> GetReducers()
 {
     return CreateSubReducers(SelectCounterState)
-        .On<IncrementAction>(state => state.With(new { Count = state.Count + 1 }))
-        .On<DecrementAction>(state => state.With(new { Count = state.Count - 1 }))
+        .On<IncrementAction>(state => state with { Count = state.Count + 1 })
+        .On<DecrementAction>(state => state with { Count = state.Count - 1 })
         .ToList();
 }
 ```
@@ -532,7 +534,7 @@ When dealing with entities, you often repeat the same process to add, update and
 1. Start creating an `EntityState` and an `EntityAdapter`
 
 ```csharp
-public class TodoItemEntityState : EntityState<int, TodoItem>
+public record TodoItemEntityState : EntityState<int, TodoItem>
 {
 }
 
@@ -545,7 +547,7 @@ public static class Entities
 2. Use the `EntityState` in your state
 
 ```csharp
-public class TodoListState
+public record TodoListState
 {
     public TodoItemEntityState Items { get; set; }
     public TodoFilter Filter { get; set; }
@@ -558,10 +560,10 @@ public class TodoListState
 On<CompleteTodoItemAction, TodoListState>(
     (state, action) =>
     {
-        return state.With(new
+        return state with
         {
             Items = TodoItemAdapter.UpsertOne(new { action.Id, Completed = true }, state.Items)
-        });
+        };
     }
 )
 ```

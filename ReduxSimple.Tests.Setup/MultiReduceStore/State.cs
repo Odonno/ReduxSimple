@@ -1,6 +1,6 @@
 ﻿namespace ReduxSimple.Tests.Setup.MultiReduceStore;
 
-public class MultiReduceState
+public record MultiReduceState
 {
     public int Number1 { get; set; }
     public int Number2 { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace ReduxSimple.Tests.Setup.NestedArrayStore;
 
-public class RootState
+public record RootState
 {
     public ImmutableArray<NestedState> States { get; set; }
 
@@ -19,7 +19,7 @@ public class RootState
         };
 }
 
-public class NestedState
+public record NestedState
 {
     public int? RandomNumber { get; set; }
 

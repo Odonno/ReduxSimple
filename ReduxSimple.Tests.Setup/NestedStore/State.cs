@@ -1,6 +1,6 @@
 ﻿namespace ReduxSimple.Tests.Setup.NestedStore;
 
-public class RootState
+public record RootState
 {
     public NestedState? Nested { get; set; }
 
@@ -11,7 +11,7 @@ public class RootState
         };
 }
 
-public class NestedState
+public record NestedState
 {
     public int? RandomNumber { get; set; }
 

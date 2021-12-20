@@ -5,7 +5,7 @@
 /// </summary>
 /// <typeparam name="TKey"></typeparam>
 /// <typeparam name="TEntity"></typeparam>
-public abstract class EntityState<TKey, TEntity>
+public abstract record EntityState<TKey, TEntity>
 {
     /// <summary>
     /// List of all the primary keys (ids) in the collection.

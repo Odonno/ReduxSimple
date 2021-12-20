@@ -1,5 +1,4 @@
-﻿using Converto;
-using static ReduxSimple.Reducers;
+﻿using static ReduxSimple.Reducers;
 using static ReduxSimple.Tests.Setup.TodoListStore.Functions;
 
 namespace ReduxSimple.Tests.Setup.TodoListStore;
@@ -16,21 +15,17 @@ public static class Reducers
                     if (action.TodoItem == null)
                         return state;
 
-                    return state.With(
-                        new
-                        {
-                            TodoList = state.TodoList?.Add(action.TodoItem)
-                        }
-                    );
+                    return state with
+                    {
+                        TodoList = state.TodoList?.Add(action.TodoItem)
+                    };
                 }
             ),
             On<SwitchUserAction, TodoListState>(
-                (state, action) => state.With(
-                    new
-                    {
-                        CurrentUser = action.NewUser
-                    }
-                )
+                (state, action) => state with
+                {
+                    CurrentUser = action.NewUser
+                }
             ),
             On<ResetStateAction, TodoListState>(
                 (state, action) => CreateInitialTodoListState()

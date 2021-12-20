@@ -1,5 +1,4 @@
-﻿using Converto;
-using static ReduxSimple.Reducers;
+﻿using static ReduxSimple.Reducers;
 
 namespace ReduxSimple.Tests.Setup.NestedStore;
 
@@ -10,7 +9,7 @@ public static class Reducers
         return new List<On<NestedState>>
         {
             On<UpdateNumberAction, NestedState>(
-                (state, action) => state.With(new { RandomNumber = action.Number })
+                (state, action) => state with { RandomNumber = action.Number }
             )
         };
     }

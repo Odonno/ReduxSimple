@@ -1,5 +1,4 @@
-﻿using Converto;
-using ReduxSimple.Tests.Setup.ReusedStateStore;
+﻿using ReduxSimple.Tests.Setup.ReusedStateStore;
 using RootStore = ReduxSimple.ReduxStore<ReduxSimple.Tests.Setup.ReusedStateStore.RootState>;
 using static ReduxSimple.Reducers;
 using static ReduxSimple.Tests.Setup.ReusedStateStore.Reducers;
@@ -75,28 +74,28 @@ public class ReusedStateStoreTest
         // Arrange
         var reducers1 = CreateSubReducers(
             SelectNested1,
-            (state, nested) => state.With(new { Nested1 = nested })
+            (state, nested) => state with { Nested1 = nested }
         )
             .On<UpdateNumberAction>(
-                (state, action) => state.With(new { RandomNumber = action.Number })
+                (state, action) => state with { RandomNumber = action.Number }
             )
             .ToList();
 
         var reducers2 = CreateSubReducers(
             SelectNested2,
-            (state, nested) => state.With(new { Nested2 = nested })
+            (state, nested) => state with { Nested2 = nested }
         )
             .On<UpdateNumberAction>(
-                (state, action) => state.With(new { RandomNumber = action.Number })
+                (state, action) => state with { RandomNumber = action.Number }
             )
             .ToList();
 
         var reducers3 = CreateSubReducers(
             SelectNested3,
-            (state, nested) => state.With(new { Nested3 = nested })
+            (state, nested) => state with { Nested3 = nested }
         )
             .On<UpdateNumberAction>(
-                (state, action) => state.With(new { RandomNumber = action.Number })
+                (state, action) => state with { RandomNumber = action.Number }
             )
             .ToList();
 

@@ -31,11 +31,12 @@ public abstract class EntityStateAdapter<TKey, TEntity>
         where TEntityState : EntityState<TKey, TEntity>
     {
         var collection = entities.ToDictionary(SelectId);
-        return state.With(new
+
+        return state with
         {
             Ids = collection.Keys.ToList(),
             Collection = collection
-        });
+        };
     }
 
     /// <summary>
@@ -94,11 +95,11 @@ public abstract class EntityStateAdapter<TKey, TEntity>
             .Concat(updatedEntities)
             .ToDictionary(SelectId);
 
-        return state.With(new
+        return state with
         {
             Ids = collection.Keys.ToList(),
             Collection = collection
-        });
+        };
     }
 
     /// <summary>
@@ -131,11 +132,11 @@ public abstract class EntityStateAdapter<TKey, TEntity>
             )
             .ToDictionary(SelectId);
 
-        return state.With(new
+        return state with
         {
             Ids = collection.Keys.ToList(),
             Collection = collection
-        });
+        };
     }
 
     /// <summary>
@@ -148,11 +149,11 @@ public abstract class EntityStateAdapter<TKey, TEntity>
         where TEntityState : EntityState<TKey, TEntity>
     {
         var collection = new Dictionary<TKey, TEntity>();
-        return state.With(new
+        return state with
         {
             Ids = collection.Keys.ToList(),
             Collection = collection
-        });
+        };
     }
 
     /// <summary>
@@ -168,10 +169,10 @@ public abstract class EntityStateAdapter<TKey, TEntity>
         var entities = state.Collection.Values.Select(map);
         var collection = entities.ToDictionary(SelectId);
 
-        return state.With(new
+        return state with
         {
             Ids = collection.Keys.ToList(),
             Collection = collection
-        });
+        };
     }
 }

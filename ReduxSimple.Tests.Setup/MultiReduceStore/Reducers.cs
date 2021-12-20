@@ -1,5 +1,4 @@
-﻿using Converto;
-using static ReduxSimple.Reducers;
+﻿using static ReduxSimple.Reducers;
 
 namespace ReduxSimple.Tests.Setup.MultiReduceStore;
 
@@ -10,13 +9,13 @@ public static class Reducers
         return new List<On<MultiReduceState>>
         {
             On<UpdateNumberAction, MultiReduceState>(
-                (state, action) => state.With(new { Number1 = action.Number })
+                (state, action) => state with { Number1 = action.Number }
             ),
             On<UpdateNumberAction, MultiReduceState>(
-                (state, action) => state.With(new { Number2 = action.Number })
+                (state, action) => state with { Number2 = action.Number }
             ),
             On<UpdateNumberAction, MultiReduceState>(
-                (state, action) => state.With(new { Number3 = action.Number })
+                (state, action) => state with { Number3 = action.Number }
             )
         };
     }

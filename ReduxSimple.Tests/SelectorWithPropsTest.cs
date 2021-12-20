@@ -92,6 +92,6 @@ public class SelectorWithPropsTest
 
         // Assert
         observeCount.ShouldBe(3);
-        result.Count().ShouldBe(2);
+        result?.Count().ShouldBe(2);
     }
 }
